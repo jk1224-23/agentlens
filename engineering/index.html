@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Practical Guide to Agent Engineering</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0d1117;--bg2:#161b22;--text:#c9d1d9;--dim:#8b949e;
+  --blue:#58a6ff;--green:#3fb950;--purple:#d2a8ff;
+  --orange:#f0883e;--red:#f85149;--yellow:#e3b341;--border:#30363d;
+  --heading:#ffffff;--hdr-bg:rgba(13,17,23,.92);--viz-bg:#0d1117;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Georgia',serif;font-size:17px;line-height:1.75;overflow-x:hidden}
+#hdr{position:fixed;top:0;left:0;right:0;height:52px;background:var(--hdr-bg);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 2rem;z-index:200;font-size:13px;color:var(--dim);gap:.75rem}
+#hdr span{color:var(--blue);font-family:'Courier New',monospace;font-weight:bold}
+#hdr .sep{opacity:.3}
+#prog{position:fixed;top:52px;left:0;height:2px;background:var(--blue);z-index:201;transition:width .1s linear;box-shadow:0 0 8px var(--blue)}
+#hero{height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;overflow:hidden;padding-top:52px}
+#hero-bg{position:absolute;inset:0;pointer-events:none}
+#hero-content{position:relative;z-index:2;max-width:760px;padding:2rem}
+#hero h1{font-size:clamp(2rem,5vw,3.8rem);font-weight:400;color:var(--heading);line-height:1.2;margin-bottom:1.2rem;letter-spacing:-.02em}
+#hero h1 em{color:var(--blue);font-style:normal}
+#hero .sub{font-size:1.05rem;color:var(--dim);margin-bottom:2rem;max-width:540px;margin-left:auto;margin-right:auto}
+.hero-badges{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin-bottom:2.2rem}
+.hero-badge{padding:.3rem .75rem;border-radius:999px;font-size:.75rem;font-family:'Courier New',monospace;border:1px solid}
+.hb-green{color:var(--green);border-color:rgba(63,185,80,.35);background:rgba(63,185,80,.07)}
+.hb-blue{color:var(--blue);border-color:rgba(88,166,255,.35);background:rgba(88,166,255,.07)}
+.hb-purple{color:var(--purple);border-color:rgba(210,168,255,.35);background:rgba(210,168,255,.07)}
+.scroll-cue{display:flex;flex-direction:column;align-items:center;gap:.4rem;color:var(--dim);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;animation:bob 2s ease-in-out infinite}
+.scroll-cue svg{width:20px;height:20px;stroke:currentColor;stroke-width:2;fill:none}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+.section-break{padding:3.5rem 5rem 1.5rem;display:flex;align-items:center;gap:1rem}
+.section-break .sb-label{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);font-family:'Courier New',monospace;white-space:nowrap}
+.section-break .sb-line{flex:1;height:1px;background:var(--border)}
+.section-break .sb-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.chapter-pill{display:inline-flex;align-items:center;gap:.5rem;padding:.3rem .8rem;border:1px solid var(--border);border-radius:999px;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);font-family:'Courier New',monospace;margin-bottom:1rem}
+.chapter-pill .dot{width:6px;height:6px;border-radius:50%;background:var(--blue)}
+#scrolly{display:flex;position:relative;align-items:flex-start}
+#text-col{width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0}
+.step{min-height:85vh;display:flex;flex-direction:column;justify-content:center;padding:12vh 0;opacity:.25;transition:opacity .5s}
+.step.active{opacity:1}
+.step h2{font-size:clamp(1.4rem,2.2vw,2rem);font-weight:400;color:var(--heading);margin-bottom:1.2rem;line-height:1.3}
+.step p{color:var(--dim);margin-bottom:.9rem;font-size:.95rem}
+.step p strong{color:var(--text)}
+.hl{color:var(--blue);font-style:italic}
+.tag{display:inline-block;padding:.15rem .5rem;border-radius:4px;font-size:.78rem;font-family:'Courier New',monospace;margin:.15rem .1rem}
+.t-b{background:rgba(88,166,255,.12);color:var(--blue);border:1px solid rgba(88,166,255,.25)}
+.t-g{background:rgba(63,185,80,.12);color:var(--green);border:1px solid rgba(63,185,80,.25)}
+.t-p{background:rgba(210,168,255,.12);color:var(--purple);border:1px solid rgba(210,168,255,.25)}
+.t-o{background:rgba(240,136,62,.12);color:var(--orange);border:1px solid rgba(240,136,62,.25)}
+.t-r{background:rgba(248,81,73,.12);color:var(--red);border:1px solid rgba(248,81,73,.25)}
+.t-y{background:rgba(227,179,65,.12);color:var(--yellow);border:1px solid rgba(227,179,65,.25)}
+.callout{border-left:3px solid var(--blue);background:rgba(88,166,255,.07);padding:.75rem 1rem;border-radius:0 6px 6px 0;margin:1rem 0;font-size:.88rem;color:var(--text)}
+.callout.green{border-color:var(--green);background:rgba(63,185,80,.07)}
+.callout.orange{border-color:var(--orange);background:rgba(240,136,62,.07)}
+.callout.purple{border-color:var(--purple);background:rgba(210,168,255,.07)}
+.callout strong{color:inherit}
+.pattern-badge{display:inline-flex;align-items:center;gap:.4rem;padding:.2rem .65rem;background:rgba(88,166,255,.1);border:1px solid rgba(88,166,255,.3);border-radius:4px;font-size:.72rem;font-family:'Courier New',monospace;color:var(--blue);margin-bottom:.8rem}
+.mini-viz{background:var(--bg2);border:1px solid var(--border);border-radius:8px;margin:1.2rem 0;padding:.5rem;overflow:hidden}
+.mini-viz svg{display:block;width:100%;height:auto}
+.mini-viz-label{font-size:.7rem;color:var(--dim);font-family:'Courier New',monospace;text-align:center;padding:.3rem 0 .1rem}
+#viz-col{width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0;overflow:hidden}
+#viz-col2,#viz-col3,#viz-col4,#viz-col5{overflow:hidden}
+#viz-wrap,#viz-wrap2,#viz-wrap3,#viz-wrap4,#viz-wrap5{width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem;background:var(--viz-bg)}
+#main-svg,#main-svg2,#main-svg3,#main-svg4,#main-svg5{width:100%;height:100%;max-height:600px;overflow:visible}
+footer{border-top:1px solid var(--border);padding:3rem 5rem;display:flex;gap:3rem;flex-wrap:wrap}
+.ft-col h4{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);font-family:'Courier New',monospace;margin-bottom:.8rem}
+.ft-col p{font-size:.85rem;color:var(--dim);line-height:1.6}
+.ft-stat{font-size:2rem;color:var(--blue);font-weight:300;font-family:'Courier New',monospace;display:block}
+#theme-btn{margin-left:auto;background:none;border:1px solid var(--border);border-radius:6px;color:var(--dim);cursor:pointer;font-size:15px;padding:.2rem .55rem;line-height:1;transition:border-color .2s,color .2s}
+#theme-btn:hover{border-color:var(--blue);color:var(--blue)}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme="dark"]){
+    --bg:#ffffff;--bg2:#f6f8fa;--text:#24292f;--dim:#57606a;
+    --blue:#0969da;--green:#1a7f37;--purple:#8250df;
+    --orange:#bc4c00;--red:#cf222e;--yellow:#9a6700;--border:#d0d7de;
+    --heading:#1c2128;--hdr-bg:rgba(255,255,255,.92);--viz-bg:#f6f8fa;
+  }
+  :root:not([data-theme="dark"]) .t-b{background:rgba(9,105,218,.09);border-color:rgba(9,105,218,.30)}
+  :root:not([data-theme="dark"]) .t-g{background:rgba(26,127,55,.09);border-color:rgba(26,127,55,.30)}
+  :root:not([data-theme="dark"]) .t-p{background:rgba(130,80,223,.09);border-color:rgba(130,80,223,.30)}
+  :root:not([data-theme="dark"]) .t-o{background:rgba(188,76,0,.09);border-color:rgba(188,76,0,.30)}
+  :root:not([data-theme="dark"]) .t-r{background:rgba(207,34,46,.09);border-color:rgba(207,34,46,.30)}
+  :root:not([data-theme="dark"]) .t-y{background:rgba(154,103,0,.09);border-color:rgba(154,103,0,.30)}
+  :root:not([data-theme="dark"]) .callout{background:rgba(9,105,218,.06)}
+  :root:not([data-theme="dark"]) .callout.green{background:rgba(26,127,55,.06)}
+  :root:not([data-theme="dark"]) .callout.orange{background:rgba(188,76,0,.06)}
+  :root:not([data-theme="dark"]) .callout.purple{background:rgba(130,80,223,.06)}
+  :root:not([data-theme="dark"]) .pattern-badge{background:rgba(9,105,218,.08);border-color:rgba(9,105,218,.28)}
+  :root:not([data-theme="dark"]) .hb-green{border-color:rgba(26,127,55,.40);background:rgba(26,127,55,.08)}
+  :root:not([data-theme="dark"]) .hb-blue{border-color:rgba(9,105,218,.40);background:rgba(9,105,218,.08)}
+  :root:not([data-theme="dark"]) .hb-purple{border-color:rgba(130,80,223,.40);background:rgba(130,80,223,.08)}
+}
+[data-theme="light"]{
+  --bg:#ffffff;--bg2:#f6f8fa;--text:#24292f;--dim:#57606a;
+  --blue:#0969da;--green:#1a7f37;--purple:#8250df;
+  --orange:#bc4c00;--red:#cf222e;--yellow:#9a6700;--border:#d0d7de;
+  --heading:#1c2128;--hdr-bg:rgba(255,255,255,.92);--viz-bg:#f6f8fa;
+}
+[data-theme="light"] .t-b{background:rgba(9,105,218,.09);border-color:rgba(9,105,218,.30)}
+[data-theme="light"] .t-g{background:rgba(26,127,55,.09);border-color:rgba(26,127,55,.30)}
+[data-theme="light"] .t-p{background:rgba(130,80,223,.09);border-color:rgba(130,80,223,.30)}
+[data-theme="light"] .t-o{background:rgba(188,76,0,.09);border-color:rgba(188,76,0,.30)}
+[data-theme="light"] .t-r{background:rgba(207,34,46,.09);border-color:rgba(207,34,46,.30)}
+[data-theme="light"] .t-y{background:rgba(154,103,0,.09);border-color:rgba(154,103,0,.30)}
+[data-theme="light"] .callout{background:rgba(9,105,218,.06)}
+[data-theme="light"] .callout.green{background:rgba(26,127,55,.06)}
+[data-theme="light"] .callout.orange{background:rgba(188,76,0,.06)}
+[data-theme="light"] .callout.purple{background:rgba(130,80,223,.06)}
+[data-theme="light"] .pattern-badge{background:rgba(9,105,218,.08);border-color:rgba(9,105,218,.28)}
+[data-theme="light"] .hb-green{border-color:rgba(26,127,55,.40);background:rgba(26,127,55,.08)}
+[data-theme="light"] .hb-blue{border-color:rgba(9,105,218,.40);background:rgba(9,105,218,.08)}
+[data-theme="light"] .hb-purple{border-color:rgba(130,80,223,.40);background:rgba(130,80,223,.08)}
+[data-theme="dark"]{
+  --bg:#0d1117;--bg2:#161b22;--text:#c9d1d9;--dim:#8b949e;
+  --blue:#58a6ff;--green:#3fb950;--purple:#d2a8ff;
+  --orange:#f0883e;--red:#f85149;--yellow:#e3b341;--border:#30363d;
+  --heading:#ffffff;--hdr-bg:rgba(13,17,23,.92);--viz-bg:#0d1117;
+}
+@media(max-width:768px){
+  #hdr{padding:0 1rem;gap:.5rem}
+  #hdr-scene{display:none}
+  #hdr .sep{display:none}
+  #hero{height:auto;min-height:100vh;min-height:100svh;padding-top:60px}
+  #hero-content{padding:1.5rem 1rem}
+  #hero h1{font-size:clamp(1.7rem,7vw,2.6rem)}
+  #hero .sub{font-size:.9rem}
+  .hero-badges{gap:.35rem}
+  .hero-badge{font-size:.68rem;padding:.22rem .55rem}
+  .section-break{padding:2rem 1.25rem 1rem}
+  #scrolly,#scrolly2,#scrolly3,#scrolly4,#scrolly5{
+    flex-direction:column !important;
+    align-items:stretch !important;
+  }
+  #viz-col,#viz-col2,#viz-col3,#viz-col4,#viz-col5{
+    order:-1;
+    width:100% !important;
+    height:40vh !important;
+    min-height:220px !important;
+    position:sticky !important;
+    top:52px !important;
+    z-index:10;
+    flex-shrink:0 !important;
+    border-bottom:1px solid var(--border);
+  }
+  #viz-wrap,#viz-wrap2,#viz-wrap3,#viz-wrap4,#viz-wrap5{
+    padding:.5rem !important;
+  }
+  #text-col,.text-col2,.text-col3,.text-col4,.text-col5{
+    width:100% !important;
+    padding:0 1.25rem !important;
+    flex-shrink:1 !important;
+  }
+  .step{min-height:auto;padding:5vh 0 4vh}
+  .step h2{font-size:clamp(1.15rem,5vw,1.5rem);word-break:break-word;overflow-wrap:break-word}
+  .step p{font-size:.88rem;line-height:1.65}
+  .step,.callout,.mini-viz-label{overflow-wrap:break-word;word-break:break-word}
+  .tag{font-size:.70rem}
+  .mini-viz{margin:.7rem 0}
+  .callout{font-size:.82rem;padding:.6rem .85rem}
+  .chapter-pill{font-size:.65rem}
+  footer{padding:2rem 1.25rem;flex-direction:column;gap:1.5rem}
+  .ft-stat{font-size:1.5rem}
+}
+@media(max-width:480px){
+  #viz-col,#viz-col2,#viz-col3,#viz-col4,#viz-col5{
+    height:34vh !important;
+    min-height:180px !important;
+  }
+  .step{padding:4vh 0 3vh}
+  #text-col,.text-col2,.text-col3,.text-col4,.text-col5{padding:0 1rem !important}
+  footer{padding:1.5rem 1rem}
+  #hero h1{font-size:clamp(1.5rem,8vw,2rem)}
+  .hero-badges{justify-content:flex-start}
+}
+</style>
+</head>
+<body>
+
+<div id="hdr">
+  <span>agent.guide</span>
+  <span class="sep">|</span>
+  <a href="../orchestration/" style="color:var(--dim);text-decoration:none;font-size:13px">← Orchestration Patterns</a>
+  <span class="sep">|</span>
+  <span id="hdr-scene">Why Now</span>
+  <span class="sep" style="margin-left:auto">16 concepts · 5 phases</span>
+  <button id="theme-btn" title="Toggle light/dark mode">🌙</button>
+</div>
+<div id="prog"></div>
+
+<section id="hero">
+  <svg id="hero-bg" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice"></svg>
+  <div id="hero-content">
+    <h1>A Practical Guide to<br><em>Agent Engineering</em></h1>
+    <p class="sub">From writing your first system prompt to shipping production agents — with animated diagrams for every concept.</p>
+    <div class="hero-badges">
+      <span class="hero-badge hb-green">✓ No agent experience needed</span>
+      <span class="hero-badge hb-blue">16 concepts</span>
+      <span class="hero-badge hb-purple">5 engineering phases</span>
+    </div>
+    <div class="scroll-cue">
+      <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      Scroll to explore
+    </div>
+  </div>
+</section>
+
+<!-- PART 1: WHY & WHAT -->
+<div class="section-break">
+  <span class="sb-label">Part 1</span>
+  <div class="sb-line"></div>
+  <div class="sb-dot" style="background:var(--blue)"></div>
+  <span class="sb-label">Why &amp; What</span>
+</div>
+
+<div id="scrolly">
+  <div id="text-col">
+
+    <!-- s0: Why Now -->
+    <div class="step" data-step="0">
+      <div class="chapter-pill"><span class="dot" style="background:var(--purple)"></span>Phase 1 of 5 · Why &amp; What</div>
+      <h2>Why Now?</h2>
+      <p>Two disciplines are merging. <strong>Data science teams build models</strong>; product teams build software. Agent engineering is what you need when they must work together reliably at scale.</p>
+      <p>The overlap — where you define <span class="hl">what the model does</span>, <span class="hl">what it can call</span>, and <span class="hl">what runs around every call</span> — is the new craft of agent engineering.</p>
+      <div class="callout green"><strong>Why now?</strong> LLMs crossed a capability threshold. They can follow complex instructions, call tools reliably, and reason across many steps. The bottleneck is no longer the model — it's the engineer who knows how to direct it.</div>
+      <p><span class="tag t-b">Product Eng</span> <span class="tag t-g">Data Science</span> <span class="tag t-p">Agent Engineering</span></p>
+    </div>
+
+    <!-- s1: What is Agent Engineering? -->
+    <div class="step" data-step="1">
+      <div class="chapter-pill"><span class="dot" style="background:var(--blue)"></span>The Definition</div>
+      <h2>What is Agent Engineering?</h2>
+      <p>You write <strong>instructions</strong> (what the agent does), <strong>skills</strong> (what it can call), and <strong>hooks</strong> (what runs around every call) — not procedural code. <span class="hl">The LLM is your runtime.</span></p>
+      <p>Agent engineering is the practice of building reliable, observable, and continuously improvable systems where a language model is the decision engine.</p>
+      <div class="callout"><strong>Not a data scientist?</strong> You don't need to train models. <strong>Not a backend engineer?</strong> You don't write control flow. Agent engineers define behavior in language and measure it with evals.</div>
+      <p><span class="tag t-b">instructions</span> <span class="tag t-o">skills</span> <span class="tag t-p">hooks</span> <span class="tag t-g">evals</span></p>
+    </div>
+
+    <!-- s2: The Engineering Mindset -->
+    <div class="step" data-step="2">
+      <div class="chapter-pill"><span class="dot" style="background:var(--green)"></span>Shift Your Mental Model</div>
+      <h2>The Engineering Mindset</h2>
+      <p>Treat the LLM as your runtime. Debugging uses <span class="hl">traces</span>, not stack traces. Quality is measured with <span class="hl">evals</span>, not just unit tests.</p>
+      <p>Everything you know about software engineering maps to agent engineering — just with different tools for every discipline.</p>
+      <div class="callout orange"><strong>The hardest shift:</strong> You can't read the LLM's source code. You can only observe its behavior. Write evals before you write instructions — define "good" before you try to get there.</div>
+      <p><span class="tag t-b">code → prompt</span> <span class="tag t-g">unit tests → evals</span> <span class="tag t-o">logs → traces</span> <span class="tag t-p">config → instructions</span></p>
+    </div>
+
+  </div>
+  <div id="viz-col">
+    <div id="viz-wrap">
+      <svg id="main-svg"></svg>
+    </div>
+  </div>
+</div>
+
+<!-- PART 2: THE STACK -->
+<div class="section-break">
+  <span class="sb-label">Part 2</span>
+  <div class="sb-line"></div>
+  <div class="sb-dot" style="background:var(--orange)"></div>
+  <span class="sb-label">The Stack</span>
+</div>
+
+<div id="scrolly2" style="display:flex;position:relative;align-items:flex-start">
+  <div class="text-col2" style="width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0">
+
+    <!-- s3: The Agent Engineering Stack -->
+    <div class="step" data-step="3">
+      <div class="chapter-pill"><span class="dot" style="background:var(--orange)"></span>Phase 2 of 5 · The Stack</div>
+      <h2>The Agent Engineering Stack</h2>
+      <p>Every production agent has five layers. <strong>Instructions</strong> define who it is. <strong>Skills</strong> define what it can do. <strong>Hooks</strong> run around every action. <strong>Memory</strong> persists context. <strong>Guardrails</strong> keep it safe.</p>
+      <p>You build all five — not just the instructions. The quality of the full stack determines whether your agent is a demo or a product.</p>
+      <div class="callout purple"><strong>Don't skip layers.</strong> Most early agents only have instructions. They fail in production because they lack hooks (no logging), memory (no context), or guardrails (no safety). Build the full stack from the start.</div>
+      <p><span class="tag t-b">instructions</span> <span class="tag t-o">skills</span> <span class="tag t-y">hooks</span> <span class="tag t-g">memory</span> <span class="tag t-r">guardrails</span></p>
+    </div>
+
+    <!-- s4: Writing Instructions -->
+    <div class="step" data-step="4">
+      <div class="chapter-pill"><span class="dot" style="background:var(--blue)"></span>Layer 1: Instructions</div>
+      <h2>Writing Instructions</h2>
+      <p>The system prompt is your agent's constitution. <strong>Persona</strong> sets the tone. <strong>Rules</strong> define hard constraints. <strong>Few-shot examples</strong> show the model what "good" looks like. <strong>Format</strong> specifies output structure.</p>
+      <p>A good system prompt is written for the worst-case input, not the average one. Every rule should survive an adversarial user.</p>
+      <div class="callout"><strong>Real pattern:</strong> Start with persona → add rules → add examples → specify format. Never start with format — it anchors you before you've defined the goal.</div>
+    </div>
+
+    <!-- s5: Writing Skills (Tools) -->
+    <div class="step" data-step="5">
+      <div class="chapter-pill"><span class="dot" style="background:var(--orange)"></span>Layer 2: Skills</div>
+      <h2>Writing Skills (Tools)</h2>
+      <p>Skills are functions the agent can call. The <strong>name</strong> and <strong>description</strong> are what the model reads to decide which skill to use — so they matter more than the implementation. <strong>Schema</strong> validates the arguments.</p>
+      <p>Name skills as verbs: <code>search_web</code>, not <code>web</code>. Descriptions should say <em>when</em> to use the skill, not just what it does. The model reads them like a menu.</p>
+      <div class="callout green"><strong>One skill, one job.</strong> A skill that does two things is a skill the model will misuse. If a tool searches AND summarizes, split it. Composition happens in instructions, not in tool implementations.</div>
+      <p><span class="tag t-o">name</span> <span class="tag t-b">description</span> <span class="tag t-g">schema</span> <span class="tag t-p">validation</span></p>
+    </div>
+
+  </div>
+  <div id="viz-col2" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
+    <div id="viz-wrap2" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem">
+      <svg id="main-svg2"></svg>
+    </div>
+  </div>
+</div>
+
+<!-- PART 3: BUILD & TEST -->
+<div class="section-break">
+  <span class="sb-label">Part 3</span>
+  <div class="sb-line"></div>
+  <div class="sb-dot" style="background:var(--green)"></div>
+  <span class="sb-label">Build &amp; Test</span>
+</div>
+
+<div id="scrolly3" style="display:flex;position:relative;align-items:flex-start">
+  <div class="text-col3" style="width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0">
+
+    <!-- s6: Writing Hooks -->
+    <div class="step" data-step="6">
+      <div class="chapter-pill"><span class="dot" style="background:var(--yellow)"></span>Phase 3 of 5 · Build &amp; Test</div>
+      <h2>Writing Hooks</h2>
+      <p>Hooks are middleware. <strong>Pre-tool hooks</strong> run before every skill call — validate, log, rate-limit, check policy. <strong>Post-tool hooks</strong> run after — sanitize output, check PII, record cost. <strong>On-error hooks</strong> handle failures.</p>
+      <p>A pre-hook can reject a tool call entirely, returning a denial reason that gets added back to the model's context. The model then reasons about the rejection and tries another approach.</p>
+      <div class="callout orange"><strong>Hooks are not optional in production.</strong> Without a pre-hook you can't rate-limit. Without a post-hook you can't catch PII leaks. Hooks are where operational requirements live — separate from your business logic.</div>
+      <p><span class="tag t-y">pre-hook</span> <span class="tag t-y">post-hook</span> <span class="tag t-r">reject</span> <span class="tag t-g">on-error</span></p>
+    </div>
+
+    <!-- s7: Memory Types -->
+    <div class="step" data-step="7">
+      <div class="chapter-pill"><span class="dot" style="background:var(--green)"></span>Layer 4: Memory</div>
+      <h2>Memory Types</h2>
+      <p>Start with <strong>in-context</strong> (conversation history). Hit the limit → add a <strong>vector store</strong> for docs. Users keep re-explaining preferences → add <strong>episodic memory</strong>. Agent repeats mistakes → fix it in <strong>procedural</strong> (update the system prompt).</p>
+      <p>Each ring is more expensive than the one inside it. Start at the center and move outward only when you hit a real limit.</p>
+      <div class="callout green"><strong>The most common mistake:</strong> jumping to vector stores before filling the context window. In-context memory is fast, consistent, and free. Only add complexity when the simple version fails.</div>
+      <p><span class="tag t-b">in-context</span> <span class="tag t-g">vector</span> <span class="tag t-p">episodic</span> <span class="tag t-o">procedural</span></p>
+    </div>
+
+    <!-- s8: Testing Agents -->
+    <div class="step" data-step="8">
+      <div class="chapter-pill"><span class="dot" style="background:var(--red)"></span>Testing</div>
+      <h2>Testing Agents</h2>
+      <p>Test at every layer. <strong>Unit-test</strong> each tool function in isolation. <strong>Integration-test</strong> the agent with mocked tools. <strong>Evals</strong> score real outputs against a golden dataset — catch prompt regressions before users do.</p>
+      <p>The base of the pyramid is the widest: many fast unit tests. Evals at the top are expensive but essential — they're the only way to know if a prompt change improved things or not.</p>
+      <div class="callout"><strong>Eval-driven development:</strong> Write three evals before changing your system prompt. Run them after. If two improve and one regresses, you have a decision to make — not a guess.</div>
+      <p><span class="tag t-g">unit tests</span> <span class="tag t-b">integration</span> <span class="tag t-r">evals</span></p>
+    </div>
+
+    <!-- s9: The Lifecycle -->
+    <div class="step" data-step="9">
+      <div class="chapter-pill"><span class="dot" style="background:var(--purple)"></span>The Loop</div>
+      <h2>The Lifecycle</h2>
+      <p>The loop never stops. <strong>Build → Test → Ship → Observe → Refine → Build again.</strong></p>
+      <p>Real example: Week 1: wrote instructions. Week 2: eval 3.1/5. Week 3: rewrote tone rules → 3.9/5. Week 4: shipped to 10%. Week 5: new failure found in traces → back to Build.</p>
+      <div class="callout purple"><strong>The loop is the product.</strong> Your agent isn't done when it ships — it's done when you stop improving it. Teams that invest in the observe and refine steps ship better agents faster than teams that rebuild from scratch.</div>
+    </div>
+
+  </div>
+  <div id="viz-col3" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
+    <div id="viz-wrap3" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem">
+      <svg id="main-svg3"></svg>
+    </div>
+  </div>
+</div>
+
+<!-- PART 4: SHIP & OBSERVE -->
+<div class="section-break">
+  <span class="sb-label">Part 4</span>
+  <div class="sb-line"></div>
+  <div class="sb-dot" style="background:var(--purple)"></div>
+  <span class="sb-label">Ship &amp; Observe</span>
+</div>
+
+<div id="scrolly4" style="display:flex;position:relative;align-items:flex-start">
+  <div class="text-col4" style="width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0">
+
+    <!-- s10: Shipping Agents -->
+    <div class="step" data-step="10">
+      <div class="chapter-pill"><span class="dot" style="background:var(--blue)"></span>Phase 4 of 5 · Ship &amp; Observe</div>
+      <h2>Shipping Agents</h2>
+      <p>Version your prompts like code. Roll out gradually — 10% canary first. An <strong>automated eval gate</strong> blocks promotion if accuracy drops. Rollback is instant because you kept the previous version.</p>
+      <p>Prompt changes are code changes. They deserve the same rigor: review, testing, staged rollout, and rollback capability.</p>
+      <div class="callout"><strong>Never ship without a rollback plan.</strong> An agent that hallucinates at 100% traffic is a production incident. A canary at 10% gives you 90% protection while you validate real behavior with real users.</div>
+      <p><span class="tag t-b">dev</span> <span class="tag t-g">staging</span> <span class="tag t-y">canary 10%</span> <span class="tag t-o">prod 100%</span></p>
+    </div>
+
+    <!-- s11: Observing Agents -->
+    <div class="step" data-step="11">
+      <div class="chapter-pill"><span class="dot" style="background:var(--purple)"></span>Observability</div>
+      <h2>Observing Agents</h2>
+      <p><strong>Traces</strong> show you exactly what happened. <strong>Metrics</strong> aggregate patterns across thousands of calls. <strong>Sparklines</strong> show trends over time. <strong>User feedback</strong> closes the loop.</p>
+      <p>If you can't see it, you can't fix it. Every agent in production needs traces on day one — not as an afterthought when something breaks.</p>
+      <div class="callout green"><strong>The trace is your debugger.</strong> When an agent does something unexpected, you open the trace and follow the reasoning: which LLM call produced which output, which tool was called with what arguments, where the reasoning went wrong.</div>
+      <p><span class="tag t-b">traces</span> <span class="tag t-g">metrics</span> <span class="tag t-p">trends</span> <span class="tag t-o">feedback</span></p>
+    </div>
+
+    <!-- s12: Refining Agents -->
+    <div class="step" data-step="12">
+      <div class="chapter-pill"><span class="dot" style="background:var(--orange)"></span>Continuous Improvement</div>
+      <h2>Refining Agents</h2>
+      <p>Prompt iteration is engineering, not guessing. <strong>Form a hypothesis</strong> ("the agent hallucinates citations because the instruction doesn't require grounding"). <strong>Test it in evals</strong>. <strong>Ship only if the score improves.</strong></p>
+      <p>The tightest teams run this cycle in days, not weeks. Each loop adds 0.2–0.5 points to an eval score that users actually feel.</p>
+      <div class="callout orange"><strong>Without evals, refinement is superstition.</strong> You think you made it better. With evals, you know. Track score history like a dashboard — every prompt change gets a data point.</div>
+    </div>
+
+  </div>
+  <div id="viz-col4" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
+    <div id="viz-wrap4" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem">
+      <svg id="main-svg4"></svg>
+    </div>
+  </div>
+</div>
+
+<!-- PART 5: GOVERN & PRINCIPLES -->
+<div class="section-break">
+  <span class="sb-label">Part 5</span>
+  <div class="sb-line"></div>
+  <div class="sb-dot" style="background:var(--red)"></div>
+  <span class="sb-label">Govern &amp; Principles</span>
+</div>
+
+<div id="scrolly5" style="display:flex;position:relative;align-items:flex-start">
+  <div class="text-col5" style="width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0">
+
+    <!-- s13: Guardrails -->
+    <div class="step" data-step="13">
+      <div class="chapter-pill"><span class="dot" style="background:var(--red)"></span>Phase 5 of 5 · Govern &amp; Principles</div>
+      <h2>Guardrails</h2>
+      <p>Guardrails are not optional in production. <strong>Input validation</strong> catches prompt injection and policy violations before the model sees them. <strong>Output validation</strong> checks for PII, hallucinations, and unsafe content before the user sees the response.</p>
+      <p>A guardrail that never fires is still doing its job. Its presence deters attempts and provides an audit trail when something slips through.</p>
+      <div class="callout"><strong>Layered defense:</strong> Input guardrails protect the model. Output guardrails protect the user. Error handling protects the system. You need all three — they catch different failure modes.</div>
+      <p><span class="tag t-r">input guardrail</span> <span class="tag t-b">agent LLM</span> <span class="tag t-r">output guardrail</span></p>
+    </div>
+
+    <!-- s14: 8 Thumb Rules -->
+    <div class="step" data-step="14">
+      <div class="chapter-pill"><span class="dot" style="background:var(--yellow)"></span>Principles</div>
+      <h2>8 Thumb Rules</h2>
+      <p>Eight rules that experienced agent engineers follow. They seem obvious in hindsight. Burn them in before you start.</p>
+      <p><strong style="color:var(--blue)">① Start simple</strong> — Build the dumbest thing that could work first.<br>
+         <strong style="color:var(--green)">② Measure first</strong> — Run evals before making any change.<br>
+         <strong style="color:var(--orange)">③ One skill, one job</strong> — Never let a tool do two things.<br>
+         <strong style="color:var(--purple)">④ Write for worst-case</strong> — Your instructions survive adversarial users.<br>
+         <strong style="color:var(--red)">⑤ Gate irreversible actions</strong> — Confirm before deleting, sending, or paying.<br>
+         <strong style="color:var(--yellow)">⑥ Budget tokens like money</strong> — Every token has a cost and a limit.<br>
+         <strong style="color:var(--blue)">⑦ Version everything</strong> — Prompts are code; treat them that way.<br>
+         <strong style="color:var(--green)">⑧ Evals are the product</strong> — If you can't measure quality, you can't ship safely.</p>
+    </div>
+
+    <!-- s15: What's Next -->
+    <div class="step" data-step="15">
+      <div class="chapter-pill"><span class="dot" style="background:var(--blue)"></span>Continue Learning</div>
+      <h2>What's Next?</h2>
+      <p>You can build agents. Now learn how to <strong>orchestrate them</strong> — 10 animated patterns showing how agents coordinate at scale.</p>
+      <p>Multi-agent systems are what you need when a single agent can't do the job: too much context, too many responsibilities, or tasks that benefit from parallel specialization.</p>
+      <div class="callout purple"><strong>→ <a href="../orchestration/" style="color:var(--purple)">Orchestration Patterns</a></strong> — 10 patterns for multi-agent systems, from Orchestrator-Worker to Human-in-the-Loop, each with a live animated diagram.</div>
+      <p><span class="tag t-b">orchestration</span> <span class="tag t-g">multi-agent</span> <span class="tag t-p">10 patterns</span></p>
+    </div>
+
+  </div>
+  <div id="viz-col5" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
+    <div id="viz-wrap5" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem">
+      <svg id="main-svg5"></svg>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="ft-col" style="flex:2;min-width:280px">
+    <h4>About this guide</h4>
+    <p>Built with D3.js v7 and the IntersectionObserver API. Animations are triggered by scroll position. All visualizations are procedurally generated SVGs — no images or external assets.</p>
+    <p style="margin-top:.5rem">A companion to the <a href="../orchestration/" style="color:var(--blue);text-decoration:none">Orchestration Patterns</a> guide.</p>
+  </div>
+  <div class="ft-col">
+    <h4>Concepts</h4>
+    <span class="ft-stat">16</span>
+    <p>Core concepts across 5 engineering phases</p>
+  </div>
+  <div class="ft-col">
+    <h4>Phases</h4>
+    <span class="ft-stat" style="color:var(--purple)">5</span>
+    <p>Why &amp; What · Stack · Build &amp; Test · Ship &amp; Observe · Govern</p>
+  </div>
+  <div class="ft-col">
+    <h4>What's next?</h4>
+    <p><a href="../orchestration/" style="color:var(--blue);text-decoration:none">Orchestration Patterns →</a></p>
+    <p style="margin-top:.5rem">10 multi-agent patterns with animated diagrams — from fan-out to human-in-the-loop.</p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script>
+const C_DARK={
+  bg:'#0d1117',bg2:'#161b22',text:'#c9d1d9',dim:'#8b949e',
+  blue:'#58a6ff',green:'#3fb950',purple:'#d2a8ff',
+  orange:'#f0883e',red:'#f85149',yellow:'#e3b341',border:'#30363d'
+};
+const C_LIGHT={
+  bg:'#ffffff',bg2:'#f6f8fa',text:'#24292f',dim:'#57606a',
+  blue:'#0969da',green:'#1a7f37',purple:'#8250df',
+  orange:'#bc4c00',red:'#cf222e',yellow:'#9a6700',border:'#d0d7de'
+};
+const C=Object.assign({},C_DARK);
+function syncC(){
+  const t=document.documentElement.getAttribute('data-theme')||
+    (window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
+  Object.assign(C,t==='light'?C_LIGHT:C_DARK);
+}
+
+let activeStep=-1;
+let timers=[];
+function killTimers(){timers.forEach(id=>{clearInterval(id);clearTimeout(id);});timers=[];}
+
+function getSize(svgEl){const r=svgEl.getBoundingClientRect();return{w:r.width||500,h:r.height||500};}
+
+function setupDefs(svgSel){
+  const defs=svgSel.append('defs');
+  const f=defs.append('filter').attr('id','glow').attr('x','-50%').attr('y','-50%').attr('width','200%').attr('height','200%');
+  f.append('feGaussianBlur').attr('stdDeviation','3').attr('result','blur');
+  const merge=f.append('feMerge');
+  merge.append('feMergeNode').attr('in','blur');
+  merge.append('feMergeNode').attr('in','SourceGraphic');
+  ['Blue','Dim','Green','Orange','Red','Yellow','Purple'].forEach(name=>{
+    const col=C[name.toLowerCase()]||C.border;
+    defs.append('marker').attr('id','arrow'+name).attr('markerWidth',8).attr('markerHeight',8)
+      .attr('refX',6).attr('refY',3).attr('orient','auto')
+      .append('path').attr('d','M0,0 L0,6 L8,3 z').attr('fill',col);
+  });
+}
+
+function hexN(p,x,y,r,color,txt,sub,delay=0){
+  const g=p.append('g').style('opacity',0);
+  g.transition().delay(delay).duration(400).style('opacity',1);
+  g.append('circle').attr('cx',x).attr('cy',y).attr('r',r)
+    .attr('fill',color+'22').attr('stroke',color).attr('stroke-width',1.5);
+  if(txt)g.append('text').attr('x',x).attr('y',sub?y-3:y+5).attr('text-anchor','middle')
+    .attr('fill',color).attr('font-size',sub?11:12).attr('font-family','Courier New').text(txt);
+  if(sub)g.append('text').attr('x',x).attr('y',y+12).attr('text-anchor','middle')
+    .attr('fill',C.dim).attr('font-size',9).attr('font-family','Courier New').text(sub);
+  return g;
+}
+
+function rectN(p,x,y,w2,h2,color,txt,sub,delay=0){
+  const g=p.append('g').style('opacity',0);
+  g.transition().delay(delay).duration(400).style('opacity',1);
+  g.append('rect').attr('x',x-w2/2).attr('y',y-h2/2).attr('width',w2).attr('height',h2)
+    .attr('rx',6).attr('fill',color+'18').attr('stroke',color).attr('stroke-width',1.5);
+  if(txt)g.append('text').attr('x',x).attr('y',sub?y-2:y+5).attr('text-anchor','middle')
+    .attr('fill',color).attr('font-size',sub?10:11).attr('font-family','Courier New').text(txt);
+  if(sub)g.append('text').attr('x',x).attr('y',y+13).attr('text-anchor','middle')
+    .attr('fill',C.dim).attr('font-size',9).attr('font-family','Courier New').text(sub);
+  return g;
+}
+
+function edgeLine(p,x1,y1,x2,y2,color,marker,dash,delay=0){
+  const l=p.append('line')
+    .attr('x1',x1).attr('y1',y1).attr('x2',x2).attr('y2',y2)
+    .attr('stroke',color).attr('stroke-width',1.5)
+    .attr('stroke-dasharray',dash||null)
+    .attr('marker-end',marker?`url(#${marker})`:null)
+    .style('opacity',0);
+  l.transition().delay(delay).duration(300).style('opacity',1);
+  return l;
+}
+
+function lbl(p,x,y,text,color,size,delay=0){
+  const t=p.append('text').attr('x',x).attr('y',y).attr('text-anchor','middle')
+    .attr('fill',color||C.dim).attr('font-size',size||11).attr('font-family','Georgia,serif')
+    .style('opacity',0).text(text);
+  t.transition().delay(delay).duration(400).style('opacity',1);
+  return t;
+}
+
+function pkt(p,x1,y1,x2,y2,color,dur,delay,r2=5,repeat=true){
+  const c=p.append('circle').attr('cx',x1).attr('cy',y1).attr('r',r2)
+    .attr('fill',color).attr('filter','url(#glow)').style('opacity',0);
+  function anim(){
+    c.attr('cx',x1).attr('cy',y1).style('opacity',0)
+      .transition().delay(delay).duration(200).style('opacity',1)
+      .transition().duration(dur).attr('cx',x2).attr('cy',y2)
+      .transition().duration(150).style('opacity',0)
+      .on('end',()=>{if(repeat){const id=setTimeout(anim,400);timers.push(id);}});
+  }
+  anim();
+  return c;
+}
+
+function diamondN(p,x,y,s,color,txt,delay=0){
+  const g=p.append('g').style('opacity',0);
+  g.transition().delay(delay).duration(400).style('opacity',1);
+  g.append('rect').attr('x',x-s/2).attr('y',y-s/2).attr('width',s).attr('height',s)
+    .attr('rx',2).attr('fill',color+'18').attr('stroke',color).attr('stroke-width',1.5)
+    .attr('transform',`rotate(45,${x},${y})`);
+  if(txt)g.append('text').attr('x',x).attr('y',y+4).attr('text-anchor','middle')
+    .attr('fill',color).attr('font-size',8).attr('font-family','Courier New').text(txt);
+  return g;
+}
+
+function arcPath(p,x1,y1,x2,y2,color,marker,delay=0){
+  const mx=(x1+x2)/2,my=(y1+y2)/2;
+  const dx=x2-x1,dy=y2-y1,len=Math.sqrt(dx*dx+dy*dy)||1;
+  const cpx=mx-dy/len*32,cpy=my+dx/len*32;
+  const l=p.append('path')
+    .attr('d',`M${x1},${y1} Q${cpx},${cpy} ${x2},${y2}`)
+    .attr('stroke',color).attr('stroke-width',1.5).attr('fill','none')
+    .attr('marker-end',marker?`url(#${marker})`:null)
+    .style('opacity',0);
+  l.transition().delay(delay).duration(300).style('opacity',1);
+  return l;
+}
+
+const sceneNames=[
+  'Why Now','What is Agent Engineering?','The Engineering Mindset',
+  'The Agent Engineering Stack','Writing Instructions','Writing Skills',
+  'Writing Hooks','Memory Types','Testing Agents','The Lifecycle',
+  'Shipping Agents','Observing Agents','Refining Agents',
+  'Guardrails','8 Thumb Rules',"What's Next"
+];
+
+// ── s0: Why Now ──────────────────────────────────────────────────────────────
+function s0(svg,w,h){
+  const cx=w/2,cy=h/2;
+  lbl(svg,cx,42,'Two disciplines are merging',C.text,13,0);
+  const r=Math.min(w,h)*0.22;
+  const lc=svg.append('circle').attr('cx',cx-r*1.6).attr('cy',cy).attr('r',r)
+    .attr('fill',C.blue+'20').attr('stroke',C.blue).attr('stroke-width',1.5).style('opacity',0);
+  lc.transition().delay(100).duration(300).style('opacity',1)
+    .transition().duration(900).attr('cx',cx-r*0.55);
+  const rc=svg.append('circle').attr('cx',cx+r*1.6).attr('cy',cy).attr('r',r)
+    .attr('fill',C.green+'20').attr('stroke',C.green).attr('stroke-width',1.5).style('opacity',0);
+  rc.transition().delay(100).duration(300).style('opacity',1)
+    .transition().duration(900).attr('cx',cx+r*0.55);
+  lbl(svg,cx-r*0.55,cy-10,'Product',C.blue,10,1100);
+  lbl(svg,cx-r*0.55,cy+6,'Eng',C.blue,10,1100);
+  lbl(svg,cx+r*0.55,cy-10,'Data',C.green,10,1100);
+  lbl(svg,cx+r*0.55,cy+6,'Science',C.green,10,1100);
+  const ot=svg.append('text').attr('x',cx).attr('y',cy-7).attr('text-anchor','middle')
+    .attr('fill',C.purple).attr('font-size',9).attr('font-family','Courier New').attr('font-weight','bold')
+    .style('opacity',0).text('Agent');
+  ot.transition().delay(1200).duration(500).style('opacity',1);
+  const ot2=svg.append('text').attr('x',cx).attr('y',cy+7).attr('text-anchor','middle')
+    .attr('fill',C.purple).attr('font-size',9).attr('font-family','Courier New').attr('font-weight','bold')
+    .style('opacity',0).text('Engineering');
+  ot2.transition().delay(1200).duration(500).style('opacity',1);
+  const orbitPkt=svg.append('circle').attr('cx',cx).attr('cy',cy).attr('r',5)
+    .attr('fill',C.purple).attr('filter','url(#glow)').style('opacity',0);
+  orbitPkt.transition().delay(1400).duration(400).style('opacity',1);
+  let angle=0;
+  const orbitR=r*0.35;
+  const id=setInterval(()=>{
+    angle+=0.05;
+    orbitPkt.attr('cx',cx+orbitR*Math.cos(angle)).attr('cy',cy+orbitR*Math.sin(angle));
+  },16);
+  timers.push(id);
+  lbl(svg,cx,cy+r+40,'overlap: the new craft',C.dim,10,1500);
+}
+
+// ── s1: What is Agent Engineering? ───────────────────────────────────────────
+function s1(svg,w,h){
+  const cx=w/2,cy=h/2;
+  lbl(svg,cx,42,'What is Agent Engineering?',C.text,13,0);
+  const llmX=cx+90,llmY=cy;
+  hexN(svg,llmX,llmY,46,C.purple,'LLM','Runtime',100);
+  const pulse=svg.append('circle').attr('cx',llmX).attr('cy',llmY).attr('r',46)
+    .attr('fill','none').attr('stroke',C.purple).attr('stroke-width',1).style('opacity',.5);
+  function doPulse(){
+    pulse.attr('r',46).style('opacity',.5)
+      .transition().duration(1100).attr('r',80).style('opacity',0)
+      .on('end',()=>{const t=setTimeout(doPulse,300);timers.push(t);});
+  }
+  doPulse();
+  const cards=[
+    {y:cy-90,color:C.blue,label:'Instructions'},
+    {y:cy,color:C.orange,label:'Skills'},
+    {y:cy+90,color:C.purple,label:'Hooks'},
+  ];
+  const cardX=cx-90;
+  cards.forEach((c,i)=>{
+    rectN(svg,cardX,c.y,120,38,c.color,c.label,null,i*150+200);
+    const dx=llmX-cardX,dy=llmY-c.y,len=Math.sqrt(dx*dx+dy*dy);
+    const nx=dx/len,ny=dy/len;
+    edgeLine(svg,cardX+60*nx,c.y+60*ny,llmX-46*nx,llmY-46*ny,c.color,'arrowBlue',null,i*150+400);
+    pkt(svg,cardX+60*nx,c.y+60*ny,llmX-46*nx,llmY-46*ny,c.color,600,i*200+600);
+  });
+}
+
+// ── s2: The Engineering Mindset ───────────────────────────────────────────────
+function s2(svg,w,h){
+  const cx=w/2,cy=h/2;
+  lbl(svg,cx,42,'The Engineering Mindset Shift',C.text,13,0);
+  const rows=[['code','prompt'],['unit tests','evals'],['logs','traces'],['config','instructions'],['API','tools']];
+  const lx=cx-115,rx=cx+115,startY=cy-80,rowH=38;
+  lbl(svg,lx,startY-20,'Traditional',C.dim,10,100);
+  lbl(svg,rx,startY-20,'Agent Eng',C.dim,10,100);
+  rows.forEach(([left,right],i)=>{
+    const y=startY+i*rowH;
+    rectN(svg,lx,y,110,28,C.blue,left,null,i*100+200);
+    lbl(svg,cx,y+5,'→',C.dim,13,i*100+250);
+    rectN(svg,rx,y,110,28,C.orange,right,null,i*100+300);
+    pkt(svg,lx+55,y,rx-55,y,C.yellow,550,i*150+500);
+  });
+}
+
+// ── s3: The Agent Engineering Stack ──────────────────────────────────────────
+function s3(svg,w,h){
+  const cx=w/2,cy=h/2;
+  lbl(svg,cx,42,'The Agent Engineering Stack',C.text,13,0);
+  const layers=[
+    {color:C.blue,label:'Instructions'},
+    {color:C.orange,label:'Skills'},
+    {color:C.yellow,label:'Hooks'},
+    {color:C.green,label:'Memory'},
+    {color:C.red,label:'Guardrails'},
+  ];
+  const lw=Math.min(w*0.78,360),lh=44,gap=6,startY=cy-120;
+  layers.forEach((l,i)=>{
+    const y=startY+i*(lh+gap);
+    rectN(svg,cx,y,lw,lh,l.color,l.label,null,i*120+100);
+    if(i<layers.length-1){
+      edgeLine(svg,cx,y+lh/2,cx,y+lh/2+gap,l.color,'arrowBlue',null,i*120+300);
+    }
+  });
+  function flowDown(){
+    layers.forEach((l,i)=>{
+      if(i<layers.length-1){
+        const y=startY+i*(lh+gap);
+        const t=setTimeout(()=>pkt(svg,cx,y,cx,y+lh/2+gap,l.color,300,0,5,false),i*360+200);
+        timers.push(t);
+      }
+    });
+    const t=setTimeout(flowDown,layers.length*360+700);
+    timers.push(t);
+  }
+  flowDown();
+}
+
+// ── s4: Writing Instructions ──────────────────────────────────────────────────
+function s4(svg,w,h){
+  const cx=w/2,cy=h/2;
+  lbl(svg,cx,42,'Writing Instructions',C.text,13,0);
+  const bw=Math.min(w*0.78,360),bh=Math.min(h*0.52,260),bx=cx-bw/2,by=cy-bh/2+8;
+  const outer=svg.append('rect').attr('x',bx).attr('y',by).attr('width',bw).attr('height',bh)
+    .attr('rx',8).attr('fill','none').attr('stroke',C.purple).attr('stroke-width',2).style('opacity',0);
+  outer.transition().delay(100).duration(400).style('opacity',1);
+  function pulseOuter(){
+    outer.transition().duration(1000).attr('stroke-width',3).style('opacity',.5)
+      .transition().duration(1000).attr('stroke-width',2).style('opacity',1)
+      .on('end',()=>{const t=setTimeout(pulseOuter,600);timers.push(t);});
+  }
+  setTimeout(pulseOuter,500);
+  const qw=bw/2,qh=bh/2;
+  const quads=[
+    {x:bx+qw/2,y:by+qh/2,label:'Persona',color:C.blue,delay:200},
+    {x:bx+qw+qw/2,y:by+qh/2,label:'Rules',color:C.red,delay:400},
+    {x:bx+qw/2,y:by+qh+qh/2,label:'Examples',color:C.orange,delay:600},
+    {x:bx+qw+qw/2,y:by+qh+qh/2,label:'Format',color:C.green,delay:800},
+  ];
+  edgeLine(svg,bx,by+qh,bx+bw,by+qh,C.border,null,null,200);
+  edgeLine(svg,bx+qw,by,bx+qw,by+bh,C.border,null,null,200);
+  quads.forEach(q=>{
+    svg.append('rect').attr('x',q.x-qw/2+3).attr('y',q.y-qh/2+3).attr('width',qw-6).attr('height',qh-6)
+      .attr('rx',4).attr('fill',q.color+'10').style('opacity',0)
+      .transition().delay(q.delay).duration(400).style('opacity',1);
+    lbl(svg,q.x,q.y,q.label,q.color,11,q.delay);
+  });
+  lbl(svg,cx,by+bh+28,'"persona · rules · examples · format"',C.dim,9,1100);
+}
+
+// ── s5: Writing Skills ────────────────────────────────────────────────────────
+function s5(svg,w,h){
+  const cx=w/2,cy=h/2;
+  lbl(svg,cx,42,'Writing Skills (Tools)',C.text,13,0);
+  const tcx=cx-120,tcy=cy;
+  rectN(svg,tcx,tcy,150,108,C.orange,'Tool Card',null,100);
+  [['name:','search_web'],['description:','when to use...'],['schema:','{query:string}']].forEach(([k,v],i)=>{
+    lbl(svg,tcx-18,tcy-28+i*22,k,C.orange,8,200+i*100);
+    lbl(svg,tcx+38,tcy-28+i*22,v,C.dim,8,200+i*100);
+  });
+  const ax=cx+52,rtx=cx+130,tx=cx+195;
+  hexN(svg,ax,cy-55,28,C.blue,'Agent',null,400);
+  rectN(svg,rtx,cy,80,34,C.dim,'Runtime',null,550);
+  hexN(svg,tx,cy+55,28,C.orange,'Tool',null,700);
+  edgeLine(svg,ax+14,cy-28,rtx-40,cy,C.blue,'arrowBlue',null,800);
+  edgeLine(svg,rtx+40,cy,tx-14,cy+28,C.orange,'arrowOrange',null,900);
+  edgeLine(svg,tx-14,cy+28,rtx+40,cy,C.green,'arrowGreen',null,1000);
+  function cycle(){
+    pkt(svg,ax+14,cy-28,rtx-40,cy,C.blue,380,0,5,false);
+    const t1=setTimeout(()=>pkt(svg,rtx+40,cy,tx-14,cy+28,C.orange,380,0,5,false),450);
+    const t2=setTimeout(()=>pkt(svg,tx-14,cy+28,rtx+40,cy,C.green,380,0,5,false),900);
+    const t3=setTimeout(cycle,1800);
+    timers.push(t1,t2,t3);
+  }
+  cycle();
+}
+
+// ── s6: Writing Hooks ─────────────────────────────────────────────────────────
+function s6(svg,w,h){
+  const cx=w/2,cy=h/2;
+  lbl(svg,cx,42,'Writing Hooks',C.text,13,0);
+  const sp=95;
+  const nx=[cx-sp*2,cx-sp,cx,cx+sp,cx+sp*2];
+  hexN(svg,nx[0],cy,28,C.blue,'Agent',null,0);
+  diamondN(svg,nx[1],cy,36,C.yellow,'pre-hook',100);
+  hexN(svg,nx[2],cy,28,C.orange,'Tool',null,200);
+  diamondN(svg,nx[3],cy,36,C.yellow,'post-hook',300);
+  hexN(svg,nx[4],cy,28,C.blue,'Agent',null,400);
+  edgeLine(svg,nx[0]+28,cy,nx[1]-22,cy,C.yellow,'arrowYellow',null,500);
+  edgeLine(svg,nx[1]+22,cy,nx[2]-28,cy,C.yellow,'arrowYellow',null,560);
+  edgeLine(svg,nx[2]+28,cy,nx[3]-22,cy,C.yellow,'arrowYellow',null,620);
+  edgeLine(svg,nx[3]+22,cy,nx[4]-28,cy,C.yellow,'arrowYellow',null,680);
+  const rejX=nx[1],rejY=cy+75;
+  edgeLine(svg,nx[1],cy+22,rejX,rejY,C.red,'arrowRed',null,800);
+  rectN(svg,rejX,rejY+18,72,24,C.red,'reject',null,900);
+  lbl(svg,nx[1],cy-46,'validate · log · rate-limit',C.dim,8,600);
+  lbl(svg,nx[3],cy-46,'sanitize · cost · PII',C.dim,8,700);
+  function flowMain(){
+    pkt(svg,nx[0]+28,cy,nx[1]-22,cy,C.yellow,320,0,5,false);
+    [1,2,3].forEach((k,i)=>{
+      const t=setTimeout(()=>pkt(svg,nx[k]+22,cy,nx[k+1]-(k===3?28:22),cy,C.yellow,320,0,5,false),(i+1)*380);
+      timers.push(t);
+    });
+    const loop=setTimeout(flowMain,2600);
+    timers.push(loop);
+  }
+  flowMain();
+  function flowReject(){
+    const t=setTimeout(()=>{
+      pkt(svg,nx[0]+28,cy,nx[1]-22,cy,C.yellow,320,0,5,false);
+      const t2=setTimeout(()=>pkt(svg,nx[1],cy+22,rejX,rejY,C.red,320,0,5,false),400);
+      timers.push(t2);
+    },3400);
+    const loop=setTimeout(flowReject,6000);
+    timers.push(t,loop);
+  }
+  flowReject();
+}
+
+// ── s7: Memory Types ──────────────────────────────────────────────────────────
+function s7(svg,w,h){
+  const cx=w/2,cy=h/2;
+  lbl(svg,cx,42,'Memory Types',C.text,13,0);
+  const rings=[
+    {r:36,color:C.blue,label:'In-Context'},
+    {r:72,color:C.green,label:'Vector Store'},
+    {r:110,color:C.purple,label:'Episodic'},
+    {r:148,color:C.orange,label:'Procedural'},
+  ];
+  rings.forEach((ring,i)=>{
+    svg.append('circle').attr('cx',cx).attr('cy',cy).attr('r',ring.r)
+      .attr('fill',ring.color+(i===0?'20':'08')).attr('stroke',ring.color).attr('stroke-width',1.5)
+      .attr('stroke-dasharray',i===0?null:'4,3').style('opacity',0)
+      .transition().delay(i*200+100).duration(400).style('opacity',1);
+    lbl(svg,cx+ring.r+8,cy,ring.label,ring.color,8.5,i*200+300);
+  });
+  lbl(svg,cx,cy+4,'LLM',C.purple,10,100);
+  let pktAngle=0;
+  function radialPkt(){
+    const ri=Math.floor(Math.random()*3)+1;
+    const ring=rings[ri];
+    const angle=Math.random()*Math.PI*2;
+    const x1=cx+ring.r*Math.cos(angle),y1=cy+ring.r*Math.sin(angle);
+    const x2=cx+rings[0].r*0.6*Math.cos(angle),y2=cy+rings[0].r*0.6*Math.sin(angle);
+    pkt(svg,x1,y1,x2,y2,ring.color,500,0,4,false);
+    const t=setTimeout(radialPkt,450);
+    timers.push(t);
+  }
+  const t=setTimeout(radialPkt,900);
+  timers.push(t);
+}
+
+// ── s8: Testing Agents ────────────────────────────────────────────────────────
+function s8(svg,w,h){
+  const cx=w/2,cy=h/2;
+  lbl(svg,cx,42,'Testing Agents',C.text,13,0);
+  const apex={x:cx,y:cy-100};
+  const mid={xl:cx-95,xr:cx+95,y:cy+10};
+  const low={xl:cx-150,xr:cx+150,y:cy+80};
+  const base={xl:cx-165,xr:cx+165,y:cy+135};
+  svg.append('polygon').attr('points',`${apex.x},${apex.y} ${mid.xl},${mid.y} ${mid.xr},${mid.y}`)
+    .attr('fill',C.red+'18').attr('stroke',C.red).attr('stroke-width',1.5).style('opacity',0)
+    .transition().delay(100).duration(400).style('opacity',1);
+  lbl(svg,cx,(apex.y+mid.y)/2+4,'Evals',C.red,11,200);
+  svg.append('polygon').attr('points',`${mid.xl},${mid.y} ${low.xl},${low.y} ${low.xr},${low.y} ${mid.xr},${mid.y}`)
+    .attr('fill',C.blue+'18').attr('stroke',C.blue).attr('stroke-width',1.5).style('opacity',0)
+    .transition().delay(300).duration(400).style('opacity',1);
+  lbl(svg,cx,(mid.y+low.y)/2+4,'Integration Tests',C.blue,10,400);
+  svg.append('polygon').attr('points',`${low.xl},${low.y} ${base.xl},${base.y} ${base.xr},${base.y} ${low.xr},${low.y}`)
+    .attr('fill',C.green+'18').attr('stroke',C.green).attr('stroke-width',1.5).style('opacity',0)
+    .transition().delay(500).duration(400).style('opacity',1);
+  lbl(svg,cx,(low.y+base.y)/2+4,'Tool Unit Tests',C.green,10,600);
+  lbl(svg,cx-175,apex.y-4,'narrow',C.dim,8,700);
+  lbl(svg,cx-175,base.y+4,'wide',C.dim,8,800);
+  function bounce(){
+    pkt(svg,cx,base.y,cx,apex.y,C.yellow,1100,0,5,false);
+    const t=setTimeout(bounce,1900);
+    timers.push(t);
+  }
+  bounce();
+}
+
+// ── s9: The Lifecycle ─────────────────────────────────────────────────────────
+function s9(svg,w,h){
+  const cx=w/2,cy=h/2+8;
+  lbl(svg,cx,42,'The Agent Engineering Loop',C.text,13,0);
+  const R=Math.min(w,h)*0.29;
+  const nodes=[
+    {label:'Build',color:C.green,angle:-90},
+    {label:'Test',color:C.red,angle:-18},
+    {label:'Ship',color:C.blue,angle:54},
+    {label:'Observe',color:C.purple,angle:126},
+    {label:'Refine',color:C.orange,angle:198},
+  ];
+  nodes.forEach((n,i)=>{
+    const rad=n.angle*Math.PI/180;
+    n.x=cx+R*Math.cos(rad);
+    n.y=cy+R*Math.sin(rad);
+    hexN(svg,n.x,n.y,32,n.color,n.label,null,i*120+100);
+  });
+  nodes.forEach((n,i)=>{
+    const next=nodes[(i+1)%nodes.length];
+    const dx=next.x-n.x,dy=next.y-n.y,len=Math.sqrt(dx*dx+dy*dy);
+    const nx=dx/len,ny=dy/len;
+    arcPath(svg,n.x+32*nx,n.y+32*ny,next.x-32*nx,next.y-32*ny,n.color,'arrowBlue',i*120+600);
+  });
+  lbl(svg,cx,cy-6,'The Agent',C.dim,10,900);
+  lbl(svg,cx,cy+8,'Engineering Loop',C.dim,10,900);
+  let pktIdx=0;
+  function cyclePkt(){
+    const n=nodes[pktIdx%nodes.length];
+    const next=nodes[(pktIdx+1)%nodes.length];
+    pkt(svg,n.x,n.y,next.x,next.y,n.color,550,0,5,false);
+    pktIdx++;
+    const t=setTimeout(cyclePkt,660);
+    timers.push(t);
+  }
+  const t=setTimeout(cyclePkt,1200);
+  timers.push(t);
+}
+
+// ── s10: Shipping Agents ──────────────────────────────────────────────────────
+function s10(svg,w,h){
+  const cx=w/2,cy=h/2;
+  lbl(svg,cx,42,'Shipping Agents',C.text,13,0);
+  const stages=[
+    {x:cx-195,color:C.blue,label:'Dev'},
+    {x:cx-95,color:C.green,label:'Staging'},
+    {x:cx+10,color:C.yellow,label:'Canary 10%'},
+  ];
+  stages.forEach((s,i)=>{
+    rectN(svg,s.x,cy,88,40,s.color,s.label,null,i*140+100);
+    if(i<stages.length-1){
+      edgeLine(svg,s.x+44,cy,stages[i+1].x-44,cy,C.dim,'arrowDim',null,i*140+300);
+    }
+  });
+  const gx=cx+110,gy=cy;
+  diamondN(svg,gx,gy,38,C.purple,'eval',400);
+  lbl(svg,gx,gy+26,'gate',C.purple,8,450);
+  edgeLine(svg,stages[2].x+44,cy,gx-23,cy,C.yellow,'arrowYellow',null,550);
+  const prodX=cx+200;
+  rectN(svg,prodX,cy,84,40,C.orange,'Prod 100%',null,600);
+  edgeLine(svg,gx+23,cy,prodX-42,cy,C.green,'arrowGreen',null,700);
+  lbl(svg,cx+155,cy-26,'pass',C.green,8,800);
+  edgeLine(svg,gx,gy+23,gx,cy+72,C.red,null,null,900);
+  edgeLine(svg,gx,cy+72,stages[1].x,cy+72,C.red,'arrowRed','4,3',1000);
+  edgeLine(svg,stages[1].x,cy+72,stages[1].x,cy+20,C.red,'arrowRed','4,3',1100);
+  lbl(svg,cx-30,cy+88,'rollback',C.red,8,1200);
+  function happyPath(){
+    pkt(svg,stages[0].x+44,cy,stages[1].x-44,cy,C.blue,360,0,5,false);
+    const t1=setTimeout(()=>pkt(svg,stages[1].x+44,cy,stages[2].x-44,cy,C.green,360,0,5,false),450);
+    const t2=setTimeout(()=>pkt(svg,stages[2].x+44,cy,gx-23,cy,C.yellow,360,0,5,false),900);
+    const t3=setTimeout(()=>pkt(svg,gx+23,cy,prodX-42,cy,C.orange,360,0,5,false),1350);
+    const loop=setTimeout(happyPath,2800);
+    timers.push(t1,t2,t3,loop);
+  }
+  happyPath();
+}
+
+// ── s11: Observing Agents ─────────────────────────────────────────────────────
+function s11(svg,w,h){
+  const cx=w/2,cy=h/2;
+  lbl(svg,cx,42,'Observing Agents',C.text,13,0);
+  const pw=Math.min(w*0.41,190),ph=Math.min(h*0.37,172),gap=14;
+  const panels=[
+    {x:cx-pw/2-gap/2,y:cy-ph/2-gap/2,label:'Traces'},
+    {x:cx+pw/2+gap/2,y:cy-ph/2-gap/2,label:'Metrics'},
+    {x:cx-pw/2-gap/2,y:cy+ph/2+gap/2,label:'Trends'},
+    {x:cx+pw/2+gap/2,y:cy+ph/2+gap/2,label:'Feedback'},
+  ];
+  panels.forEach((p,i)=>{
+    svg.append('rect').attr('x',p.x-pw/2).attr('y',p.y-ph/2).attr('width',pw).attr('height',ph)
+      .attr('rx',6).attr('fill',C.bg2).attr('stroke',C.border).attr('stroke-width',1).style('opacity',0)
+      .transition().delay(i*150+100).duration(400).style('opacity',1);
+    lbl(svg,p.x,p.y-ph/2+14,p.label,C.dim,8,i*150+200);
+  });
+  // panel 0: trace tree
+  const tp=panels[0];
+  rectN(svg,tp.x,tp.y-18,58,20,C.blue,'LLM Call',null,300);
+  rectN(svg,tp.x-28,tp.y+18,46,18,C.orange,'search',null,400);
+  rectN(svg,tp.x+28,tp.y+18,46,18,C.orange,'read',null,500);
+  edgeLine(svg,tp.x,tp.y-8,tp.x-28,tp.y+9,C.border,null,null,500);
+  edgeLine(svg,tp.x,tp.y-8,tp.x+28,tp.y+9,C.border,null,null,600);
+  // panel 1: bar chart
+  const bp=panels[1];
+  [0.75,0.45,0.88,0.62].forEach((v,i)=>{
+    const bw2=16,bh2=v*(ph-38),bx=bp.x-28+i*20,bot=bp.y+ph/2-12;
+    svg.append('rect').attr('x',bx).attr('y',bot).attr('width',bw2).attr('height',0)
+      .attr('rx',2).attr('fill',[C.blue,C.green,C.red,C.orange][i]+'55')
+      .attr('stroke',[C.blue,C.green,C.red,C.orange][i]).attr('stroke-width',1).style('opacity',0)
+      .transition().delay(420+i*100).duration(300).style('opacity',1)
+      .transition().duration(450).attr('y',bot-bh2).attr('height',bh2);
+  });
+  // panel 2: sparkline
+  const sp=panels[2];
+  const pts=[0.4,0.55,0.42,0.68,0.6,0.78,0.72,0.82,0.76,0.88,0.85,0.93];
+  const spW=pw-22,spH=ph-36;
+  const spPts=pts.map((v,i)=>`${sp.x-spW/2+i*(spW/11)},${sp.y+ph/2-14-v*spH}`).join(' ');
+  svg.append('polyline').attr('points',spPts).attr('fill','none')
+    .attr('stroke',C.green).attr('stroke-width',1.5).style('opacity',0)
+    .transition().delay(650).duration(500).style('opacity',1);
+  // panel 3: feedback
+  const fp=panels[3];
+  svg.append('text').attr('x',fp.x).attr('y',fp.y-4).attr('text-anchor','middle')
+    .attr('fill',C.green).attr('font-size',15).attr('font-family','Courier New').style('opacity',0).text('👍 87%')
+    .transition().delay(800).duration(400).style('opacity',1);
+  svg.append('text').attr('x',fp.x).attr('y',fp.y+18).attr('text-anchor','middle')
+    .attr('fill',C.red).attr('font-size',13).attr('font-family','Courier New').style('opacity',0).text('👎 13%')
+    .transition().delay(950).duration(400).style('opacity',1);
+  let pi=0;
+  function movePkt(){
+    const from=panels[pi%4],to=panels[(pi+1)%4];
+    pkt(svg,from.x,from.y,to.x,to.y,C.blue,550,0,5,false);
+    pi++;
+    const t=setTimeout(movePkt,750);
+    timers.push(t);
+  }
+  const t=setTimeout(movePkt,1200);
+  timers.push(t);
+}
+
+// ── s12: Refining Agents ──────────────────────────────────────────────────────
+function s12(svg,w,h){
+  const cx=w/2,cy=h/2;
+  lbl(svg,cx,42,'Refining Agents',C.text,13,0);
+  const R=Math.min(w,h)*0.26;
+  const nodes=[
+    {label:'Observe',color:C.purple,angle:-90},
+    {label:'Hypothesize',color:C.yellow,angle:0},
+    {label:'Eval',color:C.red,angle:90},
+    {label:'Ship',color:C.blue,angle:180},
+  ];
+  nodes.forEach((n,i)=>{
+    const rad=n.angle*Math.PI/180;
+    n.x=cx+R*Math.cos(rad);
+    n.y=cy+R*Math.sin(rad);
+    hexN(svg,n.x,n.y,30,n.color,n.label,null,i*120+100);
+  });
+  nodes.forEach((n,i)=>{
+    const next=nodes[(i+1)%nodes.length];
+    const dx=next.x-n.x,dy=next.y-n.y,len=Math.sqrt(dx*dx+dy*dy);
+    const nx=dx/len,ny=dy/len;
+    arcPath(svg,n.x+30*nx,n.y+30*ny,next.x-30*nx,next.y-30*ny,n.color,'arrowBlue',i*120+500);
+  });
+  const scores=['+0.3','→ +0.7','→ +1.2'];
+  let si=0;
+  const scoreTxt=svg.append('text').attr('x',cx).attr('y',cy+6).attr('text-anchor','middle')
+    .attr('fill',C.green).attr('font-size',13).attr('font-family','Courier New').style('opacity',0).text('Δ score');
+  scoreTxt.transition().delay(900).duration(400).style('opacity',1);
+  const id=setInterval(()=>{scoreTxt.text('Δ '+scores[si%scores.length]);si++;},2100);
+  timers.push(id);
+  let pktIdx=0;
+  function cyclePkt(){
+    const n=nodes[pktIdx%nodes.length],next=nodes[(pktIdx+1)%nodes.length];
+    pkt(svg,n.x,n.y,next.x,next.y,n.color,480,0,5,false);
+    pktIdx++;
+    const t=setTimeout(cyclePkt,580);
+    timers.push(t);
+  }
+  const t=setTimeout(cyclePkt,1100);
+  timers.push(t);
+}
+
+// ── s13: Guardrails ───────────────────────────────────────────────────────────
+function s13(svg,w,h){
+  const cx=w/2,cy=h/2;
+  lbl(svg,cx,42,'Guardrails',C.text,13,0);
+  rectN(svg,cx,cy-105,200,40,C.red,'Input Guardrail',null,100);
+  hexN(svg,cx,cy,52,C.blue,'Agent LLM',null,300);
+  rectN(svg,cx,cy+105,200,40,C.red,'Output Guardrail',null,500);
+  edgeLine(svg,cx,cy-85,cx,cy-52,C.dim,'arrowDim',null,700);
+  edgeLine(svg,cx,cy+52,cx,cy+85,C.dim,'arrowDim',null,800);
+  lbl(svg,cx+120,cy-105,'validates input',C.dim,8,900);
+  lbl(svg,cx+120,cy+105,'checks output',C.dim,8,1000);
+  function flow(){
+    pkt(svg,cx,cy-145,cx,cy-85,C.blue,380,0,5,false);
+    const t1=setTimeout(()=>pkt(svg,cx,cy-85,cx,cy-52,C.blue,320,0,5,false),450);
+    const t2=setTimeout(()=>pkt(svg,cx,cy+52,cx,cy+85,C.green,320,0,5,false),950);
+    const t3=setTimeout(()=>pkt(svg,cx,cy+85,cx,cy+145,C.green,380,0,5,false),1280);
+    const loop=setTimeout(flow,2600);
+    timers.push(t1,t2,t3,loop);
+  }
+  flow();
+  function reject(){
+    const t=setTimeout(()=>{
+      pkt(svg,cx,cy-145,cx,cy-85,C.red,380,0,5,false);
+      const t2=setTimeout(()=>pkt(svg,cx,cy-85,cx-130,cy-85,C.red,400,0,5,false),450);
+      timers.push(t2);
+    },3200);
+    const loop=setTimeout(reject,5500);
+    timers.push(t,loop);
+  }
+  reject();
+}
+
+// ── s14: 8 Thumb Rules ────────────────────────────────────────────────────────
+function s14(svg,w,h){
+  const cx=w/2,cy=h/2;
+  lbl(svg,cx,42,'8 Thumb Rules',C.text,13,0);
+  const rules=[
+    {n:'1',label:'Start simple',color:C.blue},
+    {n:'2',label:'Measure first',color:C.green},
+    {n:'3',label:'One skill/job',color:C.orange},
+    {n:'4',label:'Worst-case',color:C.purple},
+    {n:'5',label:'Gate irrev.',color:C.red},
+    {n:'6',label:'Budget tokens',color:C.yellow},
+    {n:'7',label:'Version all',color:C.blue},
+    {n:'8',label:'Evals=product',color:C.green},
+  ];
+  const cols=4,cw=Math.min(w*0.8/cols,115),rowY=[cy-58,cy+58];
+  const startX=cx-(cols-1)*cw/2;
+  rules.forEach((r,i)=>{
+    const col=i%cols,row=Math.floor(i/cols);
+    const x=startX+col*cw,y=rowY[row];
+    hexN(svg,x,y,28,r.color,r.n,null,i*90+100);
+    lbl(svg,x,y+44,r.label,r.color,8,i*90+280);
+  });
+  let pktIdx=0;
+  function seqPkt(){
+    const i=pktIdx%rules.length;
+    const ni=(pktIdx+1)%rules.length;
+    const col=i%cols,row=Math.floor(i/cols);
+    const ncol=ni%cols,nrow=Math.floor(ni/cols);
+    const x=startX+col*cw,y=rowY[row];
+    const nx2=startX+ncol*cw,ny2=rowY[nrow];
+    pkt(svg,x,y,nx2,ny2,rules[i].color,400,0,4,false);
+    pktIdx++;
+    const t=setTimeout(seqPkt,500);
+    timers.push(t);
+  }
+  const t=setTimeout(seqPkt,1000);
+  timers.push(t);
+}
+
+// ── s15: What's Next ──────────────────────────────────────────────────────────
+function s15(svg,w,h){
+  const cx=w/2,cy=h/2;
+  lbl(svg,cx,42,"What's Next?",C.text,13,0);
+  rectN(svg,cx-120,cy-10,200,120,C.blue,'Agent Engineering',null,100);
+  lbl(svg,cx-120,cy+18,'Build · Test · Ship',C.dim,8,300);
+  lbl(svg,cx-120,cy+31,'Observe · Refine',C.dim,8,300);
+  rectN(svg,cx+120,cy-10,200,120,C.purple,'Orchestration',null,400);
+  lbl(svg,cx+120,cy+18,'Patterns',C.purple,10,500);
+  lbl(svg,cx+120,cy+34,'10 multi-agent patterns',C.dim,8,550);
+  edgeLine(svg,cx-18,cy-10,cx+18,cy-10,C.yellow,'arrowYellow',null,700);
+  lbl(svg,cx,cy-28,'next step →',C.yellow,9,800);
+  svg.append('text').attr('x',cx).attr('y',cy+90).attr('text-anchor','middle')
+    .attr('fill',C.blue).attr('font-size',10).attr('font-family','Courier New')
+    .attr('cursor','pointer').style('opacity',0).text('→ index.html: Orchestration Patterns')
+    .transition().delay(1000).duration(400).style('opacity',1);
+  pkt(svg,cx-120,cy-10,cx+120,cy-10,C.yellow,750,1200);
+}
+
+// ── TRANSITION ────────────────────────────────────────────────────────────────
+const stepToScene={
+  0:[s0,'main-svg'],1:[s1,'main-svg'],2:[s2,'main-svg'],
+  3:[s3,'main-svg2'],4:[s4,'main-svg2'],5:[s5,'main-svg2'],
+  6:[s6,'main-svg3'],7:[s7,'main-svg3'],8:[s8,'main-svg3'],9:[s9,'main-svg3'],
+  10:[s10,'main-svg4'],11:[s11,'main-svg4'],12:[s12,'main-svg4'],
+  13:[s13,'main-svg5'],14:[s14,'main-svg5'],15:[s15,'main-svg5'],
+};
+
+function transitionTo(step){
+  syncC();
+  killTimers();
+  const [sceneFn,svgId]=stepToScene[step]||[null,null];
+  if(!sceneFn)return;
+  const svgEl=document.getElementById(svgId);
+  if(!svgEl)return;
+  const allPanels=['main-svg','main-svg2','main-svg3','main-svg4','main-svg5'];
+  allPanels.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)d3.select(el).selectAll('*').transition('out').duration(220).style('opacity',0);
+  });
+  const t=setTimeout(()=>{
+    allPanels.forEach(id=>{
+      const el=document.getElementById(id);
+      if(el)d3.select(el).selectAll('*').remove();
+    });
+    const svgSel=d3.select(svgEl);
+    const r=svgEl.getBoundingClientRect();
+    const w=r.width||500,h=r.height||500,pad=12;
+    svgSel.attr('viewBox',`${-pad} ${-pad} ${w+pad*2} ${h+pad*2}`)
+          .attr('preserveAspectRatio','xMidYMid meet');
+    setupDefs(svgSel);
+    sceneFn(svgSel,w,h);
+  },250);
+  timers.push(t);
+}
+
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('active');
+      const step=+e.target.dataset.step;
+      if(step!==activeStep){
+        activeStep=step;
+        transitionTo(step);
+        const hs=document.getElementById('hdr-scene');
+        if(hs)hs.textContent=sceneNames[step]||'';
+      }
+    }else{
+      e.target.classList.remove('active');
+    }
+  });
+},{threshold:.45});
+
+document.querySelectorAll('.step').forEach(el=>obs.observe(el));
+window.addEventListener('load',()=>{if(activeStep===-1){activeStep=0;transitionTo(0);}});
+
+// ── THEME TOGGLE ──────────────────────────────────────────────────────────────
+const themeBtn=document.getElementById('theme-btn');
+const prefersDark=window.matchMedia('(prefers-color-scheme:dark)');
+function getEffectiveTheme(){const saved=localStorage.getItem('theme');if(saved)return saved;return prefersDark.matches?'dark':'light';}
+function applyTheme(theme){
+  document.documentElement.setAttribute('data-theme',theme);
+  themeBtn.textContent=theme==='dark'?'☀️':'🌙';
+  localStorage.setItem('theme',theme);
+  if(activeStep>=0)transitionTo(activeStep);
+}
+applyTheme(getEffectiveTheme());
+themeBtn.addEventListener('click',()=>{
+  const cur=document.documentElement.getAttribute('data-theme')||(prefersDark.matches?'dark':'light');
+  applyTheme(cur==='dark'?'light':'dark');
+});
+
+// ── PROGRESS BAR ──────────────────────────────────────────────────────────────
+const progEl=document.getElementById('prog');
+window.addEventListener('scroll',()=>{
+  const st=window.scrollY||document.documentElement.scrollTop;
+  const dh=document.documentElement.scrollHeight-window.innerHeight;
+  if(progEl)progEl.style.width=(dh>0?st/dh*100:0)+'%';
+});
+
+// ── HERO BACKGROUND ───────────────────────────────────────────────────────────
+(function heroAnim(){
+  const heroBg=d3.select('#hero-bg');
+  const W=1400,H=900,N=18;
+  const nodes=Array.from({length:N},()=>({
+    x:Math.random()*W,y:Math.random()*H,
+    vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,
+    r:Math.random()*3+2,
+    color:[C.blue,C.purple,C.green,C.orange][Math.floor(Math.random()*4)]
+  }));
+  const circles=heroBg.selectAll('circle').data(nodes).enter().append('circle')
+    .attr('cx',d=>d.x).attr('cy',d=>d.y).attr('r',d=>d.r).attr('fill',d=>d.color).attr('opacity',.35);
+  const lines=heroBg.append('g');
+  function heroTick(){
+    nodes.forEach(n=>{
+      n.x+=n.vx;n.y+=n.vy;
+      if(n.x<0||n.x>W)n.vx*=-1;
+      if(n.y<0||n.y>H)n.vy*=-1;
+    });
+    circles.attr('cx',d=>d.x).attr('cy',d=>d.y);
+    lines.selectAll('line').remove();
+    for(let i=0;i<nodes.length;i++){
+      for(let j=i+1;j<nodes.length;j++){
+        const dx=nodes[i].x-nodes[j].x,dy=nodes[i].y-nodes[j].y;
+        const dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist<150){
+          lines.append('line')
+            .attr('x1',nodes[i].x).attr('y1',nodes[i].y)
+            .attr('x2',nodes[j].x).attr('y2',nodes[j].y)
+            .attr('stroke',nodes[i].color).attr('stroke-width',.5)
+            .attr('opacity',(1-dist/150)*.3);
+        }
+      }
+    }
+  }
+  const heroInterval=setInterval(heroTick,16);
+  const heroEl=document.getElementById('hero');
+  const heroObs=new IntersectionObserver(entries=>{
+    if(!entries[0].isIntersecting)clearInterval(heroInterval);
+  },{threshold:0});
+  heroObs.observe(heroEl);
+})();
+</script>
+</body>
+</html>
