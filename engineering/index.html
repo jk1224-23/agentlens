@@ -62,10 +62,11 @@ body{background:var(--bg);color:var(--text);font-family:'Georgia',serif;font-siz
 .mini-viz{background:var(--bg2);border:1px solid var(--border);border-radius:8px;margin:1.2rem 0;padding:.5rem;overflow:hidden}
 .mini-viz svg{display:block;width:100%;height:auto}
 .mini-viz-label{font-size:.7rem;color:var(--dim);font-family:'Courier New',monospace;text-align:center;padding:.3rem 0 .1rem}
-#viz-col{width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0;overflow:clip}
-/* overflow:clip (not hidden) avoids breaking position:sticky in Safari/mobile */
-#viz-col2,#viz-col3,#viz-col4,#viz-col5{overflow:clip}
-#viz-wrap,#viz-wrap2,#viz-wrap3,#viz-wrap4,#viz-wrap5{width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem;background:var(--viz-bg)}
+#viz-col{width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0;overflow:visible}
+/* overflow:visible on viz-col preserves sticky; clipping is handled by viz-wrap below */
+#viz-col2,#viz-col3,#viz-col4,#viz-col5{overflow:visible}
+/* overflow:hidden on viz-wrap clips SVG overflow without affecting sticky positioning */
+#viz-wrap,#viz-wrap2,#viz-wrap3,#viz-wrap4,#viz-wrap5{width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem;background:var(--viz-bg);overflow:hidden}
 #main-svg,#main-svg2,#main-svg3,#main-svg4,#main-svg5{width:100%;height:100%;max-height:600px;overflow:visible}
 footer{border-top:1px solid var(--border);padding:3rem 5rem;display:flex;gap:3rem;flex-wrap:wrap}
 .ft-col h4{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);font-family:'Courier New',monospace;margin-bottom:.8rem}
@@ -536,9 +537,9 @@ function hexN(p,x,y,r,color,txt,sub,delay=0){
   g.append('circle').attr('cx',x).attr('cy',y).attr('r',r)
     .attr('fill',color+'22').attr('stroke',color).attr('stroke-width',1.5);
   if(txt)g.append('text').attr('x',x).attr('y',sub?y-3:y+5).attr('text-anchor','middle')
-    .attr('fill',color).attr('font-size',sub?11:12).attr('font-family','Courier New').text(txt);
-  if(sub)g.append('text').attr('x',x).attr('y',y+12).attr('text-anchor','middle')
-    .attr('fill',C.dim).attr('font-size',9).attr('font-family','Courier New').text(sub);
+    .attr('fill',color).attr('font-size',sub?13:14).attr('font-family','Courier New').text(txt);
+  if(sub)g.append('text').attr('x',x).attr('y',y+14).attr('text-anchor','middle')
+    .attr('fill',C.dim).attr('font-size',11).attr('font-family','Courier New').text(sub);
   return g;
 }
 
@@ -548,9 +549,9 @@ function rectN(p,x,y,w2,h2,color,txt,sub,delay=0){
   g.append('rect').attr('x',x-w2/2).attr('y',y-h2/2).attr('width',w2).attr('height',h2)
     .attr('rx',6).attr('fill',color+'18').attr('stroke',color).attr('stroke-width',1.5);
   if(txt)g.append('text').attr('x',x).attr('y',sub?y-2:y+5).attr('text-anchor','middle')
-    .attr('fill',color).attr('font-size',sub?10:11).attr('font-family','Courier New').text(txt);
-  if(sub)g.append('text').attr('x',x).attr('y',y+13).attr('text-anchor','middle')
-    .attr('fill',C.dim).attr('font-size',9).attr('font-family','Courier New').text(sub);
+    .attr('fill',color).attr('font-size',sub?12:13).attr('font-family','Courier New').text(txt);
+  if(sub)g.append('text').attr('x',x).attr('y',y+15).attr('text-anchor','middle')
+    .attr('fill',C.dim).attr('font-size',11).attr('font-family','Courier New').text(sub);
   return g;
 }
 
@@ -567,7 +568,7 @@ function edgeLine(p,x1,y1,x2,y2,color,marker,dash,delay=0){
 
 function lbl(p,x,y,text,color,size,delay=0){
   const t=p.append('text').attr('x',x).attr('y',y).attr('text-anchor','middle')
-    .attr('fill',color||C.dim).attr('font-size',size||11).attr('font-family','Georgia,serif')
+    .attr('fill',color||C.dim).attr('font-size',size||13).attr('font-family','Georgia,serif')
     .style('opacity',0).text(text);
   t.transition().delay(delay).duration(400).style('opacity',1);
   return t;
@@ -594,7 +595,7 @@ function diamondN(p,x,y,s,color,txt,delay=0){
     .attr('rx',2).attr('fill',color+'18').attr('stroke',color).attr('stroke-width',1.5)
     .attr('transform',`rotate(45,${x},${y})`);
   if(txt)g.append('text').attr('x',x).attr('y',y+4).attr('text-anchor','middle')
-    .attr('fill',color).attr('font-size',8).attr('font-family','Courier New').text(txt);
+    .attr('fill',color).attr('font-size',10).attr('font-family','Courier New').text(txt);
   return g;
 }
 
@@ -622,7 +623,7 @@ const sceneNames=[
 // ── s0: Why Now ──────────────────────────────────────────────────────────────
 function s0(svg,w,h){
   const cx=w/2,cy=h/2;
-  lbl(svg,cx,42,'Two disciplines are merging',C.text,13,0);
+  lbl(svg,cx,42,'Two disciplines are merging',C.text,15,0);
   const r=Math.min(w,h)*0.22;
   const lc=svg.append('circle').attr('cx',cx-r*1.6).attr('cy',cy).attr('r',r)
     .attr('fill',C.blue+'20').attr('stroke',C.blue).attr('stroke-width',1.5).style('opacity',0);
@@ -632,16 +633,16 @@ function s0(svg,w,h){
     .attr('fill',C.green+'20').attr('stroke',C.green).attr('stroke-width',1.5).style('opacity',0);
   rc.transition().delay(100).duration(300).style('opacity',1)
     .transition().duration(900).attr('cx',cx+r*0.55);
-  lbl(svg,cx-r*0.55,cy-10,'Product',C.blue,10,1100);
-  lbl(svg,cx-r*0.55,cy+6,'Eng',C.blue,10,1100);
-  lbl(svg,cx+r*0.55,cy-10,'Data',C.green,10,1100);
-  lbl(svg,cx+r*0.55,cy+6,'Science',C.green,10,1100);
+  lbl(svg,cx-r*0.55,cy-10,'Product',C.blue,12,1100);
+  lbl(svg,cx-r*0.55,cy+8,'Eng',C.blue,12,1100);
+  lbl(svg,cx+r*0.55,cy-10,'Data',C.green,12,1100);
+  lbl(svg,cx+r*0.55,cy+8,'Science',C.green,12,1100);
   const ot=svg.append('text').attr('x',cx).attr('y',cy-7).attr('text-anchor','middle')
-    .attr('fill',C.purple).attr('font-size',9).attr('font-family','Courier New').attr('font-weight','bold')
+    .attr('fill',C.purple).attr('font-size',11).attr('font-family','Courier New').attr('font-weight','bold')
     .style('opacity',0).text('Agent');
   ot.transition().delay(1200).duration(500).style('opacity',1);
-  const ot2=svg.append('text').attr('x',cx).attr('y',cy+7).attr('text-anchor','middle')
-    .attr('fill',C.purple).attr('font-size',9).attr('font-family','Courier New').attr('font-weight','bold')
+  const ot2=svg.append('text').attr('x',cx).attr('y',cy+9).attr('text-anchor','middle')
+    .attr('fill',C.purple).attr('font-size',11).attr('font-family','Courier New').attr('font-weight','bold')
     .style('opacity',0).text('Engineering');
   ot2.transition().delay(1200).duration(500).style('opacity',1);
   const orbitPkt=svg.append('circle').attr('cx',cx).attr('cy',cy).attr('r',5)
@@ -654,13 +655,13 @@ function s0(svg,w,h){
     orbitPkt.attr('cx',cx+orbitR*Math.cos(angle)).attr('cy',cy+orbitR*Math.sin(angle));
   },16);
   timers.push(id);
-  lbl(svg,cx,cy+r+40,'overlap: the new craft',C.dim,10,1500);
+  lbl(svg,cx,cy+r+40,'overlap: the new craft',C.dim,12,1500);
 }
 
 // ── s1: What is Agent Engineering? ───────────────────────────────────────────
 function s1(svg,w,h){
   const cx=w/2,cy=h/2;
-  lbl(svg,cx,42,'What is Agent Engineering?',C.text,13,0);
+  lbl(svg,cx,42,'What is Agent Engineering?',C.text,15,0);
   const llmX=cx+90,llmY=cy;
   hexN(svg,llmX,llmY,46,C.purple,'LLM','Runtime',100);
   const pulse=svg.append('circle').attr('cx',llmX).attr('cy',llmY).attr('r',46)
@@ -689,15 +690,15 @@ function s1(svg,w,h){
 // ── s2: The Engineering Mindset ───────────────────────────────────────────────
 function s2(svg,w,h){
   const cx=w/2,cy=h/2;
-  lbl(svg,cx,42,'The Engineering Mindset Shift',C.text,13,0);
+  lbl(svg,cx,42,'The Engineering Mindset Shift',C.text,15,0);
   const rows=[['code','prompt'],['unit tests','evals'],['logs','traces'],['config','instructions'],['API','tools']];
   const lx=cx-115,rx=cx+115,startY=cy-80,rowH=38;
-  lbl(svg,lx,startY-20,'Traditional',C.dim,10,100);
-  lbl(svg,rx,startY-20,'Agent Eng',C.dim,10,100);
+  lbl(svg,lx,startY-20,'Traditional',C.dim,12,100);
+  lbl(svg,rx,startY-20,'Agent Eng',C.dim,12,100);
   rows.forEach(([left,right],i)=>{
     const y=startY+i*rowH;
     rectN(svg,lx,y,110,28,C.blue,left,null,i*100+200);
-    lbl(svg,cx,y+5,'→',C.dim,13,i*100+250);
+    lbl(svg,cx,y+5,'→',C.dim,15,i*100+250);
     rectN(svg,rx,y,110,28,C.orange,right,null,i*100+300);
     pkt(svg,lx+55,y,rx-55,y,C.yellow,550,i*150+500);
   });
@@ -706,7 +707,7 @@ function s2(svg,w,h){
 // ── s3: The Agent Engineering Stack ──────────────────────────────────────────
 function s3(svg,w,h){
   const cx=w/2,cy=h/2;
-  lbl(svg,cx,42,'The Agent Engineering Stack',C.text,13,0);
+  lbl(svg,cx,42,'The Agent Engineering Stack',C.text,15,0);
   const layers=[
     {color:C.blue,label:'Instructions'},
     {color:C.orange,label:'Skills'},
@@ -739,7 +740,7 @@ function s3(svg,w,h){
 // ── s4: Writing Instructions ──────────────────────────────────────────────────
 function s4(svg,w,h){
   const cx=w/2,cy=h/2;
-  lbl(svg,cx,42,'Writing Instructions',C.text,13,0);
+  lbl(svg,cx,42,'Writing Instructions',C.text,15,0);
   const bw=Math.min(w*0.78,360),bh=Math.min(h*0.52,260),bx=cx-bw/2,by=cy-bh/2+8;
   const outer=svg.append('rect').attr('x',bx).attr('y',by).attr('width',bw).attr('height',bh)
     .attr('rx',8).attr('fill','none').attr('stroke',C.purple).attr('stroke-width',2).style('opacity',0);
@@ -765,18 +766,18 @@ function s4(svg,w,h){
       .transition().delay(q.delay).duration(400).style('opacity',1);
     lbl(svg,q.x,q.y,q.label,q.color,11,q.delay);
   });
-  lbl(svg,cx,by+bh+28,'"persona · rules · examples · format"',C.dim,9,1100);
+  lbl(svg,cx,by+bh+28,'"persona · rules · examples · format"',C.dim,11,1100);
 }
 
 // ── s5: Writing Skills ────────────────────────────────────────────────────────
 function s5(svg,w,h){
   const cx=w/2,cy=h/2;
-  lbl(svg,cx,42,'Writing Skills (Tools)',C.text,13,0);
+  lbl(svg,cx,42,'Writing Skills (Tools)',C.text,15,0);
   const tcx=cx-120,tcy=cy;
   rectN(svg,tcx,tcy,150,108,C.orange,'Tool Card',null,100);
   [['name:','search_web'],['description:','when to use...'],['schema:','{query:string}']].forEach(([k,v],i)=>{
-    lbl(svg,tcx-18,tcy-28+i*22,k,C.orange,8,200+i*100);
-    lbl(svg,tcx+38,tcy-28+i*22,v,C.dim,8,200+i*100);
+    lbl(svg,tcx-18,tcy-28+i*22,k,C.orange,12,200+i*100);
+    lbl(svg,tcx+38,tcy-28+i*22,v,C.dim,12,200+i*100);
   });
   const ax=cx+52,rtx=cx+130,tx=cx+195;
   hexN(svg,ax,cy-55,28,C.blue,'Agent',null,400);
@@ -798,7 +799,7 @@ function s5(svg,w,h){
 // ── s6: Writing Hooks ─────────────────────────────────────────────────────────
 function s6(svg,w,h){
   const cx=w/2,cy=h/2;
-  lbl(svg,cx,42,'Writing Hooks',C.text,13,0);
+  lbl(svg,cx,42,'Writing Hooks',C.text,15,0);
   const sp=95;
   const nx=[cx-sp*2,cx-sp,cx,cx+sp,cx+sp*2];
   hexN(svg,nx[0],cy,28,C.blue,'Agent',null,0);
@@ -813,8 +814,8 @@ function s6(svg,w,h){
   const rejX=nx[1],rejY=cy+75;
   edgeLine(svg,nx[1],cy+22,rejX,rejY,C.red,'arrowRed',null,800);
   rectN(svg,rejX,rejY+18,72,24,C.red,'reject',null,900);
-  lbl(svg,nx[1],cy-46,'validate · log · rate-limit',C.dim,8,600);
-  lbl(svg,nx[3],cy-46,'sanitize · cost · PII',C.dim,8,700);
+  lbl(svg,nx[1],cy-46,'validate · log · rate-limit',C.dim,12,600);
+  lbl(svg,nx[3],cy-46,'sanitize · cost · PII',C.dim,12,700);
   function flowMain(){
     pkt(svg,nx[0]+28,cy,nx[1]-22,cy,C.yellow,320,0,5,false);
     [1,2,3].forEach((k,i)=>{
@@ -840,7 +841,7 @@ function s6(svg,w,h){
 // ── s7: Memory Types ──────────────────────────────────────────────────────────
 function s7(svg,w,h){
   const cx=w/2,cy=h/2;
-  lbl(svg,cx,42,'Memory Types',C.text,13,0);
+  lbl(svg,cx,42,'Memory Types',C.text,15,0);
   const rings=[
     {r:36,color:C.blue,label:'In-Context'},
     {r:72,color:C.green,label:'Vector Store'},
@@ -852,9 +853,9 @@ function s7(svg,w,h){
       .attr('fill',ring.color+(i===0?'20':'08')).attr('stroke',ring.color).attr('stroke-width',1.5)
       .attr('stroke-dasharray',i===0?null:'4,3').style('opacity',0)
       .transition().delay(i*200+100).duration(400).style('opacity',1);
-    lbl(svg,cx+ring.r+8,cy,ring.label,ring.color,8.5,i*200+300);
+    lbl(svg,cx+ring.r+8,cy,ring.label,ring.color,11,i*200+300);
   });
-  lbl(svg,cx,cy+4,'LLM',C.purple,10,100);
+  lbl(svg,cx,cy+4,'LLM',C.purple,12,100);
   let pktAngle=0;
   function radialPkt(){
     const ri=Math.floor(Math.random()*3)+1;
@@ -873,7 +874,7 @@ function s7(svg,w,h){
 // ── s8: Testing Agents ────────────────────────────────────────────────────────
 function s8(svg,w,h){
   const cx=w/2,cy=h/2;
-  lbl(svg,cx,42,'Testing Agents',C.text,13,0);
+  lbl(svg,cx,42,'Testing Agents',C.text,15,0);
   const apex={x:cx,y:cy-100};
   const mid={xl:cx-95,xr:cx+95,y:cy+10};
   const low={xl:cx-150,xr:cx+150,y:cy+80};
@@ -885,13 +886,13 @@ function s8(svg,w,h){
   svg.append('polygon').attr('points',`${mid.xl},${mid.y} ${low.xl},${low.y} ${low.xr},${low.y} ${mid.xr},${mid.y}`)
     .attr('fill',C.blue+'18').attr('stroke',C.blue).attr('stroke-width',1.5).style('opacity',0)
     .transition().delay(300).duration(400).style('opacity',1);
-  lbl(svg,cx,(mid.y+low.y)/2+4,'Integration Tests',C.blue,10,400);
+  lbl(svg,cx,(mid.y+low.y)/2+4,'Integration Tests',C.blue,12,400);
   svg.append('polygon').attr('points',`${low.xl},${low.y} ${base.xl},${base.y} ${base.xr},${base.y} ${low.xr},${low.y}`)
     .attr('fill',C.green+'18').attr('stroke',C.green).attr('stroke-width',1.5).style('opacity',0)
     .transition().delay(500).duration(400).style('opacity',1);
-  lbl(svg,cx,(low.y+base.y)/2+4,'Tool Unit Tests',C.green,10,600);
-  lbl(svg,cx-175,apex.y-4,'narrow',C.dim,8,700);
-  lbl(svg,cx-175,base.y+4,'wide',C.dim,8,800);
+  lbl(svg,cx,(low.y+base.y)/2+4,'Tool Unit Tests',C.green,12,600);
+  lbl(svg,cx-175,apex.y-4,'narrow',C.dim,12,700);
+  lbl(svg,cx-175,base.y+4,'wide',C.dim,12,800);
   function bounce(){
     pkt(svg,cx,base.y,cx,apex.y,C.yellow,1100,0,5,false);
     const t=setTimeout(bounce,1900);
@@ -903,7 +904,7 @@ function s8(svg,w,h){
 // ── s9: The Lifecycle ─────────────────────────────────────────────────────────
 function s9(svg,w,h){
   const cx=w/2,cy=h/2+8;
-  lbl(svg,cx,42,'The Agent Engineering Loop',C.text,13,0);
+  lbl(svg,cx,42,'The Agent Engineering Loop',C.text,15,0);
   const R=Math.min(w,h)*0.29;
   const nodes=[
     {label:'Build',color:C.green,angle:-90},
@@ -924,8 +925,8 @@ function s9(svg,w,h){
     const nx=dx/len,ny=dy/len;
     arcPath(svg,n.x+32*nx,n.y+32*ny,next.x-32*nx,next.y-32*ny,n.color,'arrowBlue',i*120+600);
   });
-  lbl(svg,cx,cy-6,'The Agent',C.dim,10,900);
-  lbl(svg,cx,cy+8,'Engineering Loop',C.dim,10,900);
+  lbl(svg,cx,cy-6,'The Agent',C.dim,12,900);
+  lbl(svg,cx,cy+8,'Engineering Loop',C.dim,12,900);
   let pktIdx=0;
   function cyclePkt(){
     const n=nodes[pktIdx%nodes.length];
@@ -942,7 +943,7 @@ function s9(svg,w,h){
 // ── s10: Shipping Agents ──────────────────────────────────────────────────────
 function s10(svg,w,h){
   const cx=w/2,cy=h/2;
-  lbl(svg,cx,42,'Shipping Agents',C.text,13,0);
+  lbl(svg,cx,42,'Shipping Agents',C.text,15,0);
   const stages=[
     {x:cx-195,color:C.blue,label:'Dev'},
     {x:cx-95,color:C.green,label:'Staging'},
@@ -956,16 +957,16 @@ function s10(svg,w,h){
   });
   const gx=cx+110,gy=cy;
   diamondN(svg,gx,gy,38,C.purple,'eval',400);
-  lbl(svg,gx,gy+26,'gate',C.purple,8,450);
+  lbl(svg,gx,gy+26,'gate',C.purple,12,450);
   edgeLine(svg,stages[2].x+44,cy,gx-23,cy,C.yellow,'arrowYellow',null,550);
   const prodX=cx+200;
   rectN(svg,prodX,cy,84,40,C.orange,'Prod 100%',null,600);
   edgeLine(svg,gx+23,cy,prodX-42,cy,C.green,'arrowGreen',null,700);
-  lbl(svg,cx+155,cy-26,'pass',C.green,8,800);
+  lbl(svg,cx+155,cy-26,'pass',C.green,12,800);
   edgeLine(svg,gx,gy+23,gx,cy+72,C.red,null,null,900);
   edgeLine(svg,gx,cy+72,stages[1].x,cy+72,C.red,'arrowRed','4,3',1000);
   edgeLine(svg,stages[1].x,cy+72,stages[1].x,cy+20,C.red,'arrowRed','4,3',1100);
-  lbl(svg,cx-30,cy+88,'rollback',C.red,8,1200);
+  lbl(svg,cx-30,cy+88,'rollback',C.red,12,1200);
   function happyPath(){
     pkt(svg,stages[0].x+44,cy,stages[1].x-44,cy,C.blue,360,0,5,false);
     const t1=setTimeout(()=>pkt(svg,stages[1].x+44,cy,stages[2].x-44,cy,C.green,360,0,5,false),450);
@@ -980,7 +981,7 @@ function s10(svg,w,h){
 // ── s11: Observing Agents ─────────────────────────────────────────────────────
 function s11(svg,w,h){
   const cx=w/2,cy=h/2;
-  lbl(svg,cx,42,'Observing Agents',C.text,13,0);
+  lbl(svg,cx,42,'Observing Agents',C.text,15,0);
   const pw=Math.min(w*0.41,190),ph=Math.min(h*0.37,172),gap=14;
   const panels=[
     {x:cx-pw/2-gap/2,y:cy-ph/2-gap/2,label:'Traces'},
@@ -992,7 +993,7 @@ function s11(svg,w,h){
     svg.append('rect').attr('x',p.x-pw/2).attr('y',p.y-ph/2).attr('width',pw).attr('height',ph)
       .attr('rx',6).attr('fill',C.bg2).attr('stroke',C.border).attr('stroke-width',1).style('opacity',0)
       .transition().delay(i*150+100).duration(400).style('opacity',1);
-    lbl(svg,p.x,p.y-ph/2+14,p.label,C.dim,8,i*150+200);
+    lbl(svg,p.x,p.y-ph/2+14,p.label,C.dim,12,i*150+200);
   });
   // panel 0: trace tree
   const tp=panels[0];
@@ -1042,7 +1043,7 @@ function s11(svg,w,h){
 // ── s12: Refining Agents ──────────────────────────────────────────────────────
 function s12(svg,w,h){
   const cx=w/2,cy=h/2;
-  lbl(svg,cx,42,'Refining Agents',C.text,13,0);
+  lbl(svg,cx,42,'Refining Agents',C.text,15,0);
   const R=Math.min(w,h)*0.26;
   const nodes=[
     {label:'Observe',color:C.purple,angle:-90},
@@ -1084,14 +1085,14 @@ function s12(svg,w,h){
 // ── s13: Guardrails ───────────────────────────────────────────────────────────
 function s13(svg,w,h){
   const cx=w/2,cy=h/2;
-  lbl(svg,cx,42,'Guardrails',C.text,13,0);
+  lbl(svg,cx,42,'Guardrails',C.text,15,0);
   rectN(svg,cx,cy-105,200,40,C.red,'Input Guardrail',null,100);
   hexN(svg,cx,cy,52,C.blue,'Agent LLM',null,300);
   rectN(svg,cx,cy+105,200,40,C.red,'Output Guardrail',null,500);
   edgeLine(svg,cx,cy-85,cx,cy-52,C.dim,'arrowDim',null,700);
   edgeLine(svg,cx,cy+52,cx,cy+85,C.dim,'arrowDim',null,800);
-  lbl(svg,cx+120,cy-105,'validates input',C.dim,8,900);
-  lbl(svg,cx+120,cy+105,'checks output',C.dim,8,1000);
+  lbl(svg,cx+120,cy-105,'validates input',C.dim,12,900);
+  lbl(svg,cx+120,cy+105,'checks output',C.dim,12,1000);
   function flow(){
     pkt(svg,cx,cy-145,cx,cy-85,C.blue,380,0,5,false);
     const t1=setTimeout(()=>pkt(svg,cx,cy-85,cx,cy-52,C.blue,320,0,5,false),450);
@@ -1116,7 +1117,7 @@ function s13(svg,w,h){
 // ── s14: 8 Thumb Rules ────────────────────────────────────────────────────────
 function s14(svg,w,h){
   const cx=w/2,cy=h/2;
-  lbl(svg,cx,42,'8 Thumb Rules',C.text,13,0);
+  lbl(svg,cx,42,'8 Thumb Rules',C.text,15,0);
   const rules=[
     {n:'1',label:'Start simple',color:C.blue},
     {n:'2',label:'Measure first',color:C.green},
@@ -1133,7 +1134,7 @@ function s14(svg,w,h){
     const col=i%cols,row=Math.floor(i/cols);
     const x=startX+col*cw,y=rowY[row];
     hexN(svg,x,y,28,r.color,r.n,null,i*90+100);
-    lbl(svg,x,y+44,r.label,r.color,8,i*90+280);
+    lbl(svg,x,y+44,r.label,r.color,12,i*90+280);
   });
   let pktIdx=0;
   function seqPkt(){
@@ -1155,15 +1156,15 @@ function s14(svg,w,h){
 // ── s15: What's Next ──────────────────────────────────────────────────────────
 function s15(svg,w,h){
   const cx=w/2,cy=h/2;
-  lbl(svg,cx,42,"What's Next?",C.text,13,0);
+  lbl(svg,cx,42,"What's Next?",C.text,15,0);
   rectN(svg,cx-120,cy-10,200,120,C.blue,'Agent Engineering',null,100);
-  lbl(svg,cx-120,cy+18,'Build · Test · Ship',C.dim,8,300);
-  lbl(svg,cx-120,cy+31,'Observe · Refine',C.dim,8,300);
+  lbl(svg,cx-120,cy+18,'Build · Test · Ship',C.dim,12,300);
+  lbl(svg,cx-120,cy+31,'Observe · Refine',C.dim,12,300);
   rectN(svg,cx+120,cy-10,200,120,C.purple,'Orchestration',null,400);
-  lbl(svg,cx+120,cy+18,'Patterns',C.purple,10,500);
-  lbl(svg,cx+120,cy+34,'10 multi-agent patterns',C.dim,8,550);
+  lbl(svg,cx+120,cy+18,'Patterns',C.purple,12,500);
+  lbl(svg,cx+120,cy+34,'10 multi-agent patterns',C.dim,12,550);
   edgeLine(svg,cx-18,cy-10,cx+18,cy-10,C.yellow,'arrowYellow',null,700);
-  lbl(svg,cx,cy-28,'next step →',C.yellow,9,800);
+  lbl(svg,cx,cy-28,'next step →',C.yellow,11,800);
   svg.append('text').attr('x',cx).attr('y',cy+90).attr('text-anchor','middle')
     .attr('fill',C.blue).attr('font-size',10).attr('font-family','Courier New')
     .attr('cursor','pointer').style('opacity',0).text('→ index.html: Orchestration Patterns')

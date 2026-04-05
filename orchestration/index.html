@@ -82,11 +82,11 @@ body{background:var(--bg);color:var(--text);font-family:'Georgia',serif;font-siz
 .mini-viz-label{font-size:.7rem;color:var(--dim);font-family:'Courier New',monospace;text-align:center;padding:.3rem 0 .1rem}
 
 /* VIZ PANEL */
-#viz-col{width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0;overflow:clip}
-/* overflow:clip also on viz-col2/3/4 — their width/height come from inline styles */
-/* overflow:clip (not hidden) avoids breaking position:sticky in Safari/mobile */
-#viz-col2,#viz-col3,#viz-col4{overflow:clip}
-#viz-wrap,#viz-wrap2,#viz-wrap3,#viz-wrap4{width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem;background:var(--viz-bg)}
+#viz-col{width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0;overflow:visible}
+/* overflow:visible on viz-col preserves sticky; clipping is handled by viz-wrap below */
+#viz-col2,#viz-col3,#viz-col4{overflow:visible}
+/* overflow:hidden on viz-wrap clips SVG overflow without affecting sticky positioning */
+#viz-wrap,#viz-wrap2,#viz-wrap3,#viz-wrap4{width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem;background:var(--viz-bg);overflow:hidden}
 /* overflow:visible lets SVG content paint to the full panel area without viewBox clipping */
 #main-svg,#main-svg2,#main-svg3,#main-svg4{width:100%;height:100%;max-height:600px;overflow:visible}
 
@@ -860,9 +860,9 @@ function hexN(p,x,y,r,color,txt,sub,delay=0){
   g.append('circle').attr('cx',x).attr('cy',y).attr('r',r)
     .attr('fill',color+'22').attr('stroke',color).attr('stroke-width',1.5);
   if(txt)g.append('text').attr('x',x).attr('y',sub?y-3:y+5).attr('text-anchor','middle')
-    .attr('fill',color).attr('font-size',sub?11:12).attr('font-family','Courier New').text(txt);
-  if(sub)g.append('text').attr('x',x).attr('y',y+12).attr('text-anchor','middle')
-    .attr('fill',C.dim).attr('font-size',9).attr('font-family','Courier New').text(sub);
+    .attr('fill',color).attr('font-size',sub?13:14).attr('font-family','Courier New').text(txt);
+  if(sub)g.append('text').attr('x',x).attr('y',y+14).attr('text-anchor','middle')
+    .attr('fill',C.dim).attr('font-size',11).attr('font-family','Courier New').text(sub);
   return g;
 }
 
@@ -872,9 +872,9 @@ function rectN(p,x,y,w2,h2,color,txt,sub,delay=0){
   g.append('rect').attr('x',x-w2/2).attr('y',y-h2/2).attr('width',w2).attr('height',h2)
     .attr('rx',6).attr('fill',color+'18').attr('stroke',color).attr('stroke-width',1.5);
   if(txt)g.append('text').attr('x',x).attr('y',sub?y-2:y+5).attr('text-anchor','middle')
-    .attr('fill',color).attr('font-size',sub?10:11).attr('font-family','Courier New').text(txt);
-  if(sub)g.append('text').attr('x',x).attr('y',y+13).attr('text-anchor','middle')
-    .attr('fill',C.dim).attr('font-size',9).attr('font-family','Courier New').text(sub);
+    .attr('fill',color).attr('font-size',sub?12:13).attr('font-family','Courier New').text(txt);
+  if(sub)g.append('text').attr('x',x).attr('y',y+15).attr('text-anchor','middle')
+    .attr('fill',C.dim).attr('font-size',11).attr('font-family','Courier New').text(sub);
   return g;
 }
 
@@ -891,7 +891,7 @@ function edgeLine(p,x1,y1,x2,y2,color,marker,dash,delay=0){
 
 function lbl(p,x,y,text,color,size,delay=0){
   const t=p.append('text').attr('x',x).attr('y',y).attr('text-anchor','middle')
-    .attr('fill',color||C.dim).attr('font-size',size||11).attr('font-family','Georgia, serif')
+    .attr('fill',color||C.dim).attr('font-size',size||13).attr('font-family','Georgia, serif')
     .style('opacity',0).text(text);
   t.transition().delay(delay).duration(400).style('opacity',1);
   return t;
@@ -937,7 +937,7 @@ function s0(svg,w,h){
   });
   // central agent
   hexN(svg,cx,cy,38,C.purple,'Agent',null,0);
-  lbl(svg,cx,cy+58,'thinks • acts • observes',C.dim,10,200);
+  lbl(svg,cx,cy+58,'thinks • acts • observes',C.dim,12,200);
 
   nodes.forEach((n,i)=>{
     hexN(svg,n.x,n.y,32,n.color,n.label,null,i*150+100);
@@ -980,7 +980,7 @@ function s0(svg,w,h){
   },2100);
   timers.push(id);
 
-  lbl(svg,cx,cy-R-50,'ReAct: Reason + Act',C.blue,13,100);
+  lbl(svg,cx,cy-R-50,'ReAct: Reason + Act',C.blue,15,100);
 }
 
 // ── SCENE 1: Agent Anatomy ─────────────────────────────────────────────────
@@ -1003,7 +1003,7 @@ function s1(svg,w,h){
     edgeLine(svg,p2.x+60*nx,p2.y+60*ny,cx-52*nx,cy-52*ny,p2.color,null,'3,3',i*150+400);
   });
 
-  lbl(svg,cx,40,'The Four Components of an Agent',C.text,13,100);
+  lbl(svg,cx,40,'The Four Components of an Agent',C.text,15,100);
 
   // pulse on central node
   const pulse=svg.append('circle').attr('cx',cx).attr('cy',cy).attr('r',50)
@@ -1026,7 +1026,7 @@ function s2(svg,w,h){
   // Tool on right
   hexN(svg,cx+170,cy,42,C.orange,'Tool',null,400);
 
-  lbl(svg,cx,cy-110,'Tool Call Lifecycle',C.text,13,0);
+  lbl(svg,cx,cy-110,'Tool Call Lifecycle',C.text,15,0);
 
   // labels
   const flowLabels=[
@@ -1036,7 +1036,7 @@ function s2(svg,w,h){
     {x:cx-75,y:cy+35,text:'④ continue',color:C.blue},
   ];
   flowLabels.forEach((fl,i)=>{
-    lbl(svg,fl.x,fl.y,fl.text,fl.color,9.5,i*200+600);
+    lbl(svg,fl.x,fl.y,fl.text,fl.color,11,i*200+600);
   });
 
   // animated packets
@@ -1060,7 +1060,7 @@ function s2(svg,w,h){
 // ── SCENE 3: Why Multi-Agent ───────────────────────────────────────────────
 function s3(svg,w,h){
   const cx=w/2,cy=h/2;
-  lbl(svg,cx,45,'Single Agent vs. Multi-Agent',C.text,13,0);
+  lbl(svg,cx,45,'Single Agent vs. Multi-Agent',C.text,15,0);
 
   // Single agent side (left)
   lbl(svg,cx/2,85,'Single Agent',C.dim,11,100);
@@ -1074,7 +1074,7 @@ function s3(svg,w,h){
     .attr('rx',3).attr('fill',C.red).style('opacity',0)
     .transition().delay(400).duration(300).style('opacity',1);
   fill.transition().delay(800).duration(2000).attr('width',barW);
-  lbl(svg,cx/2,barY+24,'context fills up',C.dim,9,400);
+  lbl(svg,cx/2,barY+24,'context fills up',C.dim,11,400);
 
   // Multi-agent side (right)
   const rx=cx+cx/2;
@@ -1086,7 +1086,7 @@ function s3(svg,w,h){
       edgeLine(svg,rx,cy-50,x,y-28,c,'arrowBlue',null,800+i*100);
       pkt(svg,rx,cy-50,x,y-28,c,600,1000+i*300);
     });
-  lbl(svg,rx,cy+80,'parallel, specialized',C.dim,9,900);
+  lbl(svg,rx,cy+80,'parallel, specialized',C.dim,11,900);
 
   // divider
   svg.append('line').attr('x1',cx).attr('y1',70).attr('x2',cx).attr('y2',h-60)
@@ -1097,7 +1097,7 @@ function s3(svg,w,h){
 // ── SCENE 4: A2A ───────────────────────────────────────────────────────────
 function s4(svg,w,h){
   const cx=w/2,cy=h/2;
-  lbl(svg,cx,45,'Agent-to-Agent Communication',C.text,13,0);
+  lbl(svg,cx,45,'Agent-to-Agent Communication',C.text,15,0);
 
   // Orchestrator
   hexN(svg,cx,cy-120,45,C.purple,'Orchestrator',null,100);
@@ -1113,8 +1113,8 @@ function s4(svg,w,h){
   });
 
   // Message labels
-  lbl(svg,cx-80,cy-50,'delegate()',C.blue,9,700);
-  lbl(svg,cx+80,cy-50,'result',C.green,9,800);
+  lbl(svg,cx-80,cy-50,'delegate()',C.blue,11,700);
+  lbl(svg,cx+80,cy-50,'result',C.green,11,800);
 
   // animated message passing
   function flow(){
@@ -1207,8 +1207,8 @@ function s6(svg,w,h){
   flowThrough();
 
   // input/output labels
-  lbl(svg,cx-200,cy+60,'Input',C.dim,10,100);
-  lbl(svg,cx+200,cy+60,'Output',C.dim,10,300);
+  lbl(svg,cx-200,cy+60,'Input',C.dim,12,100);
+  lbl(svg,cx+200,cy+60,'Output',C.dim,12,300);
 
   // data transformation indicator
   svg.append('text').attr('x',cx).attr('y',cy+100).attr('text-anchor','middle')
@@ -1255,9 +1255,9 @@ function s7(svg,w,h){
   }
   fanOut();
 
-  lbl(svg,cx-200,cy-55,'parallel',C.dim,9,600);
-  lbl(svg,cx+170,cy-55,'parallel',C.dim,9,600);
-  lbl(svg,cx,cy+90,'merge',C.dim,9,700);
+  lbl(svg,cx-200,cy-55,'parallel',C.dim,11,600);
+  lbl(svg,cx+170,cy-55,'parallel',C.dim,11,600);
+  lbl(svg,cx,cy+90,'merge',C.dim,11,700);
 }
 
 // ── SCENE 8: Hierarchical ─────────────────────────────────────────────────
@@ -1312,7 +1312,7 @@ function s8(svg,w,h){
   }
   taskFlow();
 
-  lbl(svg,cx,cy+130,'tasks cascade down · results bubble up',C.dim,10,800);
+  lbl(svg,cx,cy+130,'tasks cascade down · results bubble up',C.dim,12,800);
 }
 
 // ── SCENE 9: Plan-and-Execute ──────────────────────────────────────────────
@@ -1352,7 +1352,7 @@ function s9(svg,w,h){
   }
   execFlow();
 
-  lbl(svg,cx,cy+150,'plan once · execute sequentially',C.dim,10,800);
+  lbl(svg,cx,cy+150,'plan once · execute sequentially',C.dim,12,800);
 }
 
 // ── SCENE 10: Reflection ──────────────────────────────────────────────────
@@ -1375,10 +1375,10 @@ function s10(svg,w,h){
     .attr('stroke-dasharray','4,3').attr('marker-end','url(#arrowDim)').style('opacity',0)
     .transition().delay(700).duration(400).style('opacity',1);
 
-  lbl(svg,cx,cy+155,'revise if not good enough',C.dim,10,800);
+  lbl(svg,cx,cy+155,'revise if not good enough',C.dim,12,800);
 
   // critique labels
-  lbl(svg,cx,cy-135,'Draft v1 → v2 → v3…',C.dim,9,500);
+  lbl(svg,cx,cy-135,'Draft v1 → v2 → v3…',C.dim,11,500);
 
   // animated critique cycle
   let version=1;
@@ -1450,7 +1450,7 @@ function s11(svg,w,h){
   }
   debate();
 
-  lbl(svg,cx+180,cy+120,'Best Answer',C.green,10,700);
+  lbl(svg,cx+180,cy+120,'Best Answer',C.green,12,700);
 }
 
 // ── SCENE 12: Blackboard ──────────────────────────────────────────────────
@@ -1463,7 +1463,7 @@ function s12(svg,w,h){
     .attr('rx',8).attr('fill',C.green+'18').attr('stroke',C.green).attr('stroke-width',2)
     .style('opacity',0).transition().delay(100).duration(400).style('opacity',1);
   lbl(svg,cx,cy,'Blackboard',C.green,12,200);
-  lbl(svg,cx,cy+18,'Shared State',C.dim,9,300);
+  lbl(svg,cx,cy+18,'Shared State',C.dim,11,300);
 
   const agents=[
     {x:cx-200,y:cy-80,color:C.blue,label:'Agent 1'},
@@ -1500,7 +1500,7 @@ function s12(svg,w,h){
   }
   rwCycle();
 
-  lbl(svg,cx,cy+130,'any agent reads or writes',C.dim,10,600);
+  lbl(svg,cx,cy+130,'any agent reads or writes',C.dim,12,600);
 }
 
 // ── SCENE 13: HITL ────────────────────────────────────────────────────────
@@ -1544,14 +1544,14 @@ function s13(svg,w,h){
   }
   gateFlow();
 
-  lbl(svg,cx-40,cy+60,'checkpoint',C.dim,9,900);
-  lbl(svg,cx,cy+130,'pause · review · approve or reject',C.dim,10,900);
+  lbl(svg,cx-40,cy+60,'checkpoint',C.dim,11,900);
+  lbl(svg,cx,cy+130,'pause · review · approve or reject',C.dim,12,900);
 }
 
 // ── SCENE 14: Bounded Context ─────────────────────────────────────────────
 function s14(svg,w,h){
   const cx=w/2,cy=h/2;
-  lbl(svg,cx,40,'Bounded Context & Memory Management',C.blue,13,0);
+  lbl(svg,cx,40,'Bounded Context & Memory Management',C.blue,15,0);
 
   // Context window bar
   const bw=300,bh=50,bx=cx-150,by=cy-80;
@@ -1577,7 +1577,7 @@ function s14(svg,w,h){
       .text(seg.label).transition().delay(500+i*150).duration(400).style('opacity',1);
     xOff+=seg.w;
   });
-  lbl(svg,cx,by+bh+16,'Context Window (limited size)',C.dim,9,700);
+  lbl(svg,cx,by+bh+16,'Context Window (limited size)',C.dim,11,700);
 
   // Memory tier diagram
   const tiers=[
@@ -1594,7 +1594,7 @@ function s14(svg,w,h){
       .text(t2.label).transition().delay(900+i*150).duration(400).style('opacity',1);
   });
 
-  lbl(svg,cx,cy+175,'memory tiering: access frequency drives tier',C.dim,9,1100);
+  lbl(svg,cx,cy+175,'memory tiering: access frequency drives tier',C.dim,11,1100);
 }
 
 // ── SCENE 15: Enterprise Architecture ─────────────────────────────────────
@@ -1637,13 +1637,13 @@ function s15(svg,w,h){
   }
   entFlow();
 
-  lbl(svg,cx,cy+205,'production agents need the whole stack',C.dim,10,1000);
+  lbl(svg,cx,cy+205,'production agents need the whole stack',C.dim,12,1000);
 }
 
 // ── SCENE 16: Pattern Decision Guide ──────────────────────────────────────
 function s16(svg,w,h){
   const cx=w/2,cy=h/2;
-  lbl(svg,cx,38,'Which Pattern Should I Use?',C.yellow,13,0);
+  lbl(svg,cx,38,'Which Pattern Should I Use?',C.yellow,15,0);
 
   // Decision tree nodes
   const q1={x:cx,y:cy-160,label:'Single agent\nor multi?',color:C.blue};
@@ -1682,7 +1682,7 @@ function s16(svg,w,h){
     edgeLine(svg,src.x+r*nx,src.y+r*ny,dst.x-r*nx,dst.y-r*ny,color,'arrowDim',null,i*60+600);
     if(lbl2){
       const mx=(src.x+dst.x)/2+ny*12,my=(src.y+dst.y)/2-nx*12;
-      lbl(svg,mx,my,lbl2,color,8,i*60+700);
+      lbl(svg,mx,my,lbl2,color,12,i*60+700);
     }
   });
 }
@@ -1690,7 +1690,7 @@ function s16(svg,w,h){
 /// ── SCENE 17: Common Failure Modes ─────────────────────────────────────────
 function s17(svg,w,h){
   const cx=w/2,cy=h/2+8;
-  lbl(svg,cx,34,'Common Agent Failure Modes',C.red,13,0);
+  lbl(svg,cx,34,'Common Agent Failure Modes',C.red,15,0);
 
   // 5 failures evenly spaced on a ring — avoids any overlap with the central agent
   const R=Math.max(120,Math.min(w,h)*0.29);
@@ -1731,17 +1731,17 @@ function s17(svg,w,h){
   // Failure nodes (drawn after arrows so they sit on top)
   failures.forEach((f,i)=>{
     hexN(svg,f.x,f.y,36,f.color,f.icon,null,i*120+100);
-    lbl(svg,f.x,f.y+50,f.label,f.color,9,i*120+350);
-    lbl(svg,f.x,f.y+62,f.desc,C.dim,8,i*120+400);
+    lbl(svg,f.x,f.y+50,f.label,f.color,11,i*120+350);
+    lbl(svg,f.x,f.y+62,f.desc,C.dim,12,i*120+400);
   });
 
-  lbl(svg,cx,h-20,'design defenses for each before deployment',C.dim,10,1100);
+  lbl(svg,cx,h-20,'design defenses for each before deployment',C.dim,12,1100);
 }
 
 // ── SCENE 18: Observability ────────────────────────────────────────────────
 function s18(svg,w,h){
   const cx=w/2,cy=h/2;
-  lbl(svg,cx,38,'Observability & Tracing',C.green,13,0);
+  lbl(svg,cx,38,'Observability & Tracing',C.green,15,0);
 
   // Trace tree
   const root={x:cx,y:cy-170,label:'LLM Call',color:C.blue,w:100,h:32};
@@ -1765,14 +1765,14 @@ function s18(svg,w,h){
     .attr('rx',3).attr('fill',root.color+'44').attr('stroke',root.color).attr('stroke-width',1)
     .style('opacity',0).transition().delay(300).duration(400).style('opacity',1)
     .transition().duration(600).attr('width',60);
-  lbl(svg,root.x+root.w/2+45,root.y+5,'1.2s',root.color,8,700);
+  lbl(svg,root.x+root.w/2+45,root.y+5,'1.2s',root.color,12,700);
 
   children.forEach((c,i)=>{
     rectN(svg,c.x,c.y,c.w,c.h,c.color,c.label,null,200+i*120);
     edgeLine(svg,root.x,root.y+root.h/2,c.x,c.y-c.h/2,C.border,null,'2,2',300+i*100);
     // duration
     const dur=['0.3s','0.1s','0.8s'][i];
-    lbl(svg,c.x+c.w/2+22,c.y+4,dur,c.color,8,500+i*100);
+    lbl(svg,c.x+c.w/2+22,c.y+4,dur,c.color,12,500+i*100);
   });
 
   grandchildren.forEach((gc,i)=>{
@@ -1782,8 +1782,8 @@ function s18(svg,w,h){
   });
 
   // Legend
-  lbl(svg,cx-160,cy+130,'span = one unit of work',C.dim,9,900);
-  lbl(svg,cx+120,cy+130,'trace = full call tree',C.dim,9,1000);
+  lbl(svg,cx-160,cy+130,'span = one unit of work',C.dim,11,900);
+  lbl(svg,cx+120,cy+130,'trace = full call tree',C.dim,11,1000);
 
   // Animated packet flowing through trace
   function traceFlow(){
