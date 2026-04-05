@@ -21,18 +21,21 @@ body{background:var(--bg);color:var(--text);font-family:'Georgia',serif;font-siz
 main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:5rem 2rem 3rem;text-align:center}
 .hero-title{font-family:'Courier New',monospace;font-size:clamp(2.4rem,6vw,4rem);font-weight:bold;color:var(--blue);letter-spacing:-.02em;margin-bottom:.75rem}
 .hero-sub{font-size:1rem;color:var(--dim);max-width:480px;margin:0 auto 3rem}
-.cards{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;width:100%;max-width:680px}
+.cards{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;width:100%;max-width:980px}
 .card{flex:1;min-width:240px;max-width:300px;padding:1.5rem;border-radius:10px;text-decoration:none;text-align:left;transition:transform .2s,background .2s;cursor:pointer}
 .card-blue{border:1px solid var(--blue);background:rgba(88,166,255,.05)}
 .card-blue:hover{background:rgba(88,166,255,.10);transform:translateY(-2px)}
 .card-purple{border:1px solid var(--purple);background:rgba(210,168,255,.05)}
 .card-purple:hover{background:rgba(210,168,255,.10);transform:translateY(-2px)}
+.card-green{border:1px solid var(--green);background:rgba(63,185,80,.05)}
+.card-green:hover{background:rgba(63,185,80,.10);transform:translateY(-2px)}
 .card-eyebrow{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;font-family:'Courier New',monospace;color:var(--dim);margin-bottom:.6rem}
 .card-title{font-size:1.3rem;font-weight:400;color:var(--heading);margin-bottom:.6rem;line-height:1.25}
 .card-desc{font-size:.88rem;color:var(--dim);line-height:1.6;margin-bottom:1rem}
 .card-badge{display:inline-block;padding:.2rem .65rem;border-radius:999px;font-size:.7rem;font-family:'Courier New',monospace}
 .badge-blue{color:var(--blue);border:1px solid rgba(88,166,255,.35);background:rgba(88,166,255,.08)}
 .badge-purple{color:var(--purple);border:1px solid rgba(210,168,255,.35);background:rgba(210,168,255,.08)}
+.badge-green{color:var(--green);border:1px solid rgba(63,185,80,.35);background:rgba(63,185,80,.08)}
 footer{text-align:center;padding:1.5rem 2rem;font-size:.78rem;color:var(--dim);font-family:'Courier New',monospace;border-top:1px solid var(--border)}
 @media(prefers-color-scheme:light){
   :root:not([data-theme="dark"]){
@@ -47,6 +50,9 @@ footer{text-align:center;padding:1.5rem 2rem;font-size:.78rem;color:var(--dim);f
   :root:not([data-theme="dark"]) .card-purple:hover{background:rgba(130,80,223,.08)}
   :root:not([data-theme="dark"]) .badge-blue{background:rgba(9,105,218,.07);border-color:rgba(9,105,218,.3)}
   :root:not([data-theme="dark"]) .badge-purple{background:rgba(130,80,223,.07);border-color:rgba(130,80,223,.3)}
+  :root:not([data-theme="dark"]) .card-green{background:rgba(26,127,55,.04)}
+  :root:not([data-theme="dark"]) .card-green:hover{background:rgba(26,127,55,.08)}
+  :root:not([data-theme="dark"]) .badge-green{background:rgba(26,127,55,.07);border-color:rgba(26,127,55,.3)}
 }
 [data-theme="light"]{
   --bg:#ffffff;--bg2:#f6f8fa;--text:#24292f;--dim:#57606a;
@@ -60,6 +66,9 @@ footer{text-align:center;padding:1.5rem 2rem;font-size:.78rem;color:var(--dim);f
 [data-theme="light"] .card-purple:hover{background:rgba(130,80,223,.08)}
 [data-theme="light"] .badge-blue{background:rgba(9,105,218,.07);border-color:rgba(9,105,218,.3)}
 [data-theme="light"] .badge-purple{background:rgba(130,80,223,.07);border-color:rgba(130,80,223,.3)}
+[data-theme="light"] .card-green{background:rgba(26,127,55,.04)}
+[data-theme="light"] .card-green:hover{background:rgba(26,127,55,.08)}
+[data-theme="light"] .badge-green{background:rgba(26,127,55,.07);border-color:rgba(26,127,55,.3)}
 [data-theme="dark"]{
   --bg:#0d1117;--bg2:#161b22;--text:#c9d1d9;--dim:#8b949e;
   --blue:#58a6ff;--green:#3fb950;--purple:#d2a8ff;
@@ -95,6 +104,12 @@ footer{text-align:center;padding:1.5rem 2rem;font-size:.78rem;color:var(--dim);f
       <div class="card-title">Agent Engineering</div>
       <div class="card-desc">From writing your first system prompt to shipping production agents.</div>
       <span class="card-badge badge-purple">16 concepts · 5 phases</span>
+    </a>
+    <a class="card card-green" href="./evaluation/">
+      <div class="card-eyebrow">Guide 03</div>
+      <div class="card-title">Evals &amp; Quality</div>
+      <div class="card-desc">From shipping on vibes to measuring, testing, and continuously improving AI agents.</div>
+      <span class="card-badge badge-green">15 concepts · 5 phases</span>
     </a>
   </div>
 </main>

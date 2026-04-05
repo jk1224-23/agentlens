@@ -117,8 +117,8 @@
   <span class="sb-label">The Eval Stack</span>
 </div>
 
-<div id="scrolly2" style="display:flex;position:relative;align-items:flex-start">
-  <div class="text-col2" style="width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0">
+<div id="scrolly2">
+  <div class="text-col2">
 
     <!-- s3: Four Eval Types -->
     <div class="step" data-step="3">
@@ -151,8 +151,8 @@
     </div>
 
   </div>
-  <div id="viz-col2" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
-    <div id="viz-wrap2" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem">
+  <div id="viz-col2">
+    <div id="viz-wrap2">
       <svg id="main-svg2"></svg>
     </div>
   </div>
@@ -166,8 +166,8 @@
   <span class="sb-label">Writing Evals</span>
 </div>
 
-<div id="scrolly3" style="display:flex;position:relative;align-items:flex-start">
-  <div class="text-col3" style="width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0">
+<div id="scrolly3">
+  <div class="text-col3">
 
     <!-- s6: Unit Evals -->
     <div class="step" data-step="6">
@@ -200,8 +200,8 @@
     </div>
 
   </div>
-  <div id="viz-col3" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
-    <div id="viz-wrap3" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem">
+  <div id="viz-col3">
+    <div id="viz-wrap3">
       <svg id="main-svg3"></svg>
     </div>
   </div>
@@ -215,8 +215,8 @@
   <span class="sb-label">Running &amp; Interpreting</span>
 </div>
 
-<div id="scrolly4" style="display:flex;position:relative;align-items:flex-start">
-  <div class="text-col4" style="width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0">
+<div id="scrolly4">
+  <div class="text-col4">
 
     <!-- s9: Eval Infrastructure -->
     <div class="step" data-step="9">
@@ -249,8 +249,8 @@
     </div>
 
   </div>
-  <div id="viz-col4" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
-    <div id="viz-wrap4" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem">
+  <div id="viz-col4">
+    <div id="viz-wrap4">
       <svg id="main-svg4"></svg>
     </div>
   </div>
@@ -264,8 +264,8 @@
   <span class="sb-label">The Quality Loop</span>
 </div>
 
-<div id="scrolly5" style="display:flex;position:relative;align-items:flex-start">
-  <div class="text-col5" style="width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0">
+<div id="scrolly5">
+  <div class="text-col5">
 
     <!-- s12: Eval-Driven Development -->
     <div class="step" data-step="12">
@@ -302,8 +302,8 @@
     </div>
 
   </div>
-  <div id="viz-col5" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
-    <div id="viz-wrap5" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem">
+  <div id="viz-col5">
+    <div id="viz-wrap5">
       <svg id="main-svg5"></svg>
     </div>
   </div>
@@ -574,7 +574,6 @@ function drawEvalMindset(){
   }
 
   // Feedback loop arc back from Measure to Observe
-  const arc=d3.arc()({innerRadius:0,outerRadius:0});
   const arcPath=`M${cols3[2]},${h*0.38+52} C${cols3[2]},${h*0.38+130} ${cols3[0]},${h*0.38+130} ${cols3[0]},${h*0.38+52}`;
   g.append('path').attr('d',arcPath).attr('stroke',C.green).attr('stroke-width',1.5)
     .attr('fill','none').attr('stroke-dasharray','5,4').attr('marker-end','url(#arrowGreen)')
@@ -711,13 +710,13 @@ function drawScorers(){
 
   // Three scorer types
   const scorers=[
-    {x:w*0.18,y:h*0.6,label:'Rule-Based',sub:'regex · schema · exact',col:C.green},
-    {x:cx,y:h*0.68,label:'LLM Judge',sub:'semantic · rubric',col:C.blue},
-    {x:w*0.82,y:h*0.6,label:'Human',sub:'ground truth',col:C.purple},
+    {x:w*0.18,y:h*0.6,label:'Rule-Based',sub:'regex · schema · exact',col:C.green,marker:'arrowGreen'},
+    {x:cx,y:h*0.68,label:'LLM Judge',sub:'semantic · rubric',col:C.blue,marker:'arrowBlue'},
+    {x:w*0.82,y:h*0.6,label:'Human',sub:'ground truth',col:C.purple,marker:'arrowPurple'},
   ];
 
   scorers.forEach((s,i)=>{
-    edgeLine(g,cx+(s.x-cx)*0.25,outY+(s.y-outY)*0.25,s.x,s.y-40,s.col,'arrow'+s.col.charAt(0).toUpperCase()+s.col.slice(1).substring(0,2)+'e',null,i*150+300);
+    edgeLine(g,cx+(s.x-cx)*0.25,outY+(s.y-outY)*0.25,s.x,s.y-40,s.col,s.marker,null,i*150+300);
     rectN(g,s.x,s.y,140,46,s.col,s.label,s.sub,i*150+200);
 
     // Score output badge
