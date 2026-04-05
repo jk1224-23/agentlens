@@ -480,11 +480,23 @@ function s4(svg,w,h){
 function s5(svg,w,h){
   const cx=w/2,cy=h/2;
   lbl(svg,cx,42,'Writing Skills (Tools)',C.text,15,0);
-  const tcx=cx-120,tcy=cy;
-  rectN(svg,tcx,tcy,150,108,C.orange,'Tool Card',null,100);
+  const tcx=cx-120,tcy=cy+10;
+  // Rect sized to fit 3 rows at 12px font with 26px row spacing
+  const tW=160,tH=120;
+  const g=svg.append('g').style('opacity',0);
+  g.transition().delay(100).duration(400).style('opacity',1);
+  g.append('rect').attr('x',tcx-tW/2).attr('y',tcy-tH/2).attr('width',tW).attr('height',tH)
+    .attr('rx',8).attr('fill',C.orange+'18').attr('stroke',C.orange).attr('stroke-width',1.5);
+  // "Tool Card" label sits in the top bar of the rect, not overlapping field rows
+  g.append('text').attr('x',tcx).attr('y',tcy-tH/2+18).attr('text-anchor','middle')
+    .attr('fill',C.orange).attr('font-size',13).attr('font-family','Courier New').style('opacity',0)
+    .transition().delay(100).duration(400).style('opacity',1).text('Tool Card');
+  g.append('line').attr('x1',tcx-tW/2+6).attr('y1',tcy-tH/2+26).attr('x2',tcx+tW/2-6).attr('y2',tcy-tH/2+26)
+    .attr('stroke',C.orange).attr('stroke-width',.5).attr('opacity',.3);
+  // Field rows — 26px spacing, start below the title bar
   [['name:','search_web'],['description:','when to use...'],['schema:','{query:string}']].forEach(([k,v],i)=>{
-    lbl(svg,tcx-18,tcy-28+i*22,k,C.orange,12,200+i*100);
-    lbl(svg,tcx+38,tcy-28+i*22,v,C.dim,12,200+i*100);
+    lbl(svg,tcx-22,tcy-tH/2+46+i*26,k,C.orange,12,200+i*100);
+    lbl(svg,tcx+34,tcy-tH/2+46+i*26,v,C.dim,12,200+i*100);
   });
   const ax=cx+52,rtx=cx+130,tx=cx+195;
   hexN(svg,ax,cy-55,28,C.blue,'Agent',null,400);
