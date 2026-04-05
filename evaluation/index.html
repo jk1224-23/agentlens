@@ -413,33 +413,47 @@ function renderStep(n){
   killTimers();
   syncC();
   document.getElementById('hdr-scene').textContent=STEP_NAMES[n]||'';
+  // Helper to set fixed viewBox (560x560 internal space)
+  const setupSVG=(sel)=>{
+    sel.attr('viewBox','-14 -14 588 588').attr('preserveAspectRatio','xMidYMid meet');
+  };
   if(n<=2){
-    d3.select('#main-svg').selectAll('*').remove();
-    setupDefs(d3.select('#main-svg'));
+    const sel=d3.select('#main-svg');
+    sel.selectAll('*').remove();
+    setupSVG(sel);
+    setupDefs(sel);
     if(n===0)drawWhyMeasure();
     else if(n===1)drawEvalPipeline();
     else if(n===2)drawEvalMindset();
   } else if(n<=5){
-    d3.select('#main-svg2').selectAll('*').remove();
-    setupDefs(d3.select('#main-svg2'));
+    const sel=d3.select('#main-svg2');
+    sel.selectAll('*').remove();
+    setupSVG(sel);
+    setupDefs(sel);
     if(n===3)drawFourTypes();
     else if(n===4)drawGoldenDataset();
     else if(n===5)drawScorers();
   } else if(n<=8){
-    d3.select('#main-svg3').selectAll('*').remove();
-    setupDefs(d3.select('#main-svg3'));
+    const sel=d3.select('#main-svg3');
+    sel.selectAll('*').remove();
+    setupSVG(sel);
+    setupDefs(sel);
     if(n===6)drawUnitEval();
     else if(n===7)drawE2EEval();
     else if(n===8)drawLLMJudge();
   } else if(n<=11){
-    d3.select('#main-svg4').selectAll('*').remove();
-    setupDefs(d3.select('#main-svg4'));
+    const sel=d3.select('#main-svg4');
+    sel.selectAll('*').remove();
+    setupSVG(sel);
+    setupDefs(sel);
     if(n===9)drawEvalInfra();
     else if(n===10)drawReadingResults();
     else if(n===11)drawRegression();
   } else {
-    d3.select('#main-svg5').selectAll('*').remove();
-    setupDefs(d3.select('#main-svg5'));
+    const sel=d3.select('#main-svg5');
+    sel.selectAll('*').remove();
+    setupSVG(sel);
+    setupDefs(sel);
     if(n===12)drawQualityLoop();
     else if(n===13)drawEightRules();
     else if(n===14)drawWhatsNext();

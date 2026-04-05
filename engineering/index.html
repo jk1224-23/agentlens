@@ -928,8 +928,10 @@ function transitionTo(step){
       if(el)d3.select(el).selectAll('*').remove();
     });
     const svgSel=d3.select(svgEl);
-    const r=svgEl.getBoundingClientRect();
-    const w=r.width||500,h=r.height||500,pad=12;
+    // Use fixed internal coordinate space (560x560) for all renders.
+    // This prevents SVG text/node overflow on narrow viewports.
+    // The SVG scales responsively via preserveAspectRatio.
+    const w=560,h=560,pad=14;
     svgSel.attr('viewBox',`${-pad} ${-pad} ${w+pad*2} ${h+pad*2}`)
           .attr('preserveAspectRatio','xMidYMid meet');
     setupDefs(svgSel);

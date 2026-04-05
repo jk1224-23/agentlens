@@ -356,28 +356,32 @@ function renderStep(n){
   killTimers();
   syncC();
   document.getElementById('hdr-scene').textContent=STEP_NAMES[n]||'';
+  // Helper to set fixed viewBox (560x560 internal space)
+  const setupSVG=(sel)=>{
+    sel.attr('viewBox','-14 -14 588 588').attr('preserveAspectRatio','xMidYMid meet');
+  };
   if(n<=2){
-    const svg=d3.select('#main-svg'); svg.selectAll('*').remove(); setupDefs(svg);
+    const svg=d3.select('#main-svg'); svg.selectAll('*').remove(); setupSVG(svg); setupDefs(svg);
     if(n===0)drawStatelessAgent();
     else if(n===1)drawFourRings();
     else drawMemoryMindset();
   } else if(n<=5){
-    const svg=d3.select('#main-svg2'); svg.selectAll('*').remove(); setupDefs(svg);
+    const svg=d3.select('#main-svg2'); svg.selectAll('*').remove(); setupSVG(svg); setupDefs(svg);
     if(n===3)drawContextWindow();
     else if(n===4)drawHistoryStrategies();
     else drawStructuredState();
   } else if(n<=8){
-    const svg=d3.select('#main-svg3'); svg.selectAll('*').remove(); setupDefs(svg);
+    const svg=d3.select('#main-svg3'); svg.selectAll('*').remove(); setupSVG(svg); setupDefs(svg);
     if(n===6)drawVectorRetrieval();
     else if(n===7)drawGoodRetrievals();
     else drawEpisodicMemory();
   } else if(n<=11){
-    const svg=d3.select('#main-svg4'); svg.selectAll('*').remove(); setupDefs(svg);
+    const svg=d3.select('#main-svg4'); svg.selectAll('*').remove(); setupSVG(svg); setupDefs(svg);
     if(n===9)drawProceduralMemory();
     else if(n===10)drawSharedMemory();
     else drawMemoryConflicts();
   } else {
-    const svg=d3.select('#main-svg5'); svg.selectAll('*').remove(); setupDefs(svg);
+    const svg=d3.select('#main-svg5'); svg.selectAll('*').remove(); setupSVG(svg); setupDefs(svg);
     if(n===12)drawMemoryStack();
     else if(n===13)drawPrivacyMemory();
     else drawEightRules();

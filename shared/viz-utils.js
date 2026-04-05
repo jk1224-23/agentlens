@@ -35,8 +35,10 @@ function fitNodeText(text,maxChars){
 
 // ── SVG HELPERS ───────────────────────────────────────────────────────────────
 function getSize(svgEl){
-  const r=svgEl.getBoundingClientRect();
-  return{w:r.width||500,h:r.height||500};
+  // Return fixed internal coordinate space (560x560) for all renders.
+  // This prevents SVG text/node overflow on narrow viewports.
+  // The SVG scales responsively via viewBox and preserveAspectRatio.
+  return{w:560,h:560};
 }
 
 function setupDefs(svgSel){

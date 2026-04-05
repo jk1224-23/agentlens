@@ -356,28 +356,32 @@ function renderStep(n){
   killTimers();
   syncC();
   document.getElementById('hdr-scene').textContent=STEP_NAMES[n]||'';
+  // Helper to set fixed viewBox (560x560 internal space)
+  const setupSVG=(sel)=>{
+    sel.attr('viewBox','-14 -14 588 588').attr('preserveAspectRatio','xMidYMid meet');
+  };
   if(n<=2){
-    const svg=d3.select('#main-svg'); svg.selectAll('*').remove(); setupDefs(svg);
+    const svg=d3.select('#main-svg'); svg.selectAll('*').remove(); setupSVG(svg); setupDefs(svg);
     if(n===0)drawSafetyDiff();
     else if(n===1)drawThreatModel();
     else drawFailureTaxonomy();
   } else if(n<=5){
-    const svg=d3.select('#main-svg2'); svg.selectAll('*').remove(); setupDefs(svg);
+    const svg=d3.select('#main-svg2'); svg.selectAll('*').remove(); setupSVG(svg); setupDefs(svg);
     if(n===3)drawPromptInjection();
     else if(n===4)drawInputGuardrails();
     else drawLeastPrivilege();
   } else if(n<=8){
-    const svg=d3.select('#main-svg3'); svg.selectAll('*').remove(); setupDefs(svg);
+    const svg=d3.select('#main-svg3'); svg.selectAll('*').remove(); setupSVG(svg); setupDefs(svg);
     if(n===6)drawOutputGuardrails();
     else if(n===7)drawIrreversibilityGating();
     else drawMinimalFootprint();
   } else if(n<=11){
-    const svg=d3.select('#main-svg4'); svg.selectAll('*').remove(); setupDefs(svg);
+    const svg=d3.select('#main-svg4'); svg.selectAll('*').remove(); setupSVG(svg); setupDefs(svg);
     if(n===9)drawHumanInLoop();
     else if(n===10)drawMonitoring();
     else drawAuditTrail();
   } else {
-    const svg=d3.select('#main-svg5'); svg.selectAll('*').remove(); setupDefs(svg);
+    const svg=d3.select('#main-svg5'); svg.selectAll('*').remove(); setupSVG(svg); setupDefs(svg);
     if(n===12)drawRedTeam();
     else if(n===13)drawAlignmentByDesign();
     else drawEightSafetyRules();
