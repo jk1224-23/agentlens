@@ -137,6 +137,113 @@ function pkt(p,x1,y1,x2,y2,color,dur,delay,r2=5,repeat=true){
   return c;
 }
 
+// ── DECLARATIVE SCENE RENDERER ───────────────────────────────────────────────
+/**
+ * renderScene(svg, w, h, config)
+ *
+ * Renders a scene from a pure data config — no manual coordinate math.
+ * All x/y values are RELATIVE (0.0–1.0) mapped to the SVG's actual pixel size.
+ *
+ * config shape:
+ * {
+ *   title: string,
+ *   nodes: [{
+ *     id: string,            // used to connect edges
+ *     type: 'circle'|'rect'|'diamond',
+ *     label: string,
+ *     sub:   string|null,
+ *     color: string,         // key in C: 'blue','green','orange','purple','red','yellow','dim'
+ *     x: 0..1,               // horizontal position (0=left edge, 1=right edge)
+ *     y: 0..1,               // vertical position   (0=top,       1=bottom)
+ *     r:  number,            // circle radius px   (default 32)
+ *     w:  number,            // rect width px      (default 90)
+ *     h:  number,            // rect height px     (default 36)
+ *     s:  number,            // diamond size px    (default 40)
+ *     delay: number,         // ms (auto-staggered if omitted)
+ *   }],
+ *   edges: [{
+ *     from: string, to: string,
+ *     color: string,
+ *     marker: 'arrowBlue'|'arrowGreen'|'arrowOrange'|'arrowRed'|'arrowYellow'|'arrowPurple'|null,
+ *     dash:   string|null,   // e.g. '4,3'
+ *     animate: boolean,      // add a travelling packet (default false)
+ *     delay:  number,
+ *   }],
+ *   labels: [{
+ *     text: string,
+ *     x: 0..1, y: 0..1,
+ *     color: string,
+ *     size: number,
+ *     delay: number,
+ *   }]
+ * }
+ */
+function renderScene(svg, w, h, config){
+  const {title, nodes=[], edges=[], labels=[]} = config;
+
+  // Scene title
+  if(title) lbl(svg, w/2, 42, title, C.text, 15, 0);
+
+  // Convert relative → absolute coords
+  function ax(xRel){ return xRel * w; }
+  function ay(yRel){ return yRel * h; }
+
+  // Build node map for edge lookup
+  const nodeMap = {};
+  nodes.forEach((n,i)=>{
+    const px = ax(n.x), py = ay(n.y);
+    const color = C[n.color] || n.color || C.dim;
+    const delay = n.delay ?? (i * 150 + 100);
+    nodeMap[n.id] = { x:px, y:py, type:n.type,
+      r: n.r||32, w: n.w||90, h: n.h||36, s: n.s||40 };
+    if(n.type==='rect'){
+      rectN(svg, px, py, n.w||90, n.h||36, color, n.label, n.sub||null, delay);
+    } else if(n.type==='diamond'){
+      diamondN(svg, px, py, n.s||40, color, n.label, delay);
+    } else {
+      hexN(svg, px, py, n.r||32, color, n.label, n.sub||null, delay);
+    }
+  });
+
+  // Edge endpoint on node surface (direction-aware)
+  function surfacePt(n, dx, dy){
+    const len = Math.sqrt(dx*dx+dy*dy)||1;
+    const nx=dx/len, ny=dy/len;
+    if(n.type==='rect'){
+      const hw=n.w/2, hh=n.h/2;
+      const t = (Math.abs(nx)<1e-9) ? hh/Math.abs(ny)
+                : (Math.abs(ny)<1e-9) ? hw/Math.abs(nx)
+                : Math.min(hw/Math.abs(nx), hh/Math.abs(ny));
+      return {x: n.x+nx*t, y: n.y+ny*t};
+    }
+    if(n.type==='diamond') return {x: n.x+nx*(n.s/Math.SQRT2), y: n.y+ny*(n.s/Math.SQRT2)};
+    return {x: n.x+nx*n.r, y: n.y+ny*n.r};
+  }
+
+  // Draw edges
+  const baseEdgeDelay = nodes.length * 150 + 100;
+  edges.forEach((e,i)=>{
+    const a = nodeMap[e.from], b = nodeMap[e.to];
+    if(!a||!b) return;
+    const color = C[e.color]||e.color||C.dim;
+    const dx=b.x-a.x, dy=b.y-a.y;
+    const p1 = surfacePt(a, dx, dy);
+    const p2 = surfacePt(b, -dx, -dy);
+    const delay = e.delay ?? (baseEdgeDelay + i*120);
+    edgeLine(svg, p1.x, p1.y, p2.x, p2.y, color, e.marker||null, e.dash||null, delay);
+    if(e.animate){
+      pkt(svg, p1.x, p1.y, p2.x, p2.y, color, 500, 0, 5, true);
+    }
+  });
+
+  // Floating labels
+  labels.forEach((l,i)=>{
+    const color = C[l.color]||l.color||C.dim;
+    const delay = l.delay ?? (i*100);
+    lbl(svg, ax(l.x??0.5), ay(l.y??0.5), l.text, color, l.size||12, delay);
+  });
+}
+
 // ── SHARED UI (call once, pass the page's renderStep function) ────────────────
 /**
  * initSharedUI(renderStepFn)
