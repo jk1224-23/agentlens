@@ -340,28 +340,31 @@
   syncC();
   const svg=d3.select('#hero-bg');
   const W=1400,H=900;
+  // Nodes repositioned so none fall in the center text zone (x:380-1020, y:240-600)
   const nodes=[
     {x:200,y:180,r:38,c:'green',t:'eval'},{x:420,y:120,r:28,c:'blue',t:'score'},
     {x:650,y:200,r:32,c:'purple',t:'judge'},{x:900,y:140,r:24,c:'orange',t:'unit'},
-    {x:1100,y:200,r:36,c:'green',t:'pass'},{x:300,y:380,r:26,c:'blue',t:'input'},
-    {x:550,y:350,r:40,c:'green',t:'agent'},{x:800,y:380,r:28,c:'yellow',t:'rubric'},
-    {x:1050,y:350,r:32,c:'purple',t:'gate'},{x:1250,y:300,r:22,c:'red',t:'fail'},
-    {x:180,y:560,r:30,c:'orange',t:'trace'},{x:420,y:600,r:24,c:'green',t:'metric'},
-    {x:700,y:570,r:38,c:'blue',t:'bench'},{x:950,y:600,r:26,c:'purple',t:'trend'},
-    {x:1180,y:540,r:34,c:'green',t:'ship'},
+    {x:1100,y:200,r:36,c:'green',t:'pass'},{x:130,y:400,r:26,c:'blue',t:'input'},
+    {x:120,y:560,r:40,c:'green',t:'agent'},{x:1280,y:420,r:28,c:'yellow',t:'rubric'},
+    {x:1270,y:320,r:32,c:'purple',t:'gate'},{x:1350,y:180,r:22,c:'red',t:'fail'},
+    {x:180,y:720,r:30,c:'orange',t:'trace'},{x:420,y:760,r:24,c:'green',t:'metric'},
+    {x:700,y:820,r:38,c:'blue',t:'bench'},{x:950,y:760,r:26,c:'purple',t:'trend'},
+    {x:1180,y:700,r:34,c:'green',t:'ship'},
   ];
   const edges=[[0,1],[1,2],[2,3],[3,4],[5,6],[6,7],[7,8],[8,9],[10,11],[11,12],[12,13],[13,14],[0,5],[5,10],[4,8],[2,7]];
   const colMap={green:C_DARK.green,blue:C_DARK.blue,purple:C_DARK.purple,orange:C_DARK.orange,red:C_DARK.red,yellow:C_DARK.yellow};
+  // Wrap all bg elements in a group at reduced opacity so text stays readable
+  const bg=svg.append('g').style('opacity',0.55);
   edges.forEach(([a,b])=>{
     const na=nodes[a],nb=nodes[b];
-    svg.append('line').attr('x1',na.x).attr('y1',na.y).attr('x2',nb.x).attr('y2',nb.y)
+    bg.append('line').attr('x1',na.x).attr('y1',na.y).attr('x2',nb.x).attr('y2',nb.y)
       .attr('stroke',C_DARK.border).attr('stroke-width',1).style('opacity',.5);
   });
   nodes.forEach(n=>{
     const col=colMap[n.c];
-    svg.append('circle').attr('cx',n.x).attr('cy',n.y).attr('r',n.r)
+    bg.append('circle').attr('cx',n.x).attr('cy',n.y).attr('r',n.r)
       .attr('fill',col+'15').attr('stroke',col).attr('stroke-width',1);
-    svg.append('text').attr('x',n.x).attr('y',n.y+5).attr('text-anchor','middle')
+    bg.append('text').attr('x',n.x).attr('y',n.y+5).attr('text-anchor','middle')
       .attr('fill',col).attr('font-size',12).attr('font-family','Courier New').text(n.t);
   });
   // Animated packets
@@ -371,7 +374,7 @@
   pktDefs.forEach((pk,i)=>{
     const na=nodes[pk.a],nb=nodes[pk.b];
     const col=colMap[pk.c];
-    const circ=svg.append('circle').attr('r',4).attr('fill',col).style('opacity',0);
+    const circ=bg.append('circle').attr('r',4).attr('fill',col).style('opacity',0);
     function anim(){
       circ.attr('cx',na.x).attr('cy',na.y).style('opacity',0)
         .transition().delay(i*400).duration(200).style('opacity',.9)
