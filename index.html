@@ -18,7 +18,7 @@ body{background:var(--bg);color:var(--text);font-family:'Georgia',serif;font-siz
 #hdr .brand{color:var(--blue);font-family:'Courier New',monospace;font-weight:bold;font-size:15px;text-decoration:none}
 #theme-btn{margin-left:auto;background:none;border:1px solid var(--border);border-radius:6px;color:var(--dim);cursor:pointer;font-size:15px;padding:.2rem .55rem;line-height:1;transition:border-color .2s,color .2s}
 #theme-btn:hover{border-color:var(--blue);color:var(--blue)}
-main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:5rem 2rem 3rem;text-align:center}
+main{flex:1;display:flex;flex-direction:column;align-items:center;padding:5rem 2rem 0;text-align:center}
 .hero-title{font-family:'Courier New',monospace;font-size:clamp(2.4rem,6vw,4rem);font-weight:bold;color:var(--blue);letter-spacing:-.02em;margin-bottom:.75rem}
 .hero-sub{font-size:1rem;color:var(--dim);max-width:480px;margin:0 auto 3rem}
 .cards{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;width:100%;max-width:980px}
@@ -29,13 +29,29 @@ main{flex:1;display:flex;flex-direction:column;align-items:center;justify-conten
 .card-purple:hover{background:rgba(210,168,255,.10);transform:translateY(-2px)}
 .card-green{border:1px solid var(--green);background:rgba(63,185,80,.05)}
 .card-green:hover{background:rgba(63,185,80,.10);transform:translateY(-2px)}
-.card-eyebrow{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;font-family:'Courier New',monospace;color:var(--dim);margin-bottom:.6rem}
+.card-eyebrow{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;font-family:'Courier New',monospace;color:var(--dim);margin-bottom:.4rem}
+.card-q{font-size:.8rem;color:var(--dim);font-style:italic;margin-bottom:.55rem;font-family:'Georgia',serif}
 .card-title{font-size:1.3rem;font-weight:400;color:var(--heading);margin-bottom:.6rem;line-height:1.25}
 .card-desc{font-size:.88rem;color:var(--dim);line-height:1.6;margin-bottom:1rem}
 .card-badge{display:inline-block;padding:.2rem .65rem;border-radius:999px;font-size:.7rem;font-family:'Courier New',monospace}
 .badge-blue{color:var(--blue);border:1px solid rgba(88,166,255,.35);background:rgba(88,166,255,.08)}
 .badge-purple{color:var(--purple);border:1px solid rgba(210,168,255,.35);background:rgba(210,168,255,.08)}
 .badge-green{color:var(--green);border:1px solid rgba(63,185,80,.35);background:rgba(63,185,80,.08)}
+
+/* ── SERIES STRIP ──────────────────────────────────────────── */
+.series{width:100%;max-width:980px;margin:3.5rem auto 0;padding-bottom:3rem}
+.series-label{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);font-family:'Courier New',monospace;margin-bottom:1.25rem;display:flex;align-items:center;gap:.75rem}
+.series-label::before,.series-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.series-row{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+.s-item{flex:1;min-width:160px;max-width:185px;border:1px solid var(--border);border-radius:8px;padding:1rem 1rem .9rem;text-decoration:none;text-align:left;transition:border-color .2s,background .2s;position:relative}
+.s-item.live:hover{transform:translateY(-2px);background:rgba(255,255,255,.03)}
+.s-item.soon{opacity:.45;cursor:default}
+.s-num{font-family:'Courier New',monospace;font-size:.68rem;letter-spacing:.12em;margin-bottom:.55rem;display:flex;align-items:center;gap:.45rem}
+.s-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.s-q{font-size:.82rem;font-style:italic;color:var(--text);line-height:1.4;margin-bottom:.5rem;font-family:'Georgia',serif}
+.s-name{font-size:.72rem;font-family:'Courier New',monospace;color:var(--dim)}
+.s-soon-badge{display:inline-block;font-size:.62rem;font-family:'Courier New',monospace;padding:.1rem .45rem;border-radius:999px;border:1px solid var(--border);color:var(--dim);margin-top:.4rem}
+
 footer{text-align:center;padding:1.5rem 2rem;font-size:.78rem;color:var(--dim);font-family:'Courier New',monospace;border-top:1px solid var(--border)}
 @media(prefers-color-scheme:light){
   :root:not([data-theme="dark"]){
@@ -53,6 +69,7 @@ footer{text-align:center;padding:1.5rem 2rem;font-size:.78rem;color:var(--dim);f
   :root:not([data-theme="dark"]) .card-green{background:rgba(26,127,55,.04)}
   :root:not([data-theme="dark"]) .card-green:hover{background:rgba(26,127,55,.08)}
   :root:not([data-theme="dark"]) .badge-green{background:rgba(26,127,55,.07);border-color:rgba(26,127,55,.3)}
+  :root:not([data-theme="dark"]) .s-item.live:hover{background:rgba(0,0,0,.03)}
 }
 [data-theme="light"]{
   --bg:#ffffff;--bg2:#f6f8fa;--text:#24292f;--dim:#57606a;
@@ -75,10 +92,13 @@ footer{text-align:center;padding:1.5rem 2rem;font-size:.78rem;color:var(--dim);f
   --orange:#f0883e;--red:#f85149;--yellow:#e3b341;--border:#30363d;
   --heading:#ffffff;--hdr-bg:rgba(13,17,23,.92);
 }
-@media(max-width:560px){
+@media(max-width:640px){
   .cards{flex-direction:column;align-items:center}
   .card{max-width:100%;width:100%}
-  main{padding:4rem 1.25rem 2rem}
+  main{padding:4rem 1.25rem 0}
+  .series{padding:0 1.25rem 2rem}
+  .series-row{gap:.5rem}
+  .s-item{min-width:140px}
 }
 </style>
 </head>
@@ -95,22 +115,75 @@ footer{text-align:center;padding:1.5rem 2rem;font-size:.78rem;color:var(--dim);f
   <div class="cards">
     <a class="card card-blue" href="./orchestration/">
       <div class="card-eyebrow">Guide 01</div>
+      <div class="card-q">How do agents coordinate?</div>
       <div class="card-title">Orchestration Patterns</div>
       <div class="card-desc">10 animated patterns for multi-agent systems. From ReAct loops to hierarchical fleets.</div>
       <span class="card-badge badge-blue">19 concepts · 10 patterns</span>
     </a>
     <a class="card card-purple" href="./engineering/">
       <div class="card-eyebrow">Guide 02</div>
+      <div class="card-q">How do I build one?</div>
       <div class="card-title">Agent Engineering</div>
       <div class="card-desc">From writing your first system prompt to shipping production agents.</div>
       <span class="card-badge badge-purple">16 concepts · 5 phases</span>
     </a>
     <a class="card card-green" href="./evaluation/">
       <div class="card-eyebrow">Guide 03</div>
+      <div class="card-q">How do I know it's good?</div>
       <div class="card-title">Evals &amp; Quality</div>
       <div class="card-desc">From shipping on vibes to measuring, testing, and continuously improving AI agents.</div>
       <span class="card-badge badge-green">15 concepts · 5 phases</span>
     </a>
+  </div>
+
+  <!-- SERIES STRIP -->
+  <div class="series">
+    <div class="series-label">The Complete Series</div>
+    <div class="series-row">
+
+      <a class="s-item live" href="./orchestration/" style="border-color:rgba(88,166,255,.4)">
+        <div class="s-num" style="color:var(--blue)">
+          <span class="s-dot" style="background:var(--blue)"></span>Guide 01
+        </div>
+        <div class="s-q">How do agents coordinate?</div>
+        <div class="s-name">Orchestration Patterns</div>
+      </a>
+
+      <a class="s-item live" href="./engineering/" style="border-color:rgba(210,168,255,.4)">
+        <div class="s-num" style="color:var(--purple)">
+          <span class="s-dot" style="background:var(--purple)"></span>Guide 02
+        </div>
+        <div class="s-q">How do I build one?</div>
+        <div class="s-name">Agent Engineering</div>
+      </a>
+
+      <a class="s-item live" href="./evaluation/" style="border-color:rgba(63,185,80,.4)">
+        <div class="s-num" style="color:var(--green)">
+          <span class="s-dot" style="background:var(--green)"></span>Guide 03
+        </div>
+        <div class="s-q">How do I know it's good?</div>
+        <div class="s-name">Evals &amp; Quality</div>
+      </a>
+
+      <div class="s-item soon" style="border-color:var(--border)">
+        <div class="s-num" style="color:var(--orange)">
+          <span class="s-dot" style="background:var(--orange)"></span>Guide 04
+        </div>
+        <div class="s-q">How does it remember?</div>
+        <div class="s-name">Memory &amp; State</div>
+        <div class="s-soon-badge">coming soon</div>
+      </div>
+
+      <div class="s-item soon" style="border-color:var(--border)">
+        <div class="s-num" style="color:var(--red)">
+          <span class="s-dot" style="background:var(--red)"></span>Guide 05
+        </div>
+        <div class="s-q">How do I keep it safe?</div>
+        <div class="s-name">Safety &amp; Trust</div>
+        <div class="s-soon-badge">coming soon</div>
+      </div>
+
+    </div>
   </div>
 </main>
 
