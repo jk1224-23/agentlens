@@ -26,6 +26,13 @@ let activeStep=-1;
 let timers=[];
 function killTimers(){timers.forEach(id=>{clearInterval(id);clearTimeout(id);});timers=[];}
 
+function fitNodeText(text,maxChars){
+  const raw=(text??'').toString().trim();
+  if(!raw)return '';
+  if(raw.length<=maxChars)return raw;
+  return raw.slice(0,Math.max(1,maxChars-1))+'…';
+}
+
 // ── SVG HELPERS ───────────────────────────────────────────────────────────────
 function getSize(svgEl){
   const r=svgEl.getBoundingClientRect();
@@ -55,10 +62,12 @@ function hexN(p,x,y,r,color,txt,sub,delay=0){
   g.transition().delay(delay).duration(400).style('opacity',1);
   g.append('circle').attr('cx',x).attr('cy',y).attr('r',r)
     .attr('fill',color+'22').attr('stroke',color).attr('stroke-width',1.5);
-  if(txt)g.append('text').attr('x',x).attr('y',sub?y-3:y+5).attr('text-anchor','middle')
-    .attr('fill',color).attr('font-size',sub?13:14).attr('font-family','Courier New').text(txt);
-  if(sub)g.append('text').attr('x',x).attr('y',y+14).attr('text-anchor','middle')
-    .attr('fill',C.dim).attr('font-size',11).attr('font-family','Courier New').text(sub);
+  const mainTxt=fitNodeText(txt,r>=44?14:11);
+  const subTxt=fitNodeText(sub,18);
+  if(mainTxt)g.append('text').attr('x',x).attr('y',subTxt?y-3:y+5).attr('text-anchor','middle')
+    .attr('fill',color).attr('font-size',subTxt?13:14).attr('font-family','Courier New').text(mainTxt);
+  if(subTxt)g.append('text').attr('x',x).attr('y',y+14).attr('text-anchor','middle')
+    .attr('fill',C.dim).attr('font-size',11).attr('font-family','Courier New').text(subTxt);
   return g;
 }
 
@@ -68,10 +77,12 @@ function rectN(p,x,y,w2,h2,color,txt,sub,delay=0){
   g.transition().delay(delay).duration(400).style('opacity',1);
   g.append('rect').attr('x',x-w2/2).attr('y',y-h2/2).attr('width',w2).attr('height',h2)
     .attr('rx',6).attr('fill',color+'18').attr('stroke',color).attr('stroke-width',1.5);
-  if(txt)g.append('text').attr('x',x).attr('y',sub?y-2:y+5).attr('text-anchor','middle')
-    .attr('fill',color).attr('font-size',sub?12:13).attr('font-family','Courier New').text(txt);
-  if(sub)g.append('text').attr('x',x).attr('y',y+15).attr('text-anchor','middle')
-    .attr('fill',C.dim).attr('font-size',11).attr('font-family','Courier New').text(sub);
+  const mainTxt=fitNodeText(txt,Math.max(8,Math.floor(w2/8)));
+  const subTxt=fitNodeText(sub,Math.max(10,Math.floor(w2/7)));
+  if(mainTxt)g.append('text').attr('x',x).attr('y',subTxt?y-2:y+5).attr('text-anchor','middle')
+    .attr('fill',color).attr('font-size',subTxt?12:13).attr('font-family','Courier New').text(mainTxt);
+  if(subTxt)g.append('text').attr('x',x).attr('y',y+15).attr('text-anchor','middle')
+    .attr('fill',C.dim).attr('font-size',11).attr('font-family','Courier New').text(subTxt);
   return g;
 }
 
@@ -82,8 +93,9 @@ function diamondN(p,x,y,s,color,txt,delay=0){
   g.append('rect').attr('x',x-s/2).attr('y',y-s/2).attr('width',s).attr('height',s)
     .attr('rx',2).attr('fill',color+'18').attr('stroke',color).attr('stroke-width',1.5)
     .attr('transform',`rotate(45,${x},${y})`);
-  if(txt)g.append('text').attr('x',x).attr('y',y+4).attr('text-anchor','middle')
-    .attr('fill',color).attr('font-size',10).attr('font-family','Courier New').text(txt);
+  const mainTxt=fitNodeText(txt,9);
+  if(mainTxt)g.append('text').attr('x',x).attr('y',y+4).attr('text-anchor','middle')
+    .attr('fill',color).attr('font-size',10).attr('font-family','Courier New').text(mainTxt);
   return g;
 }
 
@@ -244,6 +256,130 @@ function renderScene(svg, w, h, config){
   });
 }
 
+function startHeroNetworkAnimation({
+  selector='#hero-bg',
+  width=1400,
+  height=900,
+  nodeCount=18,
+  linkDistance=150,
+  fps=30,
+  palette=[C.blue,C.purple,C.green,C.orange],
+  avoidRect=null,
+}={}){
+  const root=d3.select(selector);
+  if(root.empty())return ()=>{};
+  root.selectAll('*').remove();
+  const linesG=root.append('g');
+
+  function randomNode(){
+    let x=0,y=0,guard=0;
+    do{
+      x=Math.random()*width;
+      y=Math.random()*height;
+      guard++;
+    }while(
+      avoidRect &&
+      x>=avoidRect.x &&
+      x<=avoidRect.x+avoidRect.w &&
+      y>=avoidRect.y &&
+      y<=avoidRect.y+avoidRect.h &&
+      guard<12
+    );
+    return{
+      x,y,
+      vx:(Math.random()-.5)*.4,
+      vy:(Math.random()-.5)*.4,
+      r:Math.random()*3+2,
+      color:palette[Math.floor(Math.random()*palette.length)],
+    };
+  }
+
+  const nodes=Array.from({length:nodeCount},()=>randomNode());
+  const circles=root.selectAll('circle').data(nodes).enter().append('circle')
+    .attr('cx',d=>d.x).attr('cy',d=>d.y).attr('r',d=>d.r)
+    .attr('fill',d=>d.color).attr('opacity',.35);
+
+  const pairs=[];
+  for(let i=0;i<nodes.length;i++){
+    for(let j=i+1;j<nodes.length;j++)pairs.push({a:i,b:j});
+  }
+  const lineEls=linesG.selectAll('line').data(pairs).enter().append('line')
+    .attr('stroke-width',.5)
+    .style('display','none');
+
+  let rafId=0;
+  let running=true;
+  let lastTs=0;
+  const frameMs=1000/Math.max(12,fps);
+
+  function tick(ts){
+    if(!running)return;
+    if(ts-lastTs<frameMs){
+      rafId=requestAnimationFrame(tick);
+      return;
+    }
+    lastTs=ts;
+    nodes.forEach(n=>{
+      n.x+=n.vx; n.y+=n.vy;
+      if(n.x<0||n.x>width)n.vx*=-1;
+      if(n.y<0||n.y>height)n.vy*=-1;
+    });
+    circles.attr('cx',d=>d.x).attr('cy',d=>d.y);
+
+    lineEls.each(function(d){
+      const na=nodes[d.a],nb=nodes[d.b];
+      const dx=na.x-nb.x,dy=na.y-nb.y;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<linkDistance){
+        this.style.display='inline';
+        this.setAttribute('x1',na.x);
+        this.setAttribute('y1',na.y);
+        this.setAttribute('x2',nb.x);
+        this.setAttribute('y2',nb.y);
+        this.setAttribute('stroke',na.color);
+        this.setAttribute('opacity',Math.max(0,(1-dist/linkDistance)*.3));
+      }else{
+        this.style.display='none';
+      }
+    });
+    rafId=requestAnimationFrame(tick);
+  }
+
+  function stop(){
+    running=false;
+    if(rafId)cancelAnimationFrame(rafId);
+  }
+
+  function onVisibility(){
+    if(document.hidden){
+      if(rafId)cancelAnimationFrame(rafId);
+      return;
+    }
+    if(running){
+      lastTs=0;
+      rafId=requestAnimationFrame(tick);
+    }
+  }
+
+  document.addEventListener('visibilitychange',onVisibility);
+  rafId=requestAnimationFrame(tick);
+
+  const heroEl=document.getElementById('hero');
+  let heroObs=null;
+  if(heroEl){
+    heroObs=new IntersectionObserver(entries=>{
+      if(!entries[0].isIntersecting)stop();
+    },{threshold:0});
+    heroObs.observe(heroEl);
+  }
+
+  return ()=>{
+    stop();
+    document.removeEventListener('visibilitychange',onVisibility);
+    if(heroObs)heroObs.disconnect();
+  };
+}
+
 // ── SHARED UI (call once, pass the page's renderStep function) ────────────────
 /**
  * initSharedUI(renderStepFn)
@@ -251,6 +387,13 @@ function renderScene(svg, w, h, config){
  * Call this at the bottom of each page's <script>, passing that page's renderStep.
  */
 function initSharedUI(renderStepFn){
+  function rerenderCurrent(){
+    if(!renderStepFn)return;
+    const step=activeStep>=0?activeStep:0;
+    activeStep=-1;
+    renderStepFn(step);
+  }
+
   // Scroll progress bar
   window.addEventListener('scroll',()=>{
     const st=window.scrollY,docH=document.documentElement.scrollHeight-window.innerHeight;
@@ -267,11 +410,20 @@ function initSharedUI(renderStepFn){
     btn.textContent=t==='dark'?'☀️':'🌙';
     localStorage.setItem('theme',t);
     syncC();
-    if(renderStepFn){const prev=activeStep;activeStep=-1;renderStepFn(prev);}
+    rerenderCurrent();
   }
   applyTheme(getTheme());
   btn.addEventListener('click',()=>{
     const cur=document.documentElement.getAttribute('data-theme')||(prefersDark.matches?'dark':'light');
     applyTheme(cur==='dark'?'light':'dark');
   });
+
+  // Responsive rerender to prevent stale viewBox/text overlap after resize.
+  let resizeTimer=0;
+  const onResize=()=>{
+    clearTimeout(resizeTimer);
+    resizeTimer=setTimeout(rerenderCurrent,180);
+  };
+  window.addEventListener('resize',onResize,{passive:true});
+  window.addEventListener('orientationchange',onResize,{passive:true});
 }

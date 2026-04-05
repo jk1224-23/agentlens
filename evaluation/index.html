@@ -1194,7 +1194,10 @@ const observer=new IntersectionObserver((entries)=>{
       e.target.classList.remove('active');
     }
   });
-},{threshold:0.35});
+},{
+  threshold:0.42,
+  rootMargin:'-12% 0px -34% 0px',
+});
 
 document.querySelectorAll('.step').forEach(el=>observer.observe(el));
 

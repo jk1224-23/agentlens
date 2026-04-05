@@ -947,7 +947,10 @@ const obs=new IntersectionObserver(entries=>{
       e.target.classList.remove('active');
     }
   });
-},{threshold:.45});
+},{
+  threshold:.42,
+  rootMargin:'-12% 0px -34% 0px',
+});
 
 document.querySelectorAll('.step').forEach(el=>obs.observe(el));
 window.addEventListener('load',()=>{if(activeStep===-1){activeStep=0;transitionTo(0);}});
@@ -955,47 +958,15 @@ window.addEventListener('load',()=>{if(activeStep===-1){activeStep=0;transitionT
 initSharedUI(transitionTo);
 
 // ── HERO BACKGROUND ───────────────────────────────────────────────────────────
-(function heroAnim(){
-  const heroBg=d3.select('#hero-bg');
-  const W=1400,H=900,N=18;
-  const nodes=Array.from({length:N},()=>({
-    x:Math.random()*W,y:Math.random()*H,
-    vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,
-    r:Math.random()*3+2,
-    color:[C.blue,C.purple,C.green,C.orange][Math.floor(Math.random()*4)]
-  }));
-  const circles=heroBg.selectAll('circle').data(nodes).enter().append('circle')
-    .attr('cx',d=>d.x).attr('cy',d=>d.y).attr('r',d=>d.r).attr('fill',d=>d.color).attr('opacity',.35);
-  const lines=heroBg.append('g');
-  function heroTick(){
-    nodes.forEach(n=>{
-      n.x+=n.vx;n.y+=n.vy;
-      if(n.x<0||n.x>W)n.vx*=-1;
-      if(n.y<0||n.y>H)n.vy*=-1;
-    });
-    circles.attr('cx',d=>d.x).attr('cy',d=>d.y);
-    lines.selectAll('line').remove();
-    for(let i=0;i<nodes.length;i++){
-      for(let j=i+1;j<nodes.length;j++){
-        const dx=nodes[i].x-nodes[j].x,dy=nodes[i].y-nodes[j].y;
-        const dist=Math.sqrt(dx*dx+dy*dy);
-        if(dist<150){
-          lines.append('line')
-            .attr('x1',nodes[i].x).attr('y1',nodes[i].y)
-            .attr('x2',nodes[j].x).attr('y2',nodes[j].y)
-            .attr('stroke',nodes[i].color).attr('stroke-width',.5)
-            .attr('opacity',(1-dist/150)*.3);
-        }
-      }
-    }
-  }
-  const heroInterval=setInterval(heroTick,16);
-  const heroEl=document.getElementById('hero');
-  const heroObs=new IntersectionObserver(entries=>{
-    if(!entries[0].isIntersecting)clearInterval(heroInterval);
-  },{threshold:0});
-  heroObs.observe(heroEl);
-})();
+startHeroNetworkAnimation({
+  selector:'#hero-bg',
+  width:1400,
+  height:900,
+  nodeCount:18,
+  linkDistance:150,
+  fps:28,
+  palette:[C.blue,C.purple,C.green,C.orange],
+});
 </script>
 </body>
 </html>
