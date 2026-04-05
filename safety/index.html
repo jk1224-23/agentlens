@@ -3,7 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agent Safety &amp; Trust — agentlens</title>
+<title>Safety &amp; Trust — agentlens</title>
+<meta name="description" content="Threat models, guardrails, least privilege, and human oversight for production AI agents. 15 concepts across 5 defense phases — animated and visual.">
+<meta property="og:title" content="Safety &amp; Trust — agentlens">
+<meta property="og:description" content="Threat models, guardrails, least privilege, and human oversight for production AI agents. 15 concepts across 5 defense phases.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jk1224-23.github.io/agentlens/safety/">
 <link rel="stylesheet" href="../shared/base.css">
 <style>
 :root{
@@ -31,13 +36,13 @@
 <body>
 
 <div id="hdr">
-  <span>agentlens</span>
+  <a href="../" style="color:var(--blue);font-family:'Courier New',monospace;font-weight:bold;font-size:15px;text-decoration:none">agentlens</a>
   <span class="sep">|</span>
   <a href="../" style="color:var(--dim);text-decoration:none;font-size:13px">← All Guides</a>
   <span class="sep">|</span>
   <span id="hdr-scene">Why Safety is Different</span>
-  <span class="sep" style="margin-left:auto">16 concepts · 5 phases</span>
-  <button id="theme-btn" title="Toggle light/dark mode">🌙</button>
+  <span class="sep" style="margin-left:auto">15 concepts · 5 phases</span>
+  <button id="theme-btn" aria-label="Toggle light/dark mode" title="Toggle light/dark mode">🌙</button>
 </div>
 <div id="prog"></div>
 
@@ -47,13 +52,13 @@
   <div id="hero-content">
     <div style="display:inline-flex;align-items:center;gap:.45rem;font-family:'Courier New',monospace;font-size:.72rem;color:var(--dim);border:1px solid var(--border);border-radius:999px;padding:.25rem .8rem;margin-bottom:1.1rem">
       <span style="width:7px;height:7px;border-radius:50%;background:var(--red);display:inline-block;flex-shrink:0"></span>
-      Guide 05 of 8 &nbsp;·&nbsp; <em style="font-style:italic;color:var(--text)">How do I keep it safe?</em>
+      Guide 05 of 5 &nbsp;·&nbsp; <em style="font-style:italic;color:var(--text)">How do I keep it safe?</em>
     </div>
     <h1>Agent Safety<br>&amp; <em>Trust</em></h1>
     <p class="sub">Building agents users can rely on — threat models, guardrails, human oversight, and governance for production AI systems.</p>
     <div class="hero-badges">
       <span class="hero-badge hb-green">✓ Completes the curriculum</span>
-      <span class="hero-badge hb-blue">16 safety concepts</span>
+      <span class="hero-badge hb-blue">15 safety concepts</span>
       <span class="hero-badge hb-purple">5 defense phases</span>
     </div>
     <div class="scroll-cue">
@@ -309,11 +314,32 @@
   </div>
 </div>
 
-<footer style="text-align:center;padding:3rem 2rem 2rem;color:var(--dim);font-size:.85rem;font-family:'Courier New',monospace;border-top:1px solid var(--border)">
-  <p>agentlens · <a href="../" style="color:var(--accent);text-decoration:none">All Guides</a> · <a href="../memory/" style="color:var(--dim);text-decoration:none">← Guide 04: Memory &amp; State</a></p>
+<footer>
+  <div class="ft-col" style="flex:2;min-width:280px">
+    <h4>About this guide</h4>
+    <p>Built with D3.js v7 and the IntersectionObserver API. Animations are triggered by scroll position. All visualizations are procedurally generated SVGs — no images or external assets.</p>
+    <p style="margin-top:.5rem">Part of the <a href="../" style="color:var(--accent);text-decoration:none">agentlens</a> series — animated guides to AI agents.</p>
+  </div>
+  <div class="ft-col">
+    <h4>Concepts</h4>
+    <span class="ft-stat">15</span>
+    <p>Safety concepts across 5 defense phases</p>
+  </div>
+  <div class="ft-col">
+    <h4>Phases</h4>
+    <span class="ft-stat" style="color:var(--red)">5</span>
+    <p>Landscape · Input Safety · Output Safety · Oversight · Governance</p>
+  </div>
+  <div class="ft-col">
+    <h4>Other guides</h4>
+    <p><a href="../orchestration/" style="color:var(--blue);text-decoration:none">Orchestration Patterns →</a></p>
+    <p style="margin-top:.35rem"><a href="../engineering/" style="color:var(--purple);text-decoration:none">Agent Engineering →</a></p>
+    <p style="margin-top:.35rem"><a href="../evaluation/" style="color:var(--green);text-decoration:none">Evals &amp; Quality →</a></p>
+    <p style="margin-top:.35rem"><a href="../memory/" style="color:var(--orange);text-decoration:none">Memory &amp; State →</a></p>
+  </div>
 </footer>
 
-<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script src="../shared/viz-utils.js"></script>
 <script>
 const STEP_NAMES=[
@@ -1070,12 +1096,24 @@ function drawEightSafetyRules(){
 // ── INTERSECTION OBSERVER ─────────────────────────────────────────────────────
 const steps=document.querySelectorAll('.step');
 const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting)renderStep(+e.target.dataset.step);});
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('active');
+      renderStep(+e.target.dataset.step);
+    }else{
+      e.target.classList.remove('active');
+    }
+  });
 },{threshold:.42,rootMargin:'-12% 0px -34% 0px'});
 steps.forEach(s=>obs.observe(s));
 
 initSharedUI(renderStep);
-window.addEventListener('load',()=>renderStep(0));
+window.addEventListener('load',()=>{
+  renderStep(0);
+  // Ensure the first visible step starts fully opaque
+  const first=document.querySelector('.step[data-step="0"]');
+  if(first)first.classList.add('active');
+});
 </script>
 </body>
 </html>

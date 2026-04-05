@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>agentlens — Animated guides to AI agents</title>
+<meta name="description" content="Five animated, scroll-driven guides to building and orchestrating AI agents — from ReAct loops to safety guardrails. No prior knowledge needed.">
+<meta property="og:title" content="agentlens — Animated guides to AI agents">
+<meta property="og:description" content="Five animated, scroll-driven guides to building and orchestrating AI agents — from ReAct loops to safety guardrails.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jk1224-23.github.io/agentlens/">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -16,12 +21,18 @@ html,body{height:100%}
 body{background:var(--bg);color:var(--text);font-family:'Georgia',serif;font-size:16px;line-height:1.7;overflow-x:hidden;display:flex;flex-direction:column;min-height:100vh}
 #hdr{position:fixed;top:0;left:0;right:0;height:52px;background:var(--hdr-bg);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 2rem;z-index:100;gap:.75rem}
 #hdr .brand{color:var(--blue);font-family:'Courier New',monospace;font-weight:bold;font-size:15px;text-decoration:none}
+#hdr .hdr-links{display:flex;gap:1rem;align-items:center;margin-left:1rem}
+#hdr .hdr-links a{color:var(--dim);text-decoration:none;font-size:12px;font-family:'Courier New',monospace;transition:color .2s}
+#hdr .hdr-links a:hover{color:var(--blue)}
 #theme-btn{margin-left:auto;background:none;border:1px solid var(--border);border-radius:6px;color:var(--dim);cursor:pointer;font-size:15px;padding:.2rem .55rem;line-height:1;transition:border-color .2s,color .2s}
 #theme-btn:hover{border-color:var(--blue);color:var(--blue)}
 main{flex:1;display:flex;flex-direction:column;align-items:center;padding:5rem 2rem 0;text-align:center}
 .hero-title{font-family:'Courier New',monospace;font-size:clamp(2.4rem,6vw,4rem);font-weight:bold;color:var(--blue);letter-spacing:-.02em;margin-bottom:.75rem}
 .hero-sub{font-size:1rem;color:var(--dim);max-width:480px;margin:0 auto 3rem}
+
+/* ── CARDS ─────────────────────────────────────────────────── */
 .cards{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;width:100%;max-width:980px}
+.cards-row2{margin-top:1.5rem;max-width:660px}
 .card{flex:1;min-width:240px;max-width:300px;padding:1.5rem;border-radius:10px;text-decoration:none;text-align:left;transition:transform .2s,background .2s;cursor:pointer}
 .card-blue{border:1px solid var(--blue);background:rgba(88,166,255,.05)}
 .card-blue:hover{background:rgba(88,166,255,.10);transform:translateY(-2px)}
@@ -29,6 +40,10 @@ main{flex:1;display:flex;flex-direction:column;align-items:center;padding:5rem 2
 .card-purple:hover{background:rgba(210,168,255,.10);transform:translateY(-2px)}
 .card-green{border:1px solid var(--green);background:rgba(63,185,80,.05)}
 .card-green:hover{background:rgba(63,185,80,.10);transform:translateY(-2px)}
+.card-orange{border:1px solid var(--orange);background:rgba(240,136,62,.05)}
+.card-orange:hover{background:rgba(240,136,62,.10);transform:translateY(-2px)}
+.card-red{border:1px solid var(--red);background:rgba(248,81,73,.05)}
+.card-red:hover{background:rgba(248,81,73,.10);transform:translateY(-2px)}
 .card-eyebrow{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;font-family:'Courier New',monospace;color:var(--dim);margin-bottom:.4rem}
 .card-q{font-size:.8rem;color:var(--dim);font-style:italic;margin-bottom:.55rem;font-family:'Georgia',serif}
 .card-title{font-size:1.3rem;font-weight:400;color:var(--heading);margin-bottom:.6rem;line-height:1.25}
@@ -37,6 +52,8 @@ main{flex:1;display:flex;flex-direction:column;align-items:center;padding:5rem 2
 .badge-blue{color:var(--blue);border:1px solid rgba(88,166,255,.35);background:rgba(88,166,255,.08)}
 .badge-purple{color:var(--purple);border:1px solid rgba(210,168,255,.35);background:rgba(210,168,255,.08)}
 .badge-green{color:var(--green);border:1px solid rgba(63,185,80,.35);background:rgba(63,185,80,.08)}
+.badge-orange{color:var(--orange);border:1px solid rgba(240,136,62,.35);background:rgba(240,136,62,.08)}
+.badge-red{color:var(--red);border:1px solid rgba(248,81,73,.35);background:rgba(248,81,73,.08)}
 
 /* ── SERIES STRIP ──────────────────────────────────────────── */
 .series{width:100%;max-width:980px;margin:3.5rem auto 0;padding-bottom:3rem}
@@ -50,9 +67,12 @@ main{flex:1;display:flex;flex-direction:column;align-items:center;padding:5rem 2
 .s-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .s-q{font-size:.82rem;font-style:italic;color:var(--text);line-height:1.4;margin-bottom:.5rem;font-family:'Georgia',serif}
 .s-name{font-size:.72rem;font-family:'Courier New',monospace;color:var(--dim)}
-.s-soon-badge{display:inline-block;font-size:.62rem;font-family:'Courier New',monospace;padding:.1rem .45rem;border-radius:999px;border:1px solid var(--border);color:var(--dim);margin-top:.4rem}
 
-footer{text-align:center;padding:1.5rem 2rem;font-size:.78rem;color:var(--dim);font-family:'Courier New',monospace;border-top:1px solid var(--border)}
+footer{text-align:center;padding:1.5rem 2rem;font-size:.78rem;color:var(--dim);font-family:'Courier New',monospace;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.5rem 1.25rem}
+footer a{color:var(--dim);text-decoration:none;transition:color .2s}
+footer a:hover{color:var(--blue)}
+footer .ft-brand{color:var(--blue);font-weight:bold}
+
 @media(prefers-color-scheme:light){
   :root:not([data-theme="dark"]){
     --bg:#ffffff;--bg2:#f6f8fa;--text:#24292f;--dim:#57606a;
@@ -64,11 +84,17 @@ footer{text-align:center;padding:1.5rem 2rem;font-size:.78rem;color:var(--dim);f
   :root:not([data-theme="dark"]) .card-blue:hover{background:rgba(9,105,218,.08)}
   :root:not([data-theme="dark"]) .card-purple{background:rgba(130,80,223,.04)}
   :root:not([data-theme="dark"]) .card-purple:hover{background:rgba(130,80,223,.08)}
-  :root:not([data-theme="dark"]) .badge-blue{background:rgba(9,105,218,.07);border-color:rgba(9,105,218,.3)}
-  :root:not([data-theme="dark"]) .badge-purple{background:rgba(130,80,223,.07);border-color:rgba(130,80,223,.3)}
   :root:not([data-theme="dark"]) .card-green{background:rgba(26,127,55,.04)}
   :root:not([data-theme="dark"]) .card-green:hover{background:rgba(26,127,55,.08)}
+  :root:not([data-theme="dark"]) .card-orange{background:rgba(188,76,0,.04)}
+  :root:not([data-theme="dark"]) .card-orange:hover{background:rgba(188,76,0,.08)}
+  :root:not([data-theme="dark"]) .card-red{background:rgba(207,34,46,.04)}
+  :root:not([data-theme="dark"]) .card-red:hover{background:rgba(207,34,46,.08)}
+  :root:not([data-theme="dark"]) .badge-blue{background:rgba(9,105,218,.07);border-color:rgba(9,105,218,.3)}
+  :root:not([data-theme="dark"]) .badge-purple{background:rgba(130,80,223,.07);border-color:rgba(130,80,223,.3)}
   :root:not([data-theme="dark"]) .badge-green{background:rgba(26,127,55,.07);border-color:rgba(26,127,55,.3)}
+  :root:not([data-theme="dark"]) .badge-orange{background:rgba(188,76,0,.07);border-color:rgba(188,76,0,.3)}
+  :root:not([data-theme="dark"]) .badge-red{background:rgba(207,34,46,.07);border-color:rgba(207,34,46,.3)}
   :root:not([data-theme="dark"]) .s-item.live:hover{background:rgba(0,0,0,.03)}
 }
 [data-theme="light"]{
@@ -81,11 +107,17 @@ footer{text-align:center;padding:1.5rem 2rem;font-size:.78rem;color:var(--dim);f
 [data-theme="light"] .card-blue:hover{background:rgba(9,105,218,.08)}
 [data-theme="light"] .card-purple{background:rgba(130,80,223,.04)}
 [data-theme="light"] .card-purple:hover{background:rgba(130,80,223,.08)}
-[data-theme="light"] .badge-blue{background:rgba(9,105,218,.07);border-color:rgba(9,105,218,.3)}
-[data-theme="light"] .badge-purple{background:rgba(130,80,223,.07);border-color:rgba(130,80,223,.3)}
 [data-theme="light"] .card-green{background:rgba(26,127,55,.04)}
 [data-theme="light"] .card-green:hover{background:rgba(26,127,55,.08)}
+[data-theme="light"] .card-orange{background:rgba(188,76,0,.04)}
+[data-theme="light"] .card-orange:hover{background:rgba(188,76,0,.08)}
+[data-theme="light"] .card-red{background:rgba(207,34,46,.04)}
+[data-theme="light"] .card-red:hover{background:rgba(207,34,46,.08)}
+[data-theme="light"] .badge-blue{background:rgba(9,105,218,.07);border-color:rgba(9,105,218,.3)}
+[data-theme="light"] .badge-purple{background:rgba(130,80,223,.07);border-color:rgba(130,80,223,.3)}
 [data-theme="light"] .badge-green{background:rgba(26,127,55,.07);border-color:rgba(26,127,55,.3)}
+[data-theme="light"] .badge-orange{background:rgba(188,76,0,.07);border-color:rgba(188,76,0,.3)}
+[data-theme="light"] .badge-red{background:rgba(207,34,46,.07);border-color:rgba(207,34,46,.3)}
 [data-theme="dark"]{
   --bg:#0d1117;--bg2:#161b22;--text:#c9d1d9;--dim:#8b949e;
   --blue:#58a6ff;--green:#3fb950;--purple:#d2a8ff;
@@ -99,6 +131,8 @@ footer{text-align:center;padding:1.5rem 2rem;font-size:.78rem;color:var(--dim);f
   .series{padding:0 1.25rem 2rem}
   .series-row{gap:.5rem}
   .s-item{min-width:140px}
+  #hdr .hdr-links{display:none}
+  footer{flex-direction:column;gap:.35rem}
 }
 </style>
 </head>
@@ -106,12 +140,21 @@ footer{text-align:center;padding:1.5rem 2rem;font-size:.78rem;color:var(--dim);f
 
 <div id="hdr">
   <span class="brand">agentlens</span>
-  <button id="theme-btn" title="Toggle light/dark mode">🌙</button>
+  <nav class="hdr-links" aria-label="Guide series">
+    <a href="./orchestration/">01 Orchestration</a>
+    <a href="./engineering/">02 Engineering</a>
+    <a href="./evaluation/">03 Evals</a>
+    <a href="./memory/">04 Memory</a>
+    <a href="./safety/">05 Safety</a>
+  </nav>
+  <button id="theme-btn" aria-label="Toggle light/dark mode" title="Toggle light/dark mode">🌙</button>
 </div>
 
 <main>
   <div class="hero-title">agentlens</div>
   <p class="hero-sub">Animated guides to building and orchestrating AI agents.</p>
+
+  <!-- ROW 1: Guides 01–03 -->
   <div class="cards">
     <a class="card card-blue" href="./orchestration/">
       <div class="card-eyebrow">Guide 01</div>
@@ -136,21 +179,21 @@ footer{text-align:center;padding:1.5rem 2rem;font-size:.78rem;color:var(--dim);f
     </a>
   </div>
 
-  <!-- ADDITIONAL GUIDES -->
-  <div class="cards" style="margin-top:1.5rem">
-    <a class="card" href="./memory/" style="border:1px solid var(--orange);background:rgba(240,136,62,.05)">
+  <!-- ROW 2: Guides 04–05 -->
+  <div class="cards cards-row2">
+    <a class="card card-orange" href="./memory/">
       <div class="card-eyebrow">Guide 04</div>
       <div class="card-q">How does it remember?</div>
       <div class="card-title">Memory &amp; State</div>
-      <div class="card-desc">Patterns for persistent memory, context management, and state across agent interactions.</div>
-      <span class="card-badge" style="color:var(--orange);border:1px solid rgba(240,136,62,.35);background:rgba(240,136,62,.08)">Agent memory systems</span>
+      <div class="card-desc">From stateless calls to persistent memory: context windows, vector stores, and episodic recall.</div>
+      <span class="card-badge badge-orange">15 concepts · 5 phases</span>
     </a>
-    <a class="card" href="./safety/" style="border:1px solid var(--red);background:rgba(248,81,73,.05)">
+    <a class="card card-red" href="./safety/">
       <div class="card-eyebrow">Guide 05</div>
       <div class="card-q">How do I keep it safe?</div>
       <div class="card-title">Safety &amp; Trust</div>
-      <div class="card-desc">Building reliable agents with safeguards, alignment checks, and trustworthy behavior patterns.</div>
-      <span class="card-badge" style="color:var(--red);border:1px solid rgba(248,81,73,.35);background:rgba(248,81,73,.08)">Safety patterns</span>
+      <div class="card-desc">Threat models, guardrails, least privilege, and human oversight for production AI agents.</div>
+      <span class="card-badge badge-red">15 concepts · 5 phases</span>
     </a>
   </div>
 
@@ -203,12 +246,20 @@ footer{text-align:center;padding:1.5rem 2rem;font-size:.78rem;color:var(--dim);f
   </div>
 </main>
 
-<footer>agentlens</footer>
+<footer>
+  <span class="ft-brand">agentlens</span>
+  <span>·</span>
+  <a href="./orchestration/">01 Orchestration</a>
+  <a href="./engineering/">02 Engineering</a>
+  <a href="./evaluation/">03 Evals</a>
+  <a href="./memory/">04 Memory</a>
+  <a href="./safety/">05 Safety</a>
+</footer>
 
 <script>
 const btn=document.getElementById('theme-btn');
 const prefersDark=window.matchMedia('(prefers-color-scheme:dark)');
-function getTheme(){const s=localStorage.getItem('theme');return s||( prefersDark.matches?'dark':'light');}
+function getTheme(){const s=localStorage.getItem('theme');return s||(prefersDark.matches?'dark':'light');}
 function applyTheme(t){
   document.documentElement.setAttribute('data-theme',t);
   btn.textContent=t==='dark'?'☀️':'🌙';

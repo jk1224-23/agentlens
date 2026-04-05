@@ -3,18 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A Visual Guide to AI Agents &amp; Orchestration</title>
+<title>Orchestration Patterns — agentlens</title>
+<meta name="description" content="19 animated concepts and 10 multi-agent patterns — from ReAct loops to hierarchical fleets. A visual guide to AI agent orchestration.">
+<meta property="og:title" content="Orchestration Patterns — agentlens">
+<meta property="og:description" content="19 animated concepts and 10 multi-agent patterns — from ReAct loops to hierarchical fleets.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jk1224-23.github.io/agentlens/orchestration/">
 <link rel="stylesheet" href="../shared/base.css">
 </head>
 <body>
 
 <div id="hdr">
-  <span>agent.guide</span>
-  <span class="sep">|</span><a href="../engineering/" style="color:var(--dim);text-decoration:none;font-size:13px">Agent Engineering →</a>
+  <a href="../" style="color:var(--blue);font-family:'Courier New',monospace;font-weight:bold;font-size:15px;text-decoration:none">agentlens</a>
+  <span class="sep">|</span>
+  <a href="../" style="color:var(--dim);text-decoration:none;font-size:13px">← All Guides</a>
   <span class="sep">|</span>
   <span id="hdr-scene">Intro</span>
   <span class="sep" style="margin-left:auto">19 concepts · 10 patterns</span>
-  <button id="theme-btn" title="Toggle light/dark mode">🌙</button>
+  <a href="../engineering/" style="color:var(--dim);text-decoration:none;font-size:13px">Guide 02 →</a>
+  <button id="theme-btn" aria-label="Toggle light/dark mode" title="Toggle light/dark mode">🌙</button>
 </div>
 <div id="prog"></div>
 
@@ -138,18 +145,18 @@
       <div class="mini-viz">
         <div class="mini-viz-label">Orchestrator-Worker topology</div>
         <svg viewBox="0 0 260 110" xmlns="http://www.w3.org/2000/svg">
-          <rect x="95" y="10" width="70" height="28" rx="5" fill="rgba(88,166,255,.15)" stroke="#58a6ff" stroke-width="1.2"/>
-          <text x="130" y="28" text-anchor="middle" fill="#58a6ff" font-size="9" font-family="Courier New">Orchestrator</text>
-          <line x1="60" y1="65" x2="130" y2="38" stroke="#30363d" stroke-width="1.2" marker-end="url(#arr)"/>
-          <line x1="130" y1="38" x2="130" y2="65" stroke="#30363d" stroke-width="1.2" marker-end="url(#arr)"/>
-          <line x1="200" y1="65" x2="130" y2="38" stroke="#30363d" stroke-width="1.2" marker-end="url(#arr)"/>
-          <rect x="25" y="65" width="70" height="26" rx="5" fill="rgba(63,185,80,.12)" stroke="#3fb950" stroke-width="1.2"/>
-          <text x="60" y="81" text-anchor="middle" fill="#3fb950" font-size="8" font-family="Courier New">Worker A</text>
-          <rect x="95" y="65" width="70" height="26" rx="5" fill="rgba(63,185,80,.12)" stroke="#3fb950" stroke-width="1.2"/>
-          <text x="130" y="81" text-anchor="middle" fill="#3fb950" font-size="8" font-family="Courier New">Worker B</text>
-          <rect x="165" y="65" width="70" height="26" rx="5" fill="rgba(63,185,80,.12)" stroke="#3fb950" stroke-width="1.2"/>
-          <text x="200" y="81" text-anchor="middle" fill="#3fb950" font-size="8" font-family="Courier New">Worker C</text>
-          <defs><marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#30363d"/></marker></defs>
+          <rect x="95" y="10" width="70" height="28" rx="5" fill="rgba(88,166,255,.15)" stroke="var(--blue)" stroke-width="1.2"/>
+          <text x="130" y="28" text-anchor="middle" fill="var(--blue)" font-size="9" font-family="Courier New">Orchestrator</text>
+          <line x1="60" y1="65" x2="130" y2="38" stroke="var(--border)" stroke-width="1.2" marker-end="url(#arr)"/>
+          <line x1="130" y1="38" x2="130" y2="65" stroke="var(--border)" stroke-width="1.2" marker-end="url(#arr)"/>
+          <line x1="200" y1="65" x2="130" y2="38" stroke="var(--border)" stroke-width="1.2" marker-end="url(#arr)"/>
+          <rect x="25" y="65" width="70" height="26" rx="5" fill="rgba(63,185,80,.12)" stroke="var(--green)" stroke-width="1.2"/>
+          <text x="60" y="81" text-anchor="middle" fill="var(--green)" font-size="8" font-family="Courier New">Worker A</text>
+          <rect x="95" y="65" width="70" height="26" rx="5" fill="rgba(63,185,80,.12)" stroke="var(--green)" stroke-width="1.2"/>
+          <text x="130" y="81" text-anchor="middle" fill="var(--green)" font-size="8" font-family="Courier New">Worker B</text>
+          <rect x="165" y="65" width="70" height="26" rx="5" fill="rgba(63,185,80,.12)" stroke="var(--green)" stroke-width="1.2"/>
+          <text x="200" y="81" text-anchor="middle" fill="var(--green)" font-size="8" font-family="Courier New">Worker C</text>
+          <defs><marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="context-stroke"/></marker></defs>
         </svg>
       </div>
       <p><strong>Best for:</strong> Research pipelines, content generation, multi-step data tasks where work can be parallelized.</p>
@@ -167,18 +174,18 @@
       <div class="mini-viz">
         <div class="mini-viz-label">Pipeline: each stage refines the output</div>
         <svg viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg">
-          <rect x="5" y="20" width="55" height="30" rx="5" fill="rgba(88,166,255,.12)" stroke="#58a6ff" stroke-width="1.2"/>
-          <text x="32" y="38" text-anchor="middle" fill="#58a6ff" font-size="8" font-family="Courier New">Research</text>
-          <line x1="60" y1="35" x2="80" y2="35" stroke="#30363d" stroke-width="1.5" marker-end="url(#arr2)"/>
-          <rect x="80" y="20" width="55" height="30" rx="5" fill="rgba(63,185,80,.12)" stroke="#3fb950" stroke-width="1.2"/>
-          <text x="107" y="38" text-anchor="middle" fill="#3fb950" font-size="8" font-family="Courier New">Drafting</text>
-          <line x1="135" y1="35" x2="155" y2="35" stroke="#30363d" stroke-width="1.5" marker-end="url(#arr2)"/>
-          <rect x="155" y="20" width="55" height="30" rx="5" fill="rgba(210,168,255,.12)" stroke="#d2a8ff" stroke-width="1.2"/>
-          <text x="182" y="38" text-anchor="middle" fill="#d2a8ff" font-size="8" font-family="Courier New">Review</text>
-          <line x1="210" y1="35" x2="230" y2="35" stroke="#30363d" stroke-width="1.5" marker-end="url(#arr2)"/>
-          <rect x="230" y="20" width="45" height="30" rx="5" fill="rgba(240,136,62,.12)" stroke="#f0883e" stroke-width="1.2"/>
-          <text x="252" y="38" text-anchor="middle" fill="#f0883e" font-size="8" font-family="Courier New">Publish</text>
-          <defs><marker id="arr2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#30363d"/></marker></defs>
+          <rect x="5" y="20" width="55" height="30" rx="5" fill="rgba(88,166,255,.12)" stroke="var(--blue)" stroke-width="1.2"/>
+          <text x="32" y="38" text-anchor="middle" fill="var(--blue)" font-size="8" font-family="Courier New">Research</text>
+          <line x1="60" y1="35" x2="80" y2="35" stroke="var(--border)" stroke-width="1.5" marker-end="url(#arr2)"/>
+          <rect x="80" y="20" width="55" height="30" rx="5" fill="rgba(63,185,80,.12)" stroke="var(--green)" stroke-width="1.2"/>
+          <text x="107" y="38" text-anchor="middle" fill="var(--green)" font-size="8" font-family="Courier New">Drafting</text>
+          <line x1="135" y1="35" x2="155" y2="35" stroke="var(--border)" stroke-width="1.5" marker-end="url(#arr2)"/>
+          <rect x="155" y="20" width="55" height="30" rx="5" fill="rgba(210,168,255,.12)" stroke="var(--purple)" stroke-width="1.2"/>
+          <text x="182" y="38" text-anchor="middle" fill="var(--purple)" font-size="8" font-family="Courier New">Review</text>
+          <line x1="210" y1="35" x2="230" y2="35" stroke="var(--border)" stroke-width="1.5" marker-end="url(#arr2)"/>
+          <rect x="230" y="20" width="45" height="30" rx="5" fill="rgba(240,136,62,.12)" stroke="var(--orange)" stroke-width="1.2"/>
+          <text x="252" y="38" text-anchor="middle" fill="var(--orange)" font-size="8" font-family="Courier New">Publish</text>
+          <defs><marker id="arr2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="context-stroke"/></marker></defs>
         </svg>
       </div>
       <p><strong>Best for:</strong> Document processing, content workflows, ETL pipelines where each stage has a clear responsibility.</p>
@@ -196,22 +203,22 @@
       <div class="mini-viz">
         <div class="mini-viz-label">Fan-out: work splits, then recombines</div>
         <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
-          <rect x="85" y="5" width="70" height="26" rx="5" fill="rgba(88,166,255,.12)" stroke="#58a6ff" stroke-width="1.2"/>
-          <text x="120" y="21" text-anchor="middle" fill="#58a6ff" font-size="8" font-family="Courier New">Dispatcher</text>
-          <line x1="40" y1="56" x2="120" y2="31" stroke="#30363d" stroke-width="1.1"/>
-          <line x1="120" y1="31" x2="120" y2="55" stroke="#30363d" stroke-width="1.1"/>
-          <line x1="200" y1="56" x2="120" y2="31" stroke="#30363d" stroke-width="1.1"/>
-          <rect x="5" y="56" width="70" height="24" rx="5" fill="rgba(240,136,62,.12)" stroke="#f0883e" stroke-width="1.2"/>
-          <text x="40" y="71" text-anchor="middle" fill="#f0883e" font-size="7.5" font-family="Courier New">Agent 1</text>
-          <rect x="85" y="56" width="70" height="24" rx="5" fill="rgba(240,136,62,.12)" stroke="#f0883e" stroke-width="1.2"/>
-          <text x="120" y="71" text-anchor="middle" fill="#f0883e" font-size="7.5" font-family="Courier New">Agent 2</text>
-          <rect x="165" y="56" width="70" height="24" rx="5" fill="rgba(240,136,62,.12)" stroke="#f0883e" stroke-width="1.2"/>
-          <text x="200" y="71" text-anchor="middle" fill="#f0883e" font-size="7.5" font-family="Courier New">Agent 3</text>
-          <line x1="40" y1="80" x2="120" y2="94" stroke="#30363d" stroke-width="1.1"/>
-          <line x1="120" y1="80" x2="120" y2="94" stroke="#30363d" stroke-width="1.1"/>
-          <line x1="200" y1="80" x2="120" y2="94" stroke="#30363d" stroke-width="1.1"/>
-          <rect x="75" y="94" width="90" height="22" rx="5" fill="rgba(63,185,80,.12)" stroke="#3fb950" stroke-width="1.2"/>
-          <text x="120" y="108" text-anchor="middle" fill="#3fb950" font-size="8" font-family="Courier New">Reducer</text>
+          <rect x="85" y="5" width="70" height="26" rx="5" fill="rgba(88,166,255,.12)" stroke="var(--blue)" stroke-width="1.2"/>
+          <text x="120" y="21" text-anchor="middle" fill="var(--blue)" font-size="8" font-family="Courier New">Dispatcher</text>
+          <line x1="40" y1="56" x2="120" y2="31" stroke="var(--border)" stroke-width="1.1"/>
+          <line x1="120" y1="31" x2="120" y2="55" stroke="var(--border)" stroke-width="1.1"/>
+          <line x1="200" y1="56" x2="120" y2="31" stroke="var(--border)" stroke-width="1.1"/>
+          <rect x="5" y="56" width="70" height="24" rx="5" fill="rgba(240,136,62,.12)" stroke="var(--orange)" stroke-width="1.2"/>
+          <text x="40" y="71" text-anchor="middle" fill="var(--orange)" font-size="7.5" font-family="Courier New">Agent 1</text>
+          <rect x="85" y="56" width="70" height="24" rx="5" fill="rgba(240,136,62,.12)" stroke="var(--orange)" stroke-width="1.2"/>
+          <text x="120" y="71" text-anchor="middle" fill="var(--orange)" font-size="7.5" font-family="Courier New">Agent 2</text>
+          <rect x="165" y="56" width="70" height="24" rx="5" fill="rgba(240,136,62,.12)" stroke="var(--orange)" stroke-width="1.2"/>
+          <text x="200" y="71" text-anchor="middle" fill="var(--orange)" font-size="7.5" font-family="Courier New">Agent 3</text>
+          <line x1="40" y1="80" x2="120" y2="94" stroke="var(--border)" stroke-width="1.1"/>
+          <line x1="120" y1="80" x2="120" y2="94" stroke="var(--border)" stroke-width="1.1"/>
+          <line x1="200" y1="80" x2="120" y2="94" stroke="var(--border)" stroke-width="1.1"/>
+          <rect x="75" y="94" width="90" height="22" rx="5" fill="rgba(63,185,80,.12)" stroke="var(--green)" stroke-width="1.2"/>
+          <text x="120" y="108" text-anchor="middle" fill="var(--green)" font-size="8" font-family="Courier New">Reducer</text>
         </svg>
       </div>
       <p><strong>Best for:</strong> Batch processing, competitive analysis across many sources, parallel document ingestion.</p>
@@ -229,26 +236,26 @@
       <div class="mini-viz">
         <div class="mini-viz-label">Hierarchical: three tiers of agents</div>
         <svg viewBox="0 0 260 130" xmlns="http://www.w3.org/2000/svg">
-          <rect x="90" y="5" width="80" height="26" rx="5" fill="rgba(210,168,255,.15)" stroke="#d2a8ff" stroke-width="1.3"/>
-          <text x="130" y="21" text-anchor="middle" fill="#d2a8ff" font-size="9" font-family="Courier New">Strategic</text>
-          <line x1="65" y1="52" x2="130" y2="31" stroke="#30363d" stroke-width="1.1"/>
-          <line x1="195" y1="52" x2="130" y2="31" stroke="#30363d" stroke-width="1.1"/>
-          <rect x="25" y="52" width="80" height="24" rx="5" fill="rgba(88,166,255,.12)" stroke="#58a6ff" stroke-width="1.2"/>
-          <text x="65" y="67" text-anchor="middle" fill="#58a6ff" font-size="8" font-family="Courier New">Manager A</text>
-          <rect x="155" y="52" width="80" height="24" rx="5" fill="rgba(88,166,255,.12)" stroke="#58a6ff" stroke-width="1.2"/>
-          <text x="195" y="67" text-anchor="middle" fill="#58a6ff" font-size="8" font-family="Courier New">Manager B</text>
-          <line x1="30" y1="97" x2="65" y2="76" stroke="#30363d" stroke-width="1.1"/>
-          <line x1="65" y1="97" x2="65" y2="76" stroke="#30363d" stroke-width="1.1"/>
-          <line x1="175" y1="97" x2="195" y2="76" stroke="#30363d" stroke-width="1.1"/>
-          <line x1="215" y1="97" x2="195" y2="76" stroke="#30363d" stroke-width="1.1"/>
-          <rect x="5" y="97" width="50" height="22" rx="4" fill="rgba(63,185,80,.1)" stroke="#3fb950" stroke-width="1.1"/>
-          <text x="30" y="111" text-anchor="middle" fill="#3fb950" font-size="7" font-family="Courier New">Worker</text>
-          <rect x="42" y="97" width="50" height="22" rx="4" fill="rgba(63,185,80,.1)" stroke="#3fb950" stroke-width="1.1"/>
-          <text x="67" y="111" text-anchor="middle" fill="#3fb950" font-size="7" font-family="Courier New">Worker</text>
-          <rect x="152" y="97" width="50" height="22" rx="4" fill="rgba(63,185,80,.1)" stroke="#3fb950" stroke-width="1.1"/>
-          <text x="177" y="111" text-anchor="middle" fill="#3fb950" font-size="7" font-family="Courier New">Worker</text>
-          <rect x="190" y="97" width="50" height="22" rx="4" fill="rgba(63,185,80,.1)" stroke="#3fb950" stroke-width="1.1"/>
-          <text x="215" y="111" text-anchor="middle" fill="#3fb950" font-size="7" font-family="Courier New">Worker</text>
+          <rect x="90" y="5" width="80" height="26" rx="5" fill="rgba(210,168,255,.15)" stroke="var(--purple)" stroke-width="1.3"/>
+          <text x="130" y="21" text-anchor="middle" fill="var(--purple)" font-size="9" font-family="Courier New">Strategic</text>
+          <line x1="65" y1="52" x2="130" y2="31" stroke="var(--border)" stroke-width="1.1"/>
+          <line x1="195" y1="52" x2="130" y2="31" stroke="var(--border)" stroke-width="1.1"/>
+          <rect x="25" y="52" width="80" height="24" rx="5" fill="rgba(88,166,255,.12)" stroke="var(--blue)" stroke-width="1.2"/>
+          <text x="65" y="67" text-anchor="middle" fill="var(--blue)" font-size="8" font-family="Courier New">Manager A</text>
+          <rect x="155" y="52" width="80" height="24" rx="5" fill="rgba(88,166,255,.12)" stroke="var(--blue)" stroke-width="1.2"/>
+          <text x="195" y="67" text-anchor="middle" fill="var(--blue)" font-size="8" font-family="Courier New">Manager B</text>
+          <line x1="30" y1="97" x2="65" y2="76" stroke="var(--border)" stroke-width="1.1"/>
+          <line x1="65" y1="97" x2="65" y2="76" stroke="var(--border)" stroke-width="1.1"/>
+          <line x1="175" y1="97" x2="195" y2="76" stroke="var(--border)" stroke-width="1.1"/>
+          <line x1="215" y1="97" x2="195" y2="76" stroke="var(--border)" stroke-width="1.1"/>
+          <rect x="5" y="97" width="50" height="22" rx="4" fill="rgba(63,185,80,.1)" stroke="var(--green)" stroke-width="1.1"/>
+          <text x="30" y="111" text-anchor="middle" fill="var(--green)" font-size="7" font-family="Courier New">Worker</text>
+          <rect x="42" y="97" width="50" height="22" rx="4" fill="rgba(63,185,80,.1)" stroke="var(--green)" stroke-width="1.1"/>
+          <text x="67" y="111" text-anchor="middle" fill="var(--green)" font-size="7" font-family="Courier New">Worker</text>
+          <rect x="152" y="97" width="50" height="22" rx="4" fill="rgba(63,185,80,.1)" stroke="var(--green)" stroke-width="1.1"/>
+          <text x="177" y="111" text-anchor="middle" fill="var(--green)" font-size="7" font-family="Courier New">Worker</text>
+          <rect x="190" y="97" width="50" height="22" rx="4" fill="rgba(63,185,80,.1)" stroke="var(--green)" stroke-width="1.1"/>
+          <text x="215" y="111" text-anchor="middle" fill="var(--green)" font-size="7" font-family="Courier New">Worker</text>
         </svg>
       </div>
       <p><strong>Best for:</strong> Enterprise automation, long-running projects, systems with thousands of sub-tasks.</p>
@@ -266,21 +273,21 @@
       <div class="mini-viz">
         <div class="mini-viz-label">Plan first, then execute each step</div>
         <svg viewBox="0 0 270 90" xmlns="http://www.w3.org/2000/svg">
-          <rect x="5" y="30" width="70" height="28" rx="5" fill="rgba(227,179,65,.12)" stroke="#e3b341" stroke-width="1.2"/>
-          <text x="40" y="47" text-anchor="middle" fill="#e3b341" font-size="9" font-family="Courier New">Planner</text>
-          <line x1="75" y1="44" x2="100" y2="44" stroke="#30363d" stroke-width="1.5" marker-end="url(#arr3)"/>
-          <rect x="100" y="15" width="60" height="22" rx="4" fill="rgba(240,136,62,.1)" stroke="#f0883e" stroke-width="1.1"/>
-          <text x="130" y="29" text-anchor="middle" fill="#f0883e" font-size="7.5" font-family="Courier New">Step 1</text>
-          <rect x="100" y="45" width="60" height="22" rx="4" fill="rgba(240,136,62,.1)" stroke="#f0883e" stroke-width="1.1"/>
-          <text x="130" y="59" text-anchor="middle" fill="#f0883e" font-size="7.5" font-family="Courier New">Step 2</text>
-          <rect x="100" y="75" width="60" height="22" rx="4" fill="rgba(240,136,62,.1)" stroke="#f0883e" stroke-width="1.1"/>
-          <text x="130" y="89" text-anchor="middle" fill="#f0883e" font-size="7.5" font-family="Courier New">Step 3</text>
-          <line x1="160" y1="26" x2="190" y2="44" stroke="#30363d" stroke-width="1.1" marker-end="url(#arr3)"/>
-          <line x1="160" y1="56" x2="190" y2="44" stroke="#30363d" stroke-width="1.1"/>
-          <line x1="160" y1="86" x2="190" y2="44" stroke="#30363d" stroke-width="1.1"/>
-          <rect x="190" y="30" width="75" height="28" rx="5" fill="rgba(63,185,80,.12)" stroke="#3fb950" stroke-width="1.2"/>
-          <text x="227" y="47" text-anchor="middle" fill="#3fb950" font-size="9" font-family="Courier New">Executor</text>
-          <defs><marker id="arr3" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#30363d"/></marker></defs>
+          <rect x="5" y="30" width="70" height="28" rx="5" fill="rgba(227,179,65,.12)" stroke="var(--yellow)" stroke-width="1.2"/>
+          <text x="40" y="47" text-anchor="middle" fill="var(--yellow)" font-size="9" font-family="Courier New">Planner</text>
+          <line x1="75" y1="44" x2="100" y2="44" stroke="var(--border)" stroke-width="1.5" marker-end="url(#arr3)"/>
+          <rect x="100" y="15" width="60" height="22" rx="4" fill="rgba(240,136,62,.1)" stroke="var(--orange)" stroke-width="1.1"/>
+          <text x="130" y="29" text-anchor="middle" fill="var(--orange)" font-size="7.5" font-family="Courier New">Step 1</text>
+          <rect x="100" y="45" width="60" height="22" rx="4" fill="rgba(240,136,62,.1)" stroke="var(--orange)" stroke-width="1.1"/>
+          <text x="130" y="59" text-anchor="middle" fill="var(--orange)" font-size="7.5" font-family="Courier New">Step 2</text>
+          <rect x="100" y="75" width="60" height="22" rx="4" fill="rgba(240,136,62,.1)" stroke="var(--orange)" stroke-width="1.1"/>
+          <text x="130" y="89" text-anchor="middle" fill="var(--orange)" font-size="7.5" font-family="Courier New">Step 3</text>
+          <line x1="160" y1="26" x2="190" y2="44" stroke="var(--border)" stroke-width="1.1" marker-end="url(#arr3)"/>
+          <line x1="160" y1="56" x2="190" y2="44" stroke="var(--border)" stroke-width="1.1"/>
+          <line x1="160" y1="86" x2="190" y2="44" stroke="var(--border)" stroke-width="1.1"/>
+          <rect x="190" y="30" width="75" height="28" rx="5" fill="rgba(63,185,80,.12)" stroke="var(--green)" stroke-width="1.2"/>
+          <text x="227" y="47" text-anchor="middle" fill="var(--green)" font-size="9" font-family="Courier New">Executor</text>
+          <defs><marker id="arr3" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="context-stroke"/></marker></defs>
         </svg>
       </div>
       <p><strong>Best for:</strong> Complex research tasks, software projects, long documents where consistency across steps matters.</p>
@@ -298,18 +305,18 @@
       <div class="mini-viz">
         <div class="mini-viz-label">Generate → Critique → Revise loop</div>
         <svg viewBox="0 0 260 90" xmlns="http://www.w3.org/2000/svg">
-          <rect x="10" y="30" width="70" height="28" rx="5" fill="rgba(88,166,255,.12)" stroke="#58a6ff" stroke-width="1.2"/>
-          <text x="45" y="47" text-anchor="middle" fill="#58a6ff" font-size="9" font-family="Courier New">Generator</text>
-          <line x1="80" y1="44" x2="105" y2="44" stroke="#30363d" stroke-width="1.5" marker-end="url(#arr4)"/>
-          <rect x="105" y="30" width="60" height="28" rx="5" fill="rgba(248,81,73,.12)" stroke="#f85149" stroke-width="1.2"/>
-          <text x="135" y="47" text-anchor="middle" fill="#f85149" font-size="9" font-family="Courier New">Critic</text>
-          <line x1="165" y1="44" x2="192" y2="44" stroke="#30363d" stroke-width="1.5" marker-end="url(#arr4)"/>
-          <rect x="192" y="30" width="60" height="28" rx="5" fill="rgba(63,185,80,.12)" stroke="#3fb950" stroke-width="1.2"/>
-          <text x="222" y="44" text-anchor="middle" fill="#3fb950" font-size="8.5" font-family="Courier New">Revise /</text>
-          <text x="222" y="55" text-anchor="middle" fill="#3fb950" font-size="8.5" font-family="Courier New">Accept</text>
-          <path d="M222,58 Q222,80 135,80 Q45,80 45,58" fill="none" stroke="#30363d" stroke-width="1.1" stroke-dasharray="3,2" marker-end="url(#arr4)"/>
-          <text x="135" y="76" text-anchor="middle" fill="#8b949e" font-size="7" font-family="Courier New">if not good enough</text>
-          <defs><marker id="arr4" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#30363d"/></marker></defs>
+          <rect x="10" y="30" width="70" height="28" rx="5" fill="rgba(88,166,255,.12)" stroke="var(--blue)" stroke-width="1.2"/>
+          <text x="45" y="47" text-anchor="middle" fill="var(--blue)" font-size="9" font-family="Courier New">Generator</text>
+          <line x1="80" y1="44" x2="105" y2="44" stroke="var(--border)" stroke-width="1.5" marker-end="url(#arr4)"/>
+          <rect x="105" y="30" width="60" height="28" rx="5" fill="rgba(248,81,73,.12)" stroke="var(--red)" stroke-width="1.2"/>
+          <text x="135" y="47" text-anchor="middle" fill="var(--red)" font-size="9" font-family="Courier New">Critic</text>
+          <line x1="165" y1="44" x2="192" y2="44" stroke="var(--border)" stroke-width="1.5" marker-end="url(#arr4)"/>
+          <rect x="192" y="30" width="60" height="28" rx="5" fill="rgba(63,185,80,.12)" stroke="var(--green)" stroke-width="1.2"/>
+          <text x="222" y="44" text-anchor="middle" fill="var(--green)" font-size="8.5" font-family="Courier New">Revise /</text>
+          <text x="222" y="55" text-anchor="middle" fill="var(--green)" font-size="8.5" font-family="Courier New">Accept</text>
+          <path d="M222,58 Q222,80 135,80 Q45,80 45,58" fill="none" stroke="var(--border)" stroke-width="1.1" stroke-dasharray="3,2" marker-end="url(#arr4)"/>
+          <text x="135" y="76" text-anchor="middle" fill="var(--dim)" font-size="7" font-family="Courier New">if not good enough</text>
+          <defs><marker id="arr4" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="context-stroke"/></marker></defs>
         </svg>
       </div>
       <p><strong>Best for:</strong> Writing, code generation, analysis — any task where quality matters and first drafts are rarely perfect.</p>
@@ -327,22 +334,22 @@
       <div class="mini-viz">
         <div class="mini-viz-label">Agents debate; judge picks best answer</div>
         <svg viewBox="0 0 260 110" xmlns="http://www.w3.org/2000/svg">
-          <rect x="10" y="15" width="65" height="26" rx="5" fill="rgba(88,166,255,.12)" stroke="#58a6ff" stroke-width="1.2"/>
-          <text x="42" y="31" text-anchor="middle" fill="#58a6ff" font-size="8.5" font-family="Courier New">Agent A</text>
-          <rect x="10" y="55" width="65" height="26" rx="5" fill="rgba(210,168,255,.12)" stroke="#d2a8ff" stroke-width="1.2"/>
-          <text x="42" y="71" text-anchor="middle" fill="#d2a8ff" font-size="8.5" font-family="Courier New">Agent B</text>
-          <rect x="10" y="95" width="65" height="26" rx="5" fill="rgba(240,136,62,.12)" stroke="#f0883e" stroke-width="1.2"/>
-          <text x="42" y="111" text-anchor="middle" fill="#f0883e" font-size="8.5" font-family="Courier New">Agent C</text>
-          <line x1="75" y1="28" x2="130" y2="56" stroke="#30363d" stroke-width="1.1" marker-end="url(#arr5)"/>
-          <line x1="75" y1="68" x2="130" y2="68" stroke="#30363d" stroke-width="1.1" marker-end="url(#arr5)"/>
-          <line x1="75" y1="108" x2="130" y2="80" stroke="#30363d" stroke-width="1.1" marker-end="url(#arr5)"/>
-          <rect x="130" y="50" width="60" height="35" rx="5" fill="rgba(248,81,73,.12)" stroke="#f85149" stroke-width="1.2"/>
-          <text x="160" y="65" text-anchor="middle" fill="#f85149" font-size="8.5" font-family="Courier New">Judge</text>
-          <text x="160" y="78" text-anchor="middle" fill="#f85149" font-size="7.5" font-family="Courier New">/ Consensus</text>
-          <line x1="190" y1="67" x2="218" y2="67" stroke="#30363d" stroke-width="1.5" marker-end="url(#arr5)"/>
-          <rect x="218" y="55" width="38" height="26" rx="4" fill="rgba(63,185,80,.12)" stroke="#3fb950" stroke-width="1.2"/>
-          <text x="237" y="71" text-anchor="middle" fill="#3fb950" font-size="7.5" font-family="Courier New">Best</text>
-          <defs><marker id="arr5" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#30363d"/></marker></defs>
+          <rect x="10" y="15" width="65" height="26" rx="5" fill="rgba(88,166,255,.12)" stroke="var(--blue)" stroke-width="1.2"/>
+          <text x="42" y="31" text-anchor="middle" fill="var(--blue)" font-size="8.5" font-family="Courier New">Agent A</text>
+          <rect x="10" y="55" width="65" height="26" rx="5" fill="rgba(210,168,255,.12)" stroke="var(--purple)" stroke-width="1.2"/>
+          <text x="42" y="71" text-anchor="middle" fill="var(--purple)" font-size="8.5" font-family="Courier New">Agent B</text>
+          <rect x="10" y="95" width="65" height="26" rx="5" fill="rgba(240,136,62,.12)" stroke="var(--orange)" stroke-width="1.2"/>
+          <text x="42" y="111" text-anchor="middle" fill="var(--orange)" font-size="8.5" font-family="Courier New">Agent C</text>
+          <line x1="75" y1="28" x2="130" y2="56" stroke="var(--border)" stroke-width="1.1" marker-end="url(#arr5)"/>
+          <line x1="75" y1="68" x2="130" y2="68" stroke="var(--border)" stroke-width="1.1" marker-end="url(#arr5)"/>
+          <line x1="75" y1="108" x2="130" y2="80" stroke="var(--border)" stroke-width="1.1" marker-end="url(#arr5)"/>
+          <rect x="130" y="50" width="60" height="35" rx="5" fill="rgba(248,81,73,.12)" stroke="var(--red)" stroke-width="1.2"/>
+          <text x="160" y="65" text-anchor="middle" fill="var(--red)" font-size="8.5" font-family="Courier New">Judge</text>
+          <text x="160" y="78" text-anchor="middle" fill="var(--red)" font-size="7.5" font-family="Courier New">/ Consensus</text>
+          <line x1="190" y1="67" x2="218" y2="67" stroke="var(--border)" stroke-width="1.5" marker-end="url(#arr5)"/>
+          <rect x="218" y="55" width="38" height="26" rx="4" fill="rgba(63,185,80,.12)" stroke="var(--green)" stroke-width="1.2"/>
+          <text x="237" y="71" text-anchor="middle" fill="var(--green)" font-size="7.5" font-family="Courier New">Best</text>
+          <defs><marker id="arr5" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="context-stroke"/></marker></defs>
         </svg>
       </div>
       <p><strong>Best for:</strong> High-stakes decisions, factual verification, medical/legal analysis where accuracy is critical.</p>
@@ -360,24 +367,24 @@
       <div class="mini-viz">
         <div class="mini-viz-label">Agents share a common workspace</div>
         <svg viewBox="0 0 260 100" xmlns="http://www.w3.org/2000/svg">
-          <rect x="80" y="30" width="100" height="40" rx="6" fill="rgba(63,185,80,.1)" stroke="#3fb950" stroke-width="1.4"/>
-          <text x="130" y="48" text-anchor="middle" fill="#3fb950" font-size="9" font-family="Courier New">Blackboard</text>
-          <text x="130" y="62" text-anchor="middle" fill="#3fb950" font-size="7.5" font-family="Courier New">Shared State</text>
-          <rect x="5" y="38" width="55" height="24" rx="4" fill="rgba(88,166,255,.1)" stroke="#58a6ff" stroke-width="1.1"/>
-          <text x="32" y="53" text-anchor="middle" fill="#58a6ff" font-size="7.5" font-family="Courier New">Agent 1</text>
-          <line x1="60" y1="50" x2="80" y2="50" stroke="#58a6ff" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arr6)"/>
-          <rect x="200" y="38" width="55" height="24" rx="4" fill="rgba(210,168,255,.1)" stroke="#d2a8ff" stroke-width="1.1"/>
-          <text x="227" y="53" text-anchor="middle" fill="#d2a8ff" font-size="7.5" font-family="Courier New">Agent 2</text>
-          <line x1="180" y1="50" x2="200" y2="50" stroke="#d2a8ff" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arr6)"/>
-          <rect x="95" y="5" width="70" height="22" rx="4" fill="rgba(240,136,62,.1)" stroke="#f0883e" stroke-width="1.1"/>
-          <text x="130" y="19" text-anchor="middle" fill="#f0883e" font-size="7.5" font-family="Courier New">Agent 3</text>
-          <line x1="130" y1="27" x2="130" y2="30" stroke="#f0883e" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arr6)"/>
-          <rect x="95" y="73" width="70" height="22" rx="4" fill="rgba(248,81,73,.1)" stroke="#f85149" stroke-width="1.1"/>
-          <text x="130" y="87" text-anchor="middle" fill="#f85149" font-size="7.5" font-family="Courier New">Agent 4</text>
-          <line x1="130" y1="73" x2="130" y2="70" stroke="#f85149" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arr6down)"/>
+          <rect x="80" y="30" width="100" height="40" rx="6" fill="rgba(63,185,80,.1)" stroke="var(--green)" stroke-width="1.4"/>
+          <text x="130" y="48" text-anchor="middle" fill="var(--green)" font-size="9" font-family="Courier New">Blackboard</text>
+          <text x="130" y="62" text-anchor="middle" fill="var(--green)" font-size="7.5" font-family="Courier New">Shared State</text>
+          <rect x="5" y="38" width="55" height="24" rx="4" fill="rgba(88,166,255,.1)" stroke="var(--blue)" stroke-width="1.1"/>
+          <text x="32" y="53" text-anchor="middle" fill="var(--blue)" font-size="7.5" font-family="Courier New">Agent 1</text>
+          <line x1="60" y1="50" x2="80" y2="50" stroke="var(--blue)" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arr6)"/>
+          <rect x="200" y="38" width="55" height="24" rx="4" fill="rgba(210,168,255,.1)" stroke="var(--purple)" stroke-width="1.1"/>
+          <text x="227" y="53" text-anchor="middle" fill="var(--purple)" font-size="7.5" font-family="Courier New">Agent 2</text>
+          <line x1="180" y1="50" x2="200" y2="50" stroke="var(--purple)" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arr6)"/>
+          <rect x="95" y="5" width="70" height="22" rx="4" fill="rgba(240,136,62,.1)" stroke="var(--orange)" stroke-width="1.1"/>
+          <text x="130" y="19" text-anchor="middle" fill="var(--orange)" font-size="7.5" font-family="Courier New">Agent 3</text>
+          <line x1="130" y1="27" x2="130" y2="30" stroke="var(--orange)" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arr6)"/>
+          <rect x="95" y="73" width="70" height="22" rx="4" fill="rgba(248,81,73,.1)" stroke="var(--red)" stroke-width="1.1"/>
+          <text x="130" y="87" text-anchor="middle" fill="var(--red)" font-size="7.5" font-family="Courier New">Agent 4</text>
+          <line x1="130" y1="73" x2="130" y2="70" stroke="var(--red)" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arr6down)"/>
           <defs>
-            <marker id="arr6" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#30363d"/></marker>
-            <marker id="arr6down" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="270"><path d="M0,0 L0,6 L6,3 z" fill="#30363d"/></marker>
+            <marker id="arr6" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="context-stroke"/></marker>
+            <marker id="arr6down" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="270"><path d="M0,0 L0,6 L6,3 z" fill="context-stroke"/></marker>
           </defs>
         </svg>
       </div>
@@ -417,20 +424,20 @@
       <div class="mini-viz">
         <div class="mini-viz-label">Agent pauses for human approval at gate</div>
         <svg viewBox="0 0 280 80" xmlns="http://www.w3.org/2000/svg">
-          <rect x="5" y="27" width="65" height="26" rx="5" fill="rgba(88,166,255,.12)" stroke="#58a6ff" stroke-width="1.2"/>
-          <text x="37" y="43" text-anchor="middle" fill="#58a6ff" font-size="9" font-family="Courier New">Agent</text>
-          <line x1="70" y1="40" x2="90" y2="40" stroke="#30363d" stroke-width="1.5" marker-end="url(#arr7)"/>
-          <polygon points="90,30 108,40 90,50" fill="none" stroke="#f85149" stroke-width="1.4"/>
-          <text x="99" y="44" text-anchor="middle" fill="#f85149" font-size="8" font-family="Courier New">?</text>
-          <line x1="108" y1="40" x2="128" y2="40" stroke="#30363d" stroke-width="1.1" stroke-dasharray="3,2"/>
-          <rect x="128" y="27" width="75" height="26" rx="5" fill="rgba(227,179,65,.12)" stroke="#e3b341" stroke-width="1.2"/>
-          <text x="165" y="38" text-anchor="middle" fill="#e3b341" font-size="8.5" font-family="Courier New">Human</text>
-          <text x="165" y="49" text-anchor="middle" fill="#e3b341" font-size="8.5" font-family="Courier New">Review</text>
-          <line x1="203" y1="40" x2="218" y2="40" stroke="#30363d" stroke-width="1.5" marker-end="url(#arr7)"/>
-          <rect x="218" y="27" width="58" height="26" rx="5" fill="rgba(63,185,80,.12)" stroke="#3fb950" stroke-width="1.2"/>
-          <text x="247" y="38" text-anchor="middle" fill="#3fb950" font-size="8.5" font-family="Courier New">Continue</text>
-          <text x="247" y="49" text-anchor="middle" fill="#3fb950" font-size="8.5" font-family="Courier New">or Stop</text>
-          <defs><marker id="arr7" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#30363d"/></marker></defs>
+          <rect x="5" y="27" width="65" height="26" rx="5" fill="rgba(88,166,255,.12)" stroke="var(--blue)" stroke-width="1.2"/>
+          <text x="37" y="43" text-anchor="middle" fill="var(--blue)" font-size="9" font-family="Courier New">Agent</text>
+          <line x1="70" y1="40" x2="90" y2="40" stroke="var(--border)" stroke-width="1.5" marker-end="url(#arr7)"/>
+          <polygon points="90,30 108,40 90,50" fill="none" stroke="var(--red)" stroke-width="1.4"/>
+          <text x="99" y="44" text-anchor="middle" fill="var(--red)" font-size="8" font-family="Courier New">?</text>
+          <line x1="108" y1="40" x2="128" y2="40" stroke="var(--border)" stroke-width="1.1" stroke-dasharray="3,2"/>
+          <rect x="128" y="27" width="75" height="26" rx="5" fill="rgba(227,179,65,.12)" stroke="var(--yellow)" stroke-width="1.2"/>
+          <text x="165" y="38" text-anchor="middle" fill="var(--yellow)" font-size="8.5" font-family="Courier New">Human</text>
+          <text x="165" y="49" text-anchor="middle" fill="var(--yellow)" font-size="8.5" font-family="Courier New">Review</text>
+          <line x1="203" y1="40" x2="218" y2="40" stroke="var(--border)" stroke-width="1.5" marker-end="url(#arr7)"/>
+          <rect x="218" y="27" width="58" height="26" rx="5" fill="rgba(63,185,80,.12)" stroke="var(--green)" stroke-width="1.2"/>
+          <text x="247" y="38" text-anchor="middle" fill="var(--green)" font-size="8.5" font-family="Courier New">Continue</text>
+          <text x="247" y="49" text-anchor="middle" fill="var(--green)" font-size="8.5" font-family="Courier New">or Stop</text>
+          <defs><marker id="arr7" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="context-stroke"/></marker></defs>
         </svg>
       </div>
       <p>Common HITL triggers: before sending an email, before executing a financial transaction, before deleting data, or when confidence is below a threshold.</p>
