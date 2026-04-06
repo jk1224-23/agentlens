@@ -28,6 +28,15 @@ body{background:var(--bg);color:var(--text);font-family:'Georgia',serif;font-siz
 #hdr span{color:var(--accent);font-family:'Courier New',monospace;font-weight:bold}
 #hdr .sep{opacity:.3}
 
+/* ── NAVBAR (for advanced/capstone pages) ──────────────────────────────────── */
+.navbar{position:fixed;top:0;left:0;right:0;height:52px;background:var(--hdr-bg);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);display:flex;align-items:center;z-index:200}
+.nav-content{display:flex;align-items:center;justify-content:space-between;width:100%;padding:0 2rem;gap:.75rem}
+.logo{color:var(--heading);font-family:'Courier New',monospace;font-size:13px;font-weight:bold;text-decoration:none;transition:color .2s}
+.logo:hover{color:var(--accent)}
+.nav-links{display:flex;align-items:center;gap:1.5rem;margin-left:auto}
+.nav-link{color:var(--dim);font-size:13px;text-decoration:none;transition:color .2s}
+.nav-link:hover{color:var(--accent)}
+
 /* ── PROGRESS BAR ──────────────────────────────────────────────────────────── */
 #prog{position:fixed;top:52px;left:0;height:2px;background:var(--accent);z-index:201;transition:width .1s linear;box-shadow:0 0 8px var(--accent)}
 
@@ -38,6 +47,15 @@ body{background:var(--bg);color:var(--text);font-family:'Georgia',serif;font-siz
 #hero h1{font-size:clamp(2rem,5vw,3.8rem);font-weight:400;color:var(--heading);line-height:1.2;margin-bottom:1.2rem;letter-spacing:-.02em}
 #hero h1 em{color:var(--accent);font-style:normal}
 #hero .sub{font-size:1.05rem;color:var(--dim);margin-bottom:2rem;max-width:540px;margin-left:auto;margin-right:auto}
+
+/* ── HERO CLASS-BASED (for advanced/capstone pages) ──────────────────────── */
+.hero{height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;overflow:hidden;padding-top:52px}
+.hero-bg{position:absolute;inset:0;pointer-events:none;width:100%;height:100%}
+.hero-content{position:relative;z-index:2;max-width:760px;padding:2rem;display:flex;flex-direction:column;align-items:center}
+.guide-number{font-size:clamp(3rem,8vw,5rem);font-weight:300;color:var(--dim);margin-bottom:1rem;font-family:'Courier New',monospace;letter-spacing:.05em}
+.hero h1{font-size:clamp(2rem,5vw,3.8rem);font-weight:400;color:var(--heading);line-height:1.2;margin-bottom:1.2rem;letter-spacing:-.02em}
+.hero h1 em{color:var(--accent);font-style:normal}
+.hero p{font-size:1.05rem;color:var(--dim);margin-bottom:2rem;max-width:540px}
 .hero-badges{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin-bottom:2.2rem}
 .hero-badge{padding:.3rem .75rem;border-radius:999px;font-size:.75rem;font-family:'Courier New',monospace;border:1px solid}
 .hb-green{color:var(--green);border-color:rgba(63,185,80,.35);background:rgba(63,185,80,.07)}
@@ -185,9 +203,20 @@ footer{border-top:1px solid var(--border);padding:3rem 5rem;display:flex;gap:3re
   #hdr .sep{display:none}
   #hdr a{display:none}
 
+  .navbar{height:auto;padding:.75rem 1rem}
+  .nav-content{flex-direction:column;gap:.5rem;align-items:flex-start}
+  .nav-links{margin-left:0;gap:1rem}
+  .logo{font-size:12px}
+  .nav-link{font-size:12px}
+
   #hero{height:auto;min-height:100vh;min-height:100svh;padding-top:60px}
   #hero-content{padding:1.5rem 1rem}
   #hero h1{font-size:clamp(1.7rem,7vw,2.6rem)}
+
+  .hero{height:auto;min-height:100vh;min-height:100svh;padding-top:60px}
+  .hero-content{padding:1.5rem 1rem}
+  .guide-number{font-size:clamp(2rem,6vw,3rem)}
+  .hero h1{font-size:clamp(1.7rem,7vw,2.6rem)}
   #hero .sub{font-size:.9rem}
   .hero-badges{gap:.35rem}
   .hero-badge{font-size:.68rem;padding:.22rem .55rem}
@@ -245,4 +274,8 @@ footer{border-top:1px solid var(--border);padding:3rem 5rem;display:flex;gap:3re
   footer{padding:1.5rem 1rem}
   #hero h1{font-size:clamp(1.5rem,8vw,2rem)}
   .hero-badges{justify-content:flex-start}
+
+  .navbar{padding:.5rem 1rem}
+  .guide-number{font-size:clamp(1.5rem,6vw,2.2rem)}
+  .hero h1{font-size:clamp(1.5rem,8vw,2rem)}
 }
