@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Governance &amp; Compliance — agentlens</title>
+<meta name="description" content="Control, compliance, and organizational governance for AI agents. 15 concepts across 5 phases.">
+<meta property="og:title" content="Governance &amp; Compliance — agentlens">
+<meta property="og:description" content="15 governance and compliance concepts for production AI agents.">
+<meta property="og:url" content="https://jk1224-23.github.io/agentlens/governance/">
+<link rel="stylesheet" href="../shared/base.css">
+<style>
+:root{
+  --accent:#20c997;
+  --accent-subtle:rgba(32,201,151,.07);
+  --accent-subtle2:rgba(32,201,151,.1);
+  --accent-border:rgba(32,201,151,.3);
+}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme="dark"]){
+    --accent:#0d8659;
+    --accent-subtle:rgba(13,134,89,.07);
+    --accent-subtle2:rgba(13,134,89,.08);
+    --accent-border:rgba(13,134,89,.28);
+  }
+}
+[data-theme="light"]{
+  --accent:#0d8659;
+  --accent-subtle:rgba(13,134,89,.07);
+  --accent-subtle2:rgba(13,134,89,.08);
+  --accent-border:rgba(13,134,89,.28);
+}
+</style>
+</head>
+<body>
+
+<div id="hdr">
+  <a href="../" style="color:var(--blue);font-family:'Courier New',monospace;font-weight:bold;font-size:15px;text-decoration:none">agentlens</a>
+  <span class="sep">|</span>
+  <a href="../" style="color:var(--dim);text-decoration:none;font-size:13px">← All Guides</a>
+  <span class="sep">|</span>
+  <span id="hdr-scene">Why Governance Matters</span>
+  <span class="sep" style="margin-left:auto">15 concepts · 5 phases</span>
+  <button id="theme-btn" aria-label="Toggle light/dark mode" title="Toggle light/dark mode">🌙</button>
+</div>
+<div id="prog"></div>
+
+<section id="hero">
+  <svg id="hero-bg" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice"></svg>
+  <div id="hero-content">
+    <div style="display:inline-flex;align-items:center;gap:.45rem;font-family:'Courier New',monospace;font-size:.72rem;color:var(--dim);border:1px solid var(--border);border-radius:999px;padding:.25rem .8rem;margin-bottom:1.1rem">
+      <span style="width:7px;height:7px;border-radius:50%;background:#20c997;display:inline-block;flex-shrink:0"></span>
+      Guide 07 of 9 &nbsp;·&nbsp; <em style="font-style:italic;color:var(--text)">How do I stay in control?</em>
+    </div>
+    <h1>Governance &amp;<br><em>Compliance</em></h1>
+    <p class="sub">Organizational control, regulatory compliance, and accountability frameworks for AI agents in production.</p>
+    <div class="hero-badges">
+      <span class="hero-badge hb-green">✓ Regulatory-ready</span>
+      <span class="hero-badge hb-blue">15 governance concepts</span>
+      <span class="hero-badge hb-purple">5 control phases</span>
+    </div>
+    <div class="scroll-cue">
+      <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      Scroll to explore
+    </div>
+  </div>
+</section>
+
+<div class="section-break">
+  <span class="sb-label">Part 1</span>
+  <div class="sb-line"></div>
+  <div class="sb-dot" style="background:#20c997"></div>
+  <span class="sb-label">Foundations</span>
+</div>
+
+<div id="scrolly">
+  <div id="text-col">
+    <div class="step" data-step="0">
+      <div class="chapter-pill"><span class="dot"></span>What is AI Governance?</div>
+      <h2>Control Across Organizations</h2>
+      <p>Governance is not a feature. It's a system of policies, roles, and enforcement mechanisms that ensures agents behave as intended, comply with regulations, and remain under human control. Three pillars: <strong>Policy</strong> (what agents can do), <strong>Identity</strong> (who is the agent? who authorized it?), <strong>Accountability</strong> (what actions are logged and auditable?).</p>
+      <p>Without governance, you have chaos. With it, you have predictable, controllable systems.</p>
+      <div class="callout"><strong>Governance scales with risk.</strong> A chatbot needs minimal governance. An agent that can delete production data needs rigorous governance. Design accordingly.</div>
+      <p><span class="tag t-y">policy</span> <span class="tag t-g">identity</span> <span class="tag t-b">accountability</span></p>
+    </div>
+
+    <div class="step" data-step="1">
+      <div class="chapter-pill"><span class="dot"></span>Identity &amp; Authentication</div>
+      <h2>Know Your Agent</h2>
+      <p>Every agent must have an identity: agent_id, version, owner (team), deployment environment. Authentication: can we verify the agent is who it claims? Is it the approved version? Has it been tampered with? Tools: mTLS for agent-to-API communication, cryptographic signatures on agent binaries, hardware security modules for keys in highly sensitive environments.</p>
+      <div class="callout purple"><strong>An unauthenticated agent is an unauthorized agent.</strong> You can't audit, revoke, or investigate an agent you can't identify. Identity is foundational.</div>
+      <p><span class="tag t-b">mTLS</span> <span class="tag t-g">agent ID</span> <span class="tag t-o">version control</span></p>
+    </div>
+
+    <div class="step" data-step="2">
+      <div class="chapter-pill"><span class="dot"></span>Policy as Code</div>
+      <h2>Rules That Enforce Themselves</h2>
+      <p>Write policies as code, not documents. Example: "Agent X can only read public files, not write, not access PII, not call payment APIs." This policy is executed by the runtime, not interpreted by humans. If the agent tries to violate, the runtime blocks it. Policies are versioned, audited, and can be rolled back.</p>
+      <div class="callout blue"><strong>Policy as code is policy that actually works.</strong> A PDF policy is guidance. Code policy is enforcement. Use code.</div>
+      <p><span class="tag t-b">policy enforcement</span> <span class="tag t-g">versioned</span> <span class="tag t-p">audit trail</span></p>
+    </div>
+  </div>
+
+  <div id="viz-col">
+    <div id="viz-wrap">
+      <svg id="main-svg" viewBox="-14 -14 588 588" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+  </div>
+</div>
+
+<div class="section-break">
+  <span class="sb-label">Part 2</span>
+  <div class="sb-line"></div>
+  <div class="sb-dot" style="background:var(--orange)"></div>
+  <span class="sb-label">Access &amp; Authorization</span>
+</div>
+
+<div id="scrolly2">
+  <div class="text-col2">
+    <div class="step" data-step="3">
+      <div class="chapter-pill"><span class="dot"></span>Authorization Models</div>
+      <h2>Who Can Do What?</h2>
+      <p>Three models: <strong>RBAC</strong> (role-based: agent has role "data_analyst," role has permissions) — simple, scales poorly. <strong>ABAC</strong> (attribute-based: grant access if agent.team == "analytics" AND request.dataType == "public" AND time.hour < 22) — complex, scales well. <strong>ReBAC</strong> (relationship-based: grant access if user.id in resource.readers) — relationship graph, very flexible.</p>
+      <p>Choose based on your needs. Start with RBAC. Evolve to ABAC if you have many conditions.</p>
+      <div class="callout green"><strong>Default-deny.</strong> Never grant all permissions and revoke exceptions. Always grant only what's needed.</div>
+      <p><span class="tag t-b">RBAC</span> <span class="tag t-g">ABAC</span> <span class="tag t-p">default-deny</span></p>
+    </div>
+
+    <div class="step" data-step="4">
+      <div class="chapter-pill"><span class="dot"></span>Delegation &amp; Revocation</div>
+      <h2>Temporary Permission Grants</h2>
+      <p>Sometimes agents need temporary permissions. Example: "For this batch job, access the data warehouse. When done, revoke." Implement: short-lived tokens (15 min expiry), explicit revocation (not just timeout), audit trail (who delegated? when? why?). Never hand off persistent credentials.</p>
+      <div class="callout red"><strong>Short-lived tokens save you from credential compromise.</strong> If a token is leaked, the damage is bounded by time. Persistent credentials leak and nobody knows until months later.</div>
+      <p><span class="tag t-r">short-lived tokens</span> <span class="tag t-o">revocation</span> <span class="tag t-b">delegation audit</span></p>
+    </div>
+
+    <div class="step" data-step="5">
+      <div class="chapter-pill"><span class="dot"></span>Audit &amp; Accountability</div>
+      <h2>Answering the Hard Questions</h2>
+      <p>Every permission decision must be logged: "Agent X requested permission to read file Y. Decision: DENIED (policy violation). Timestamp: 2025-04-05T14:32Z." If a user asks "what data did the agent see?" you answer with logs. If a regulator asks "was the agent ever given access to PII?" you answer with logs. Immutable audit trail is non-negotiable.</p>
+      <div class="callout orange"><strong>Logs are your evidence in incident investigations and compliance audits.</strong> Without them, you can't defend yourself.</div>
+      <p><span class="tag t-o">immutable logs</span> <span class="tag t-b">GDPR compliance</span> <span class="tag t-g">evidence</span></p>
+    </div>
+  </div>
+
+  <div id="viz-col2">
+    <div id="viz-wrap2">
+      <svg id="main-svg2" viewBox="-14 -14 588 588" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+  </div>
+</div>
+
+<div class="section-break">
+  <span class="sb-label">Part 3</span>
+  <div class="sb-line"></div>
+  <div class="sb-dot" style="background:var(--purple)"></div>
+  <span class="sb-label">Compliance Frameworks</span>
+</div>
+
+<div id="scrolly3">
+  <div class="text-col3">
+    <div class="step" data-step="6">
+      <div class="chapter-pill"><span class="dot"></span>Regulatory Landscape</div>
+      <h2>GDPR, HIPAA, SOC2, and More</h2>
+      <p><strong>GDPR</strong> (EU) — users have right to explanation of decisions, right to deletion, right to data portability. <strong>HIPAA</strong> (healthcare, US) — agents handling patient data must encrypt, audit, isolate. <strong>SOC2</strong> (security/availability/privacy) — required by enterprise customers, demands controls, logging, incident response. <strong>PCI-DSS</strong> (payment data) — if agents touch credit cards, strict isolation and encryption required.</p>
+      <p>Compliance is expensive but choosing non-compliance is more expensive (fines, lawsuits, customer losses).</p>
+      <div class="callout blue"><strong>Start compliance conversations early.</strong> Building it in from the start costs 1/10th what retrofitting costs.</div>
+      <p><span class="tag t-b">GDPR</span> <span class="tag t-p">HIPAA</span> <span class="tag t-o">SOC2</span> <span class="tag t-g">PCI-DSS</span></p>
+    </div>
+
+    <div class="step" data-step="7">
+      <div class="chapter-pill"><span class="dot"></span>Data Residency &amp; Sovereignty</div>
+      <h2>Where Data Lives Matters</h2>
+      <p>Some jurisdictions require data to live in-country. EU citizens' data stays in EU. China's data stays in China. This forces agents to route requests appropriately, use local APIs, never export data. Violating residency requirements = regulatory fines.</p>
+      <div class="callout orange"><strong>Map your agents to data residency zones before you deploy.</strong> Changing after launch is hard.</div>
+      <p><span class="tag t-o">data residency</span> <span class="tag t-r">sovereignty</span> <span class="tag t-b">compliance</span></p>
+    </div>
+
+    <div class="step" data-step="8">
+      <div class="chapter-pill"><span class="dot"></span>Incident Response &amp; Disclosure</div>
+      <h2>When Things Go Wrong</h2>
+      <p>When an agent causes a breach (exposes PII, makes unauthorized changes, violates policy), you must: (1) Detect it (observability!), (2) Contain it (stop the agent), (3) Investigate (trace logs), (4) Notify stakeholders (data subjects, regulators within timeframe — GDPR: 72 hours), (5) Remediate (fix the bug, prevent recurrence).</p>
+      <div class="callout red"><strong>Have an incident response plan before the incident.</strong> Decide who gets paged, what the steps are, what you'll say to customers. Do this in advance.</div>
+      <p><span class="tag t-r">incident detection</span> <span class="tag t-o">notification</span> <span class="tag t-b">remediation</span></p>
+    </div>
+  </div>
+
+  <div id="viz-col3">
+    <div id="viz-wrap3">
+      <svg id="main-svg3" viewBox="-14 -14 588 588" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+  </div>
+</div>
+
+<div class="section-break">
+  <span class="sb-label">Part 4</span>
+  <div class="sb-line"></div>
+  <div class="sb-dot" style="background:var(--blue)"></div>
+  <span class="sb-label">Risk Management</span>
+</div>
+
+<div id="scrolly4">
+  <div class="text-col4">
+    <div class="step" data-step="9">
+      <div class="chapter-pill"><span class="dot"></span>Risk Classification</div>
+      <h2>High-Risk vs. Low-Risk Agents</h2>
+      <p>Classify agents by what they can damage if compromised: <strong>Low-risk</strong> (reads public data, suggests ideas) → minimal controls. <strong>Medium-risk</strong> (modifies internal data, sends emails) → moderate controls. <strong>High-risk</strong> (deletes records, moves money, exposes PII) → maximum controls. Each tier demands different governance, monitoring, and approval workflows.</p>
+      <div class="callout green"><strong>Governance by risk, not by blanket rules.</strong> Requiring humans to approve every low-risk agent action is waste. Not requiring approval for high-risk actions is negligence. Match controls to risk.</div>
+      <p><span class="tag t-g">risk tiers</span> <span class="tag t-b">proportional controls</span> <span class="tag t-o">blast radius</span></p>
+    </div>
+
+    <div class="step" data-step="10">
+      <div class="chapter-pill"><span class="dot"></span>Red Teaming &amp; Adversarial Testing</div>
+      <h2>Breaking Your Own Agent</h2>
+      <p>Before every major release, deliberately try to break your agent. Prompt injection? Jailbreak? Escalation of privilege? Can you trick it into violating policies? If you find vulnerabilities in red team testing, you fix them before they reach users. If you don't red team, adversaries will find the vulnerabilities for you.</p>
+      <div class="callout red"><strong>Red team early, red team often.</strong> Every change is a new attack surface. Don't wait until launch.</div>
+      <p><span class="tag t-r">adversarial testing</span> <span class="tag t-o">prompt injection</span> <span class="tag t-b">vulnerability discovery</span></p>
+    </div>
+
+    <div class="step" data-step="11">
+      <div class="chapter-pill"><span class="dot"></span>Continuous Compliance Monitoring</div>
+      <h2>Staying Compliant Over Time</h2>
+      <p>Compliance isn't a checkbox you mark once. It's continuous. Regularly audit: are agents still following policy? Are logs still immutable? Is access still least-privilege? Schedule compliance audits (quarterly), run automated checks (continuous), involve external auditors (annual).</p>
+      <div class="callout purple"><strong>Compliance drift is real and dangerous.</strong> Code changes, policies change, people change. Without continuous monitoring, non-compliance creeps in.</div>
+      <p><span class="tag t-p">continuous monitoring</span> <span class="tag t-b">automated checks</span> <span class="tag t-o">audit schedules</span></p>
+    </div>
+  </div>
+
+  <div id="viz-col4">
+    <div id="viz-wrap4">
+      <svg id="main-svg4" viewBox="-14 -14 588 588" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+  </div>
+</div>
+
+<div class="section-break">
+  <span class="sb-label">Part 5</span>
+  <div class="sb-line"></div>
+  <div class="sb-dot" style="background:var(--green)"></div>
+  <span class="sb-label">Organizational Governance</span>
+</div>
+
+<div id="scrolly5">
+  <div class="text-col5">
+    <div class="step" data-step="12">
+      <div class="chapter-pill"><span class="dot"></span>AI Governance Structure</div>
+      <h2>Roles &amp; Responsibilities</h2>
+      <p>Define roles: <strong>AI Lead</strong> (owns policy), <strong>Security Lead</strong> (threat modeling, incident response), <strong>Compliance Lead</strong> (regulatory alignment), <strong>Engineering Lead</strong> (implementation). Regular meetings: risk reviews (quarterly), incident postmortems (after every incident), compliance audits (annual). Clear escalation: if policy is ambiguous, who decides?</p>
+      <div class="callout blue"><strong>Governance without clear ownership fails.</strong> Every policy needs an owner responsible for enforcement.</div>
+      <p><span class="tag t-b">governance structure</span> <span class="tag t-g">ownership</span> <span class="tag t-o">escalation</span></p>
+    </div>
+
+    <div class="step" data-step="13">
+      <div class="chapter-pill"><span class="dot"></span>Training &amp; Awareness</div>
+      <h2>Culture of Responsibility</h2>
+      <p>Governance only works if people understand and follow it. Training: all engineers learn about policy, audit, incident response. Quarterly refreshers. Real incident postmortems (sharing what went wrong and how we fixed it) are the most effective training.</p>
+      <div class="callout green"><strong>People are the strongest governance control.</strong> Well-trained teams that care about compliance catch issues before they become incidents.</div>
+      <p><span class="tag t-g">training</span> <span class="tag t-b">awareness</span> <span class="tag t-o">culture</span></p>
+    </div>
+
+    <div class="step" data-step="14">
+      <div class="chapter-pill"><span class="dot"></span>Governance Principles</div>
+      <h2>10 Governance Rules</h2>
+      <p><strong style="color:#20c997">① Identity is foundational</strong> — Know every agent.<br>
+         <strong style="color:var(--orange)">② Policy as code, not documents</strong> — Code enforces, docs don't.<br>
+         <strong style="color:var(--red)">③ Default-deny</strong> — Only grant what's needed.<br>
+         <strong style="color:var(--blue)">④ Governance scales with risk</strong> — High-risk agents need strict control.<br>
+         <strong style="color:var(--purple)">⑤ Audit everything</strong> — Logs are evidence.<br>
+         <strong style="color:#20c997">⑥ Incident response plan in advance</strong> — Decide before it happens.<br>
+         <strong style="color:var(--orange)">⑦ Red team before release</strong> — Find your own vulnerabilities.<br>
+         <strong style="color:var(--blue)">⑧ Compliance is continuous</strong> — Not a one-time checkbox.<br>
+         <strong style="color:var(--green)">⑨ Clear ownership</strong> — Every policy needs an owner.<br>
+         <strong style="color:#20c997">⑩ Culture matters</strong> — Trained teams prevent most incidents.</p>
+    </div>
+  </div>
+
+  <div id="viz-col5">
+    <div id="viz-wrap5">
+      <svg id="main-svg5" viewBox="-14 -14 588 588" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="ft-col" style="flex:2;min-width:280px">
+    <h4>About this guide</h4>
+    <p>Guide 07 of the agentlens series. Covers governance, compliance, authorization, and regulatory frameworks for production AI agents.</p>
+    <p style="margin-top:.5rem">Part of the <a href="../" style="color:var(--accent);text-decoration:none">agentlens</a> curriculum.</p>
+  </div>
+  <div class="ft-col">
+    <h4>Concepts</h4>
+    <span class="ft-stat">15</span>
+    <p>Governance concepts</p>
+  </div>
+  <div class="ft-col">
+    <h4>Phases</h4>
+    <span class="ft-stat" style="color:#20c997">5</span>
+    <p>Foundations · Access · Compliance · Risk · Organizational</p>
+  </div>
+  <div class="ft-col">
+    <h4>Other guides</h4>
+    <p><a href="../monitoring/" style="color:var(--yellow);text-decoration:none">← Guide 06 (Monitoring)</a></p>
+    <p style="margin-top:.35rem"><a href="../advanced/" style="color:var(--accent);text-decoration:none">Guide 08 (Advanced) →</a></p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="../shared/viz-utils.js"></script>
+<script>
+const STEP_NAMES=['Governance Foundations','Identity','Policy as Code','Authorization','Delegation','Accountability','Regulatory','Data Residency','Incident Response','Risk Classification','Red Teaming','Continuous Monitoring','Governance Structure','Training','10 Rules'];
+let activeStep=-1;
+function renderStep(n){
+  if(n===activeStep)return;
+  activeStep=n;
+  killTimers();
+  syncC();
+  document.getElementById('hdr-scene').textContent=STEP_NAMES[n]||'';
+  const setupSVG=(sel)=>sel.attr('viewBox','-14 -14 588 588').attr('preserveAspectRatio','xMidYMid meet');
+  if(n<=2){const svg=d3.select('#main-svg');svg.selectAll('*').remove();setupSVG(svg);setupDefs(svg);renderScene(svg.node(),560,560,{nodes:[{id:'policy',type:'rect',x:0.2,y:0.5,w:80,h:30,label:'Policy',color:'blue',delay:0},{id:'identity',type:'rect',x:0.5,y:0.5,w:80,h:30,label:'Identity',color:'green',delay:150},{id:'audit',type:'rect',x:0.8,y:0.5,w:80,h:30,label:'Audit',color:'orange',delay:300}],edges:[],labels:[{text:'Governance Pillars',x:0.5,y:0.1,size:14}]});}
+  else if(n<=5){const svg=d3.select('#main-svg2');svg.selectAll('*').remove();setupSVG(svg);setupDefs(svg);renderScene(svg.node(),560,560,{nodes:[{id:'rbac',type:'diamond',x:0.3,y:0.5,s:35,label:'RBAC',color:'blue',delay:0},{id:'abac',type:'diamond',x:0.5,y:0.5,s:35,label:'ABAC',color:'green',delay:150},{id:'rebac',type:'diamond',x:0.7,y:0.5,s:35,label:'ReBAC',color:'orange',delay:300}]});}
+  else if(n<=8){const svg=d3.select('#main-svg3');svg.selectAll('*').remove();setupSVG(svg);setupDefs(svg);renderScene(svg.node(),560,560,{nodes:[{id:'gdpr',type:'rect',x:0.15,y:0.3,w:80,h:28,label:'GDPR',color:'blue',delay:0},{id:'hipaa',type:'rect',x:0.4,y:0.3,w:80,h:28,label:'HIPAA',color:'green',delay:150},{id:'soc2',type:'rect',x:0.65,y:0.3,w:80,h:28,label:'SOC2',color:'orange',delay:300}]});}
+  else if(n<=11){const svg=d3.select('#main-svg4');svg.selectAll('*').remove();setupSVG(svg);setupDefs(svg);renderScene(svg.node(),560,560,{nodes:[{id:'low',type:'circle',x:0.2,y:0.5,r:30,label:'Low',color:'green',delay:0},{id:'med',type:'circle',x:0.5,y:0.5,r:35,label:'Med',color:'orange',delay:150},{id:'high',type:'circle',x:0.8,y:0.5,r:40,label:'High',color:'red',delay:300}],labels:[{text:'Risk Tiers',x:0.5,y:0.1,size:13}]});}
+  else{const svg=d3.select('#main-svg5');svg.selectAll('*').remove();setupSVG(svg);setupDefs(svg);renderScene(svg.node(),560,560,{nodes:[{id:'g1',type:'rect',x:0.25,y:0.4,w:75,h:26,label:'Structure',color:'blue',delay:0},{id:'g2',type:'rect',x:0.75,y:0.4,w:75,h:26,label:'Training',color:'green',delay:150}],labels:[{text:'Org Governance',x:0.5,y:0.1,size:13}]});}
+}
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('active');const step=+e.target.dataset.step;if(step!==activeStep){activeStep=-1;renderStep(step);}}else{e.target.classList.remove('active');}});},{threshold:.42,rootMargin:'-12% 0px -34% 0px'});
+document.querySelectorAll('.step').forEach(el=>obs.observe(el));
+window.addEventListener('load',()=>{if(activeStep===-1){activeStep=0;renderStep(0);}});
+initSharedUI(renderStep);
+startHeroNetworkAnimation({selector:'#hero-bg',width:1400,height:900,nodeCount:18,linkDistance:150,fps:28,palette:[C.blue,C.green,C.orange,C.purple]});
+</script>
+</body>
+</html>

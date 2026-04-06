@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monitoring &amp; Observability — agentlens</title>
+<meta name="description" content="Logs, metrics, traces, and alerts for AI agents in production. 15 observability concepts across 5 phases — animated and visual.">
+<meta property="og:title" content="Monitoring &amp; Observability — agentlens">
+<meta property="og:description" content="15 observability concepts across 5 phases for production AI agents.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jk1224-23.github.io/agentlens/monitoring/">
+<link rel="stylesheet" href="../shared/base.css">
+<style>
+:root{
+  --accent:var(--yellow);
+  --accent-subtle:rgba(227,179,65,.07);
+  --accent-subtle2:rgba(227,179,65,.1);
+  --accent-border:rgba(227,179,65,.3);
+}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme="dark"]){
+    --accent:#9a6700;
+    --accent-subtle:rgba(154,103,0,.07);
+    --accent-subtle2:rgba(154,103,0,.08);
+    --accent-border:rgba(154,103,0,.28);
+  }
+}
+[data-theme="light"]{
+  --accent:#9a6700;
+  --accent-subtle:rgba(154,103,0,.07);
+  --accent-subtle2:rgba(154,103,0,.08);
+  --accent-border:rgba(154,103,0,.28);
+}
+</style>
+</head>
+<body>
+
+<div id="hdr">
+  <a href="../" style="color:var(--blue);font-family:'Courier New',monospace;font-weight:bold;font-size:15px;text-decoration:none">agentlens</a>
+  <span class="sep">|</span>
+  <a href="../" style="color:var(--dim);text-decoration:none;font-size:13px">← All Guides</a>
+  <span class="sep">|</span>
+  <span id="hdr-scene">Why Observability Matters</span>
+  <span class="sep" style="margin-left:auto">15 concepts · 5 phases</span>
+  <button id="theme-btn" aria-label="Toggle light/dark mode" title="Toggle light/dark mode">🌙</button>
+</div>
+<div id="prog"></div>
+
+<section id="hero">
+  <svg id="hero-bg" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice"></svg>
+  <div id="hero-content">
+    <div style="display:inline-flex;align-items:center;gap:.45rem;font-family:'Courier New',monospace;font-size:.72rem;color:var(--dim);border:1px solid var(--border);border-radius:999px;padding:.25rem .8rem;margin-bottom:1.1rem">
+      <span style="width:7px;height:7px;border-radius:50%;background:var(--yellow);display:inline-block;flex-shrink:0"></span>
+      Guide 06 of 9 &nbsp;·&nbsp; <em style="font-style:italic;color:var(--text)">How do I see what's happening?</em>
+    </div>
+    <h1>Monitoring &amp;<br><em>Observability</em></h1>
+    <p class="sub">Logs, metrics, traces, and alerts for production AI agents — visibility into what agents do, how they perform, and when they go wrong.</p>
+    <div class="hero-badges">
+      <span class="hero-badge hb-green">✓ Real-time visibility</span>
+      <span class="hero-badge hb-blue">15 observability concepts</span>
+      <span class="hero-badge hb-purple">5 monitoring phases</span>
+    </div>
+    <div class="scroll-cue">
+      <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      Scroll to explore
+    </div>
+  </div>
+</section>
+
+<div class="section-break">
+  <span class="sb-label">Part 1</span>
+  <div class="sb-line"></div>
+  <div class="sb-dot" style="background:var(--yellow)"></div>
+  <span class="sb-label">Foundations</span>
+</div>
+
+<div id="scrolly">
+  <div id="text-col">
+    <div class="step" data-step="0">
+      <div class="chapter-pill"><span class="dot"></span>Why Observability Matters</div>
+      <h2>The Three Pillars of Observability</h2>
+      <p>Traditional monitoring answers "is it broken?" Observability answers "what happened?" An agent that fails silently is worse than one that fails loudly. You need visibility into three dimensions: <strong>Logs</strong> (what happened, when, with what inputs), <strong>Metrics</strong> (how many, how fast, how much), <strong>Traces</strong> (the full request journey through your system).</p>
+      <p><strong>The critical difference:</strong> Monitoring tells you the agent is down. Observability tells you why—and prevents it from happening again.</p>
+      <div class="callout yellow"><strong>You can't debug what you can't see.</strong> Production agents that lack observability are black boxes. When something goes wrong, you have no evidence. Observability is not optional; it's insurance against failure.</div>
+      <p><span class="tag t-y">logs</span> <span class="tag t-o">metrics</span> <span class="tag t-b">traces</span> <span class="tag t-p">visibility</span></p>
+    </div>
+
+    <div class="step" data-step="1">
+      <div class="chapter-pill"><span class="dot"></span>Structured Logging for Agents</div>
+      <h2>Logs That Tell a Story</h2>
+      <p>Most teams log randomly. Effective logging is structured: every agent action emits a JSON object containing the same fields. Required: <strong>timestamp</strong> (when), <strong>agent_id</strong> (which), <strong>session_id</strong> (context), <strong>step</strong> (which iteration), <strong>action</strong> (tool call or decision), <strong>input</strong> (what we passed), <strong>output</strong> (what we got), <strong>latency</strong> (how long), <strong>cost</strong> (tokens/API calls).</p>
+      <p>Unstructured logs: "Agent failed." Structured logs: you can query, aggregate, alert, and replay any agent session.</p>
+      <div class="callout orange"><strong>Log everything that's irrevocable.</strong> Agent reads a file — maybe log it. Agent deletes a record — absolutely log it. Agent makes an API call — definitely log it with full request/response. If you can't replay it, you can't investigate it.</div>
+      <p><span class="tag t-b">JSON logging</span> <span class="tag t-g">structured fields</span> <span class="tag t-o">immutable trace</span></p>
+    </div>
+
+    <div class="step" data-step="2">
+      <div class="chapter-pill"><span class="dot"></span>Key Metrics to Track</div>
+      <h2>Four Metric Categories</h2>
+      <p><strong>Latency metrics</strong> — response time, time per step, end-to-end duration (alerts on slowdown). <strong>Throughput metrics</strong> — requests per second, tasks completed, parallelism (capacity planning). <strong>Cost metrics</strong> — tokens per request, API call costs, cost per task (prevents runaway bills). <strong>Quality metrics</strong> — success rate, error rate, eval scores, policy violation rate (indicates degradation).</p>
+      <p>Track all four. Teams that only track latency miss cost explosions. Teams that only track success rate miss slow regressions.</p>
+      <div class="callout blue"><strong>Set SLOs before you need them.</strong> "p99 latency < 2s" "error rate < 0.5%" "cost per task < $0.10" — put these in code. Alert when you breach them.</div>
+      <p><span class="tag t-y">latency</span> <span class="tag t-o">throughput</span> <span class="tag t-r">cost</span> <span class="tag t-g">quality</span></p>
+    </div>
+  </div>
+
+  <div id="viz-col">
+    <div id="viz-wrap">
+      <svg id="main-svg" viewBox="-14 -14 588 588" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+  </div>
+</div>
+
+<div class="section-break">
+  <span class="sb-label">Part 2</span>
+  <div class="sb-line"></div>
+  <div class="sb-dot" style="background:var(--orange)"></div>
+  <span class="sb-label">Metrics &amp; Dashboards</span>
+</div>
+
+<div id="scrolly2">
+  <div class="text-col2">
+    <div class="step" data-step="3">
+      <div class="chapter-pill"><span class="dot"></span>Agent-Specific Dashboards</div>
+      <h2>Building the Right Dashboard</h2>
+      <p>Your dashboard should answer: <strong>Is the agent healthy right now?</strong> Top-level cards: success rate (%), p99 latency (ms), error count, cost per task ($). Second level: breakdown by task type, agent version, error type. Third level: drill-down into individual sessions for debugging.</p>
+      <p>Never ship a dashboard that requires clicking through 5 screens to find the answer. Put the answer on the front screen.</p>
+      <div class="callout purple"><strong>Dashboards are for humans.</strong> They should be glanceable. A healthy agent should look "green" at a glance. Anomalies should jump out immediately. If your dashboard requires reading, it's poorly designed.</div>
+      <p><span class="tag t-b">SLO tracking</span> <span class="tag t-g">drill-down</span> <span class="tag t-o">health status</span></p>
+    </div>
+
+    <div class="step" data-step="4">
+      <div class="chapter-pill"><span class="dot"></span>Cost Monitoring</div>
+      <h2>Preventing Token Blowouts</h2>
+      <p>Token costs are the most dangerous metric for agents: small bugs can lead to $1000s in overage within hours. Monitor: tokens per step (should be stable), total tokens per session (alert if > N%), and cost per session ($). Set hard limits: if cost per session > $X, fail fast and alert on-call.</p>
+      <p>A runaway agent that costs $100/session can rack up $50k in a day if it hits production undetected.</p>
+      <div class="callout red"><strong>Cost limits are circuit breakers.</strong> Not soft warnings. Hard stops. If an agent's cost exceeds threshold, kill it immediately. Better to fail a request than lose thousands of dollars.</div>
+      <p><span class="tag t-r">cost limits</span> <span class="tag t-o">token budgets</span> <span class="tag t-b">runaway detection</span></p>
+    </div>
+
+    <div class="step" data-step="5">
+      <div class="chapter-pill"><span class="dot"></span>Real-Time Alerting</div>
+      <h2>Alert on What Matters</h2>
+      <p>Alert fatigue kills observability. Only alert on: (1) <strong>Hard SLO breaches</strong> — p99 latency > 5s, error rate > 2%, (2) <strong>Cost anomalies</strong> — cost per session 10x baseline, (3) <strong>Availability</strong> — no successful requests in 5 minutes, (4) <strong>Behavioral change</strong> — error type distribution shifted. Do not alert on: "request took 1.5s" (noise).</p>
+      <div class="callout green"><strong>Every alert should be actionable.</strong> If you receive an alert and don't know what to do, it's a bad alert. Delete it. The goal is on-call people who respond to signals, not humans who silence alerts.</div>
+      <p><span class="tag t-r">SLO alerts</span> <span class="tag t-o">cost alerts</span> <span class="tag t-g">actionable</span></p>
+    </div>
+  </div>
+
+  <div id="viz-col2">
+    <div id="viz-wrap2">
+      <svg id="main-svg2" viewBox="-14 -14 588 588" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+  </div>
+</div>
+
+<div class="section-break">
+  <span class="sb-label">Part 3</span>
+  <div class="sb-line"></div>
+  <div class="sb-dot" style="background:var(--purple)"></div>
+  <span class="sb-label">Distributed Tracing</span>
+</div>
+
+<div id="scrolly3">
+  <div class="text-col3">
+    <div class="step" data-step="6">
+      <div class="chapter-pill"><span class="dot"></span>Tracing Multi-Agent Workflows</div>
+      <h2>Following the Full Journey</h2>
+      <p>A single request to your system may touch 5+ agents, each calling tools, waiting for responses, making decisions. A trace is the full ancestry tree: root request → orchestrator agent → researcher agent → writer agent → reviewer agent → result. Each node is a <strong>span</strong> (unit of work). The trace context (trace ID) ties all spans together.</p>
+      <div class="callout blue"><strong>Trace IDs are your debugging superpower.</strong> When a user says "something went wrong," ask them for the trace ID. You can instantly see every agent decision, tool call, and output that happened. Without traces, debugging is guessing.</div>
+      <p><span class="tag t-b">trace ID</span> <span class="tag t-p">span hierarchy</span> <span class="tag t-o">context propagation</span></p>
+    </div>
+
+    <div class="step" data-step="7">
+      <div class="chapter-pill"><span class="dot"></span>Debugging With Traces</div>
+      <h2>Replay &amp; Investigate</h2>
+      <p>A good tracing system lets you: (1) Reproduce the exact execution (all inputs/outputs), (2) See exactly where latency was spent (which agent was slow?), (3) Identify which tool call failed, (4) Trace costs to specific agents/tools. Without this, you're debugging blind.</p>
+      <p>Trace-based debugging is so powerful that it's worth the infrastructure investment even for small systems.</p>
+      <div class="callout orange"><strong>Ship with tracing from day one.</strong> Adding tracing to a system that wasn't built with it is 10x harder. Build it in from the start.</div>
+      <p><span class="tag t-g">replay</span> <span class="tag t-b">latency attribution</span> <span class="tag t-r">cost attribution</span></p>
+    </div>
+
+    <div class="step" data-step="8">
+      <div class="chapter-pill"><span class="dot"></span>Span Hierarchy</div>
+      <h2>Parent-Child Relationships</h2>
+      <p>Spans form a tree. Root span wraps the entire request. Child spans are agent steps. Grandchild spans are tool calls. This hierarchy lets you ask: "Why was my orchestrator slow?" Answer: look at its child spans. "Why was tool X slow?" Look at its duration. "Which tool called the payment API?" Trace the hierarchy.</p>
+      <div class="callout purple"><strong>Span hierarchy is the narrative of your request.</strong> Read it like a story: orchestrator decided → delegated to researcher → researcher searched web → researcher waited for response → returned to orchestrator. That's the flow.</div>
+      <p><span class="tag t-p">parent-child</span> <span class="tag t-b">hierarchy</span> <span class="tag t-o">causality</span></p>
+    </div>
+  </div>
+
+  <div id="viz-col3">
+    <div id="viz-wrap3">
+      <svg id="main-svg3" viewBox="-14 -14 588 588" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+  </div>
+</div>
+
+<div class="section-break">
+  <span class="sb-label">Part 4</span>
+  <div class="sb-line"></div>
+  <div class="sb-dot" style="background:var(--blue)"></div>
+  <span class="sb-label">Alerting &amp; Anomaly Detection</span>
+</div>
+
+<div id="scrolly4">
+  <div class="text-col4">
+    <div class="step" data-step="9">
+      <div class="chapter-pill"><span class="dot"></span>Behavioral Anomaly Detection</div>
+      <h2>Catching the Unexpected</h2>
+      <p>Some failures are obvious (error rate spikes). Others are subtle (agent using 2x tokens, taking 5x steps, calling unfamiliar tools). Set baselines: your agent's normal token usage is 200/request. When it hits 400+, that's a signal. Normal step count is 4. When it hits 10, something changed. These anomalies often precede outages.</p>
+      <div class="callout orange"><strong>Anomalies are more useful than thresholds.</strong> "Alert if latency > 2s" is fragile. "Alert if latency is 3 stddevs above rolling mean" adapts as your system changes. Use statistical anomaly detection.</div>
+      <p><span class="tag t-o">baseline drift</span> <span class="tag t-b">statistical detection</span> <span class="tag t-p">early warning</span></p>
+    </div>
+
+    <div class="step" data-step="10">
+      <div class="chapter-pill"><span class="dot"></span>Circuit Breakers</div>
+      <h2>Automated Failover</h2>
+      <p>A circuit breaker is a pattern: if error rate exceeds X% for Y seconds, automatically stop accepting requests and return a fallback response (cached result, simpler agent, human escalation). Don't wait for a human to notice and manually kill the agent. Let the system self-heal.</p>
+      <p>Three states: <strong>Closed</strong> (healthy, requests flow through), <strong>Open</strong> (too many errors, reject requests), <strong>Half-Open</strong> (recovering, allow probe requests to test health).</p>
+      <div class="callout red"><strong>Circuit breakers save money and user experience.</strong> An agent that fails fast with a fallback is better than one that returns wrong answers. Better still: fail fast and alert, then the human investigates.</div>
+      <p><span class="tag t-r">circuit breaker</span> <span class="tag t-o">auto-failover</span> <span class="tag t-g">self-healing</span></p>
+    </div>
+
+    <div class="step" data-step="11">
+      <div class="chapter-pill"><span class="dot"></span>On-Call & Escalation</div>
+      <h2>Humans in the Loop</h2>
+      <p>Observability is only useful if someone acts on the signals. Define: who gets paged? When? What's the runbook? If your only on-call runbook is "restart the agent," you have a systemic problem. The runbook should be "check the trace, identify the issue, consider: upgrade model? Add guardrail? Rollback? Escalate?"</p>
+      <div class="callout blue"><strong>On-call is a practice.</strong> Run game days: simulate production issues and practice response. The team that's practiced with traces will diagnose in minutes. The team that hasn't will panic.</div>
+      <p><span class="tag t-b">on-call rotation</span> <span class="tag t-g">runbook</span> <span class="tag t-o">game day</span></p>
+    </div>
+  </div>
+
+  <div id="viz-col4">
+    <div id="viz-wrap4">
+      <svg id="main-svg4" viewBox="-14 -14 588 588" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+  </div>
+</div>
+
+<div class="section-break">
+  <span class="sb-label">Part 5</span>
+  <div class="sb-line"></div>
+  <div class="sb-dot" style="background:var(--green)"></div>
+  <span class="sb-label">Production Observability</span>
+</div>
+
+<div id="scrolly5">
+  <div class="text-col5">
+    <div class="step" data-step="12">
+      <div class="chapter-pill"><span class="dot"></span>Observability at Scale</div>
+      <h2>From Prototype to Production</h2>
+      <p>A prototype logs to stdout. Production logs to a centralized system (CloudWatch, Datadog, New Relic). Metrics go to a time-series DB (Prometheus, InfluxDB). Traces go to a specialized backend (Jaeger, Honeycomb). Cost: cheap. Value: priceless when 3am incident hits.</p>
+      <p>The time to set up observability is before you need it.</p>
+      <div class="callout green"><strong>Instrument first, debug second.</strong> Don't wait for production incident to add tracing. Ship with it.</div>
+      <p><span class="tag t-b">centralized logging</span> <span class="tag t-g">time-series metrics</span> <span class="tag t-p">distributed tracing</span></p>
+    </div>
+
+    <div class="step" data-step="13">
+      <div class="chapter-pill"><span class="dot"></span>Compliance &amp; Audit</div>
+      <h2>Observability for Compliance</h2>
+      <p>Observability isn't just for debugging — it's required for compliance. GDPR requires you to explain what happened to a user's data. SOC2 requires audit trails. HIPAA requires immutable logs. These requirements force you to have observability anyway. Make it work for both debugging and compliance.</p>
+      <div class="callout purple"><strong>Observability is your compliance evidence.</strong> When an auditor asks "did your agent access user data inappropriately?" You can answer: "here's the full trace of every access, with timestamp, user ID, approval status."</div>
+      <p><span class="tag t-r">audit trail</span> <span class="tag t-o">GDPR</span> <span class="tag t-b">compliance</span></p>
+    </div>
+
+    <div class="step" data-step="14">
+      <div class="chapter-pill"><span class="dot"></span>15 Observability Principles</div>
+      <h2>10 Rules of Observability</h2>
+      <p><strong style="color:var(--yellow)">① Log all side effects</strong> — agent actions that change state must be logged.<br>
+         <strong style="color:var(--orange)">② Trace context everywhere</strong> — propagate trace ID through all requests.<br>
+         <strong style="color:var(--red)">③ Structured, immutable logs</strong> — JSON, write-once, searchable.<br>
+         <strong style="color:var(--blue)">④ Track all four metric types</strong> — latency, throughput, cost, quality.<br>
+         <strong style="color:var(--purple)">⑤ Set SLOs before launch</strong> — know your thresholds in advance.<br>
+         <strong style="color:var(--green)">⑥ Circuit breakers for safety</strong> — auto-failover on degradation.<br>
+         <strong style="color:var(--yellow)">⑦ Alert on anomaly, not threshold</strong> — detect drift, not just absolutes.<br>
+         <strong style="color:var(--orange)">⑧ Use traces for debugging</strong> — never guess, always replay.<br>
+         <strong style="color:var(--blue)">⑨ On-call training required</strong> — observability only works if people use it.<br>
+         <strong style="color:var(--green)">⑩ Ship with observability</strong> — don't retrofit after production breaks.</p>
+    </div>
+  </div>
+
+  <div id="viz-col5">
+    <div id="viz-wrap5">
+      <svg id="main-svg5" viewBox="-14 -14 588 588" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="ft-col" style="flex:2;min-width:280px">
+    <h4>About this guide</h4>
+    <p>Guide 06 of the agentlens series. Covers observability, monitoring, tracing, and alerting for production AI agents.</p>
+    <p style="margin-top:.5rem">Part of the <a href="../" style="color:var(--accent);text-decoration:none">agentlens</a> curriculum — animated guides to AI agents.</p>
+  </div>
+  <div class="ft-col">
+    <h4>Concepts</h4>
+    <span class="ft-stat">15</span>
+    <p>Observability concepts</p>
+  </div>
+  <div class="ft-col">
+    <h4>Phases</h4>
+    <span class="ft-stat" style="color:var(--yellow)">5</span>
+    <p>Foundations · Metrics · Tracing · Alerting · Production</p>
+  </div>
+  <div class="ft-col">
+    <h4>Other guides</h4>
+    <p><a href="../safety/" style="color:var(--red);text-decoration:none">← Guide 05 (Safety)</a></p>
+    <p style="margin-top:.35rem"><a href="../governance/" style="color:var(--accent);text-decoration:none">Guide 07 (Governance) →</a></p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="../shared/viz-utils.js"></script>
+<script>
+const STEP_NAMES=[
+  'Three Pillars','Structured Logging','Key Metrics',
+  'Dashboards','Cost Monitoring','Real-Time Alerts',
+  'Tracing Workflows','Debugging','Span Hierarchy',
+  'Behavioral Anomalies','Circuit Breakers','On-Call',
+  'Observability Scale','Compliance','10 Rules'
+];
+
+let activeStep=-1;
+
+function renderStep(n){
+  if(n===activeStep)return;
+  activeStep=n;
+  killTimers();
+  syncC();
+  document.getElementById('hdr-scene').textContent=STEP_NAMES[n]||'';
+
+  const setupSVG=(sel)=>{
+    sel.attr('viewBox','-14 -14 588 588').attr('preserveAspectRatio','xMidYMid meet');
+  };
+
+  if(n<=2){
+    const svg=d3.select('#main-svg'); svg.selectAll('*').remove(); setupSVG(svg); setupDefs(svg);
+    renderScene(svg.node(),560,560,{nodes:[{id:'a',type:'rect',x:0.3,y:0.3,w:90,h:36,label:'Logs',color:'yellow',delay:0},
+      {id:'b',type:'rect',x:0.5,y:0.3,w:90,h:36,label:'Metrics',color:'orange',delay:150},
+      {id:'c',type:'rect',x:0.7,y:0.3,w:90,h:36,label:'Traces',color:'blue',delay:300}],
+      edges:[],labels:[{text:'3 Pillars of Observability',x:0.5,y:0.1,size:14}]});
+  } else if(n<=5){
+    const svg=d3.select('#main-svg2'); svg.selectAll('*').remove(); setupSVG(svg); setupDefs(svg);
+    renderScene(svg.node(),560,560,{nodes:[{id:'x',type:'circle',x:0.5,y:0.5,r:40,label:'SLOs',color:'yellow',delay:0}],edges:[],labels:[{text:'Dashboard Center',x:0.5,y:0.08,size:13}]});
+  } else if(n<=8){
+    const svg=d3.select('#main-svg3'); svg.selectAll('*').remove(); setupSVG(svg); setupDefs(svg);
+    renderScene(svg.node(),560,560,{nodes:[{id:'root',type:'rect',x:0.5,y:0.2,w:80,h:28,label:'Root',color:'blue',delay:0},
+      {id:'a1',type:'rect',x:0.3,y:0.5,w:70,h:24,label:'Span A',color:'green',delay:200},
+      {id:'a2',type:'rect',x:0.7,y:0.5,w:70,h:24,label:'Span B',color:'green',delay:200}],
+      edges:[{from:'root',to:'a1',color:'blue',marker:'arrowBlue',delay:400},{from:'root',to:'a2',color:'blue',marker:'arrowBlue',delay:450}]});
+  } else if(n<=11){
+    const svg=d3.select('#main-svg4'); svg.selectAll('*').remove(); setupSVG(svg); setupDefs(svg);
+    renderScene(svg.node(),560,560,{nodes:[{id:'healthy',type:'diamond',x:0.25,y:0.5,s:35,label:'Healthy',color:'green',delay:0},
+      {id:'degrade',type:'diamond',x:0.5,y:0.5,s:35,label:'Degraded',color:'orange',delay:150},
+      {id:'fail',type:'diamond',x:0.75,y:0.5,s:35,label:'Failed',color:'red',delay:300}],
+      edges:[{from:'healthy',to:'degrade',color:'orange',delay:500},{from:'degrade',to:'fail',color:'red',delay:600},{from:'fail',to:'healthy',color:'green',delay:700}]});
+  } else {
+    const svg=d3.select('#main-svg5'); svg.selectAll('*').remove(); setupSVG(svg); setupDefs(svg);
+    renderScene(svg.node(),560,560,{nodes:[{id:'p1',type:'rect',x:0.15,y:0.25,w:70,h:30,label:'Logs',color:'yellow',delay:0},
+      {id:'p2',type:'rect',x:0.5,y:0.25,w:70,h:30,label:'Metrics',color:'orange',delay:150},
+      {id:'p3',type:'rect',x:0.85,y:0.25,w:70,h:30,label:'Traces',color:'blue',delay:300}],edges:[],labels:[{text:'Observability Stack',x:0.5,y:0.08,size:14}]});
+  }
+}
+
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('active');
+      const step=+e.target.dataset.step;
+      if(step!==activeStep){
+        activeStep=-1;
+        renderStep(step);
+      }
+    }else{
+      e.target.classList.remove('active');
+    }
+  });
+},{threshold:.42,rootMargin:'-12% 0px -34% 0px'});
+
+document.querySelectorAll('.step').forEach(el=>obs.observe(el));
+
+window.addEventListener('load',()=>{
+  if(activeStep===-1){activeStep=0;renderStep(0);}
+});
+
+initSharedUI(renderStep);
+startHeroNetworkAnimation({selector:'#hero-bg',width:1400,height:900,nodeCount:18,linkDistance:150,fps:28,palette:[C.yellow,C.orange,C.blue,C.purple]});
+</script>
+</body>
+</html>

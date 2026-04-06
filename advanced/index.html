@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide 08: Advanced Reasoning & Patterns | agentlens</title>
+    <link rel="stylesheet" href="../shared/base.css">
+    <style>
+        :root {
+            --accent: #0ea5e9;
+            --accent-subtle: rgba(14, 165, 233, 0.15);
+            --accent-subtle2: rgba(14, 165, 233, 0.08);
+            --accent-border: rgba(14, 165, 233, 0.3);
+        }
+        @media (prefers-color-scheme: light) {
+            :root {
+                --accent: #0369a1;
+                --accent-subtle: rgba(3, 105, 161, 0.15);
+                --accent-subtle2: rgba(3, 105, 161, 0.08);
+                --accent-border: rgba(3, 105, 161, 0.3);
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="../" class="logo">agentlens</a>
+            <div class="nav-links">
+                <a href="../" class="nav-link">Guides</a>
+                <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">🌙</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="guide-container">
+        <header class="hero" id="hero">
+            <div class="hero-content">
+                <div class="guide-number">08</div>
+                <h1>Advanced Reasoning & Patterns</h1>
+                <p>Enabling agents to think deeply, plan strategically, and learn from reasoning processes</p>
+            </div>
+            <svg class="hero-bg" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid slice">
+                <defs id="svgDefs"></defs>
+                <g id="heroNetwork"></g>
+            </svg>
+        </header>
+
+        <section class="scrolly" id="phase1">
+            <div class="text-col">
+                <h2>Phase 1: Foundations</h2>
+                <div class="step">
+                    <div class="chapter-pill">Step 1</div>
+                    <h3>What is Advanced Reasoning?</h3>
+                    <p>Advanced reasoning enables agents to move beyond pattern matching to genuinely think through problems. This includes decomposing complex tasks, maintaining context across multiple steps, and synthesizing knowledge to solve novel problems.</p>
+                    <div class="callout">Reasoning ≠ retrieval: true reasoning involves problem decomposition and synthesis.</div>
+                </div>
+                <div class="step">
+                    <div class="chapter-pill">Step 2</div>
+                    <h3>Reasoning Frameworks</h3>
+                    <p>Structured frameworks (chain-of-thought, tree-of-thought, graph-of-thought) provide scaffolding for agentic reasoning. Each framework trades off between expressiveness and computational cost.</p>
+                </div>
+                <div class="step">
+                    <div class="chapter-pill">Step 3</div>
+                    <h3>Agent Architectures for Reasoning</h3>
+                    <p>Agentic systems that reason require explicit step tracking, intermediate result validation, and branching logic. Architectures range from linear chains to multi-branch exploration graphs.</p>
+                    <div class="callout">Reasoning architectures are fundamentally about managing the search space over possible solutions.</div>
+                </div>
+            </div>
+            <div class="sticky-viz">
+                <svg id="viz1" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet">
+                    <defs id="viz1Defs"></defs>
+                    <g id="scene1"></g>
+                </svg>
+            </div>
+        </section>
+
+        <section class="scrolly" id="phase2">
+            <div class="text-col">
+                <h2>Phase 2: Chain of Thought</h2>
+                <div class="step">
+                    <div class="chapter-pill">Step 4</div>
+                    <h3>Step-by-Step Decomposition</h3>
+                    <p>Breaking complex problems into sequential steps forces intermediate reasoning. This linear decomposition works well for deterministic tasks where each step builds on prior results.</p>
+                </div>
+                <div class="step">
+                    <div class="chapter-pill">Step 5</div>
+                    <h3>Intermediate Thought Steps</h3>
+                    <p>Capturing intermediate thoughts improves both accuracy and interpretability. These steps serve as checkpoints where the agent can validate reasoning before proceeding.</p>
+                    <div class="callout">Intermediate steps are debugging artifacts that improve both performance and trust.</div>
+                </div>
+                <div class="step">
+                    <div class="chapter-pill">Step 6</div>
+                    <h3>Verification & Constraints</h3>
+                    <p>Adding verification steps between reasoning phases catches errors early. Constraint checking ensures the agent stays within domain bounds and logical consistency.</p>
+                </div>
+            </div>
+            <div class="sticky-viz">
+                <svg id="viz2" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet">
+                    <defs id="viz2Defs"></defs>
+                    <g id="scene2"></g>
+                </svg>
+            </div>
+        </section>
+
+        <section class="scrolly" id="phase3">
+            <div class="text-col">
+                <h2>Phase 3: Multi-Step Planning</h2>
+                <div class="step">
+                    <div class="chapter-pill">Step 7</div>
+                    <h3>Goal Decomposition</h3>
+                    <p>Complex goals must be hierarchically decomposed into subgoals. This enables agents to recognize dependencies, identify parallel paths, and allocate resources strategically.</p>
+                </div>
+                <div class="step">
+                    <div class="chapter-pill">Step 8</div>
+                    <h3>State Space Search</h3>
+                    <p>Agents explore state spaces by generating candidate actions and evaluating their outcomes. Heuristics guide search toward promising regions without exhaustive exploration.</p>
+                    <div class="callout">State space search requires balancing exploration (breadth) with exploitation (depth).</div>
+                </div>
+                <div class="step">
+                    <div class="chapter-pill">Step 9</div>
+                    <h3>Backtracking & Replanning</h3>
+                    <p>When exploration hits dead ends, agents must backtrack to earlier states and try alternative paths. Effective replanning avoids expensive recomputation of known regions.</p>
+                </div>
+            </div>
+            <div class="sticky-viz">
+                <svg id="viz3" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet">
+                    <defs id="viz3Defs"></defs>
+                    <g id="scene3"></g>
+                </svg>
+            </div>
+        </section>
+
+        <section class="scrolly" id="phase4">
+            <div class="text-col">
+                <h2>Phase 4: Reflection & Iteration</h2>
+                <div class="step">
+                    <div class="chapter-pill">Step 10</div>
+                    <h3>Error Correction</h3>
+                    <p>Agents that detect their own errors can generate corrections without external intervention. This requires explicit error detection mechanisms and correction pathways.</p>
+                </div>
+                <div class="step">
+                    <div class="chapter-pill">Step 11</div>
+                    <h3>Self-Evaluation & Scoring</h3>
+                    <p>Internal evaluation functions assess solution quality before commitment. These may score based on correctness, efficiency, resource usage, or alignment with objectives.</p>
+                    <div class="callout">Self-evaluation enables agents to compare alternatives and recognize when to request human review.</div>
+                </div>
+                <div class="step">
+                    <div class="chapter-pill">Step 12</div>
+                    <h3>Learning from Reasoning</h3>
+                    <p>Agents that explicitly track what reasoning patterns work capture meta-knowledge. Over time, this enables preference learning and reasoning strategy optimization.</p>
+                </div>
+            </div>
+            <div class="sticky-viz">
+                <svg id="viz4" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet">
+                    <defs id="viz4Defs"></defs>
+                    <g id="scene4"></g>
+                </svg>
+            </div>
+        </section>
+
+        <section class="scrolly" id="phase5">
+            <div class="text-col">
+                <h2>Phase 5: Production Reasoning</h2>
+                <div class="step">
+                    <div class="chapter-pill">Step 13</div>
+                    <h3>Scaling Reasoning Workloads</h3>
+                    <p>Production reasoning requires managing computational budgets. Adaptive algorithms adjust depth and breadth based on available time and resources.</p>
+                </div>
+                <div class="step">
+                    <div class="chapter-pill">Step 14</div>
+                    <h3>Real-time Reasoning Constraints</h3>
+                    <p>Many applications cannot afford deep reasoning. Agents must gracefully degrade—switching from optimal to satisficing, from planning to reactive behavior—when time expires.</p>
+                    <div class="callout">Anytime algorithms return improving results within any time budget, not just optimal-or-fail.</div>
+                </div>
+                <div class="step">
+                    <div class="chapter-pill">Step 15</div>
+                    <h3>Reasoning Robustness Patterns</h3>
+                    <p>Production systems must handle reasoning failure modes: incomplete information, contradictory data, and fundamental uncertainty. Robust agents maintain confidence scores and fallback behaviors.</p>
+                </div>
+            </div>
+            <div class="sticky-viz">
+                <svg id="viz5" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet">
+                    <defs id="viz5Defs"></defs>
+                    <g id="scene5"></g>
+                </svg>
+            </div>
+        </section>
+
+        <footer class="guide-footer">
+            <div class="footer-stats">
+                <div class="stat">
+                    <div class="stat-label">Guide</div>
+                    <div class="stat-value">08</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Steps</div>
+                    <div class="stat-value">15</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Phases</div>
+                    <div class="stat-value">5</div>
+                </div>
+            </div>
+            <div class="footer-nav">
+                <a href="../governance/" class="nav-button prev">← Governance</a>
+                <a href="../capstone/" class="nav-button next">Capstone →</a>
+            </div>
+        </footer>
+    </main>
+
+    <script src="../shared/viz-utils.js"></script>
+    <script>
+        const colorPair = ['#0ea5e9', '#0369a1'];
+        const viz = [
+            { id: 'scene1', defs: 'viz1Defs', data: [{ type: 'hexagon', x: 280, y: 280, fill: colorPair[0], size: 60 }] },
+            { id: 'scene2', defs: 'viz2Defs', data: [{ type: 'rect', x: 140, y: 140, w: 280, h: 280, fill: colorPair[0], opacity: 0.2 }, { type: 'hexagon', x: 280, y: 280, fill: colorPair[0], size: 50 }] },
+            { id: 'scene3', defs: 'viz3Defs', data: [{ type: 'hexagon', x: 200, y: 200, fill: colorPair[0], size: 40 }, { type: 'hexagon', x: 360, y: 360, fill: colorPair[0], size: 40 }] },
+            { id: 'scene4', defs: 'viz4Defs', data: [{ type: 'rect', x: 100, y: 100, w: 360, h: 360, fill: colorPair[0], opacity: 0.15 }] },
+            { id: 'scene5', defs: 'viz5Defs', data: [{ type: 'hexagon', x: 280, y: 280, fill: colorPair[0], size: 70 }] }
+        ];
+        viz.forEach(v => renderScene(v.id, v.defs, v.data));
+        initSharedUI();
+        startHeroNetworkAnimation({selector:'#hero-bg',width:1400,height:900,nodeCount:18,linkDistance:150,fps:28,palette:[colorPair[0],C.blue,C.purple,C.orange]});
+    </script>
+</body>
+</html>
