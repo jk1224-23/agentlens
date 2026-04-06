@@ -16,7 +16,7 @@
 
 <a href="#main" class="skip-link">Skip to main content</a>
 
-<nav class="navbar">
+<div id="hdr">
   <a href="../" style="color:var(--blue);font-family:'Courier New',monospace;font-weight:bold;font-size:15px;text-decoration:none">agentlens</a>
   <span class="sep">|</span>
   <a href="../" style="color:var(--dim);text-decoration:none;font-size:13px">← All Guides</a>
@@ -28,7 +28,7 @@
 </div>
 <div id="prog"></div>
 
-<header class="hero" id="hero">
+<section id="hero">
   <svg id="hero-bg" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice"></svg>
   <div id="hero-content">
     <div style="display:inline-flex;align-items:center;gap:.45rem;font-family:'Courier New',monospace;font-size:.72rem;color:var(--dim);border:1px solid var(--border);border-radius:999px;padding:.25rem .8rem;margin-bottom:1.1rem">
@@ -57,8 +57,8 @@
   <span class="sb-label">Why &amp; What</span>
 </div>
 
-<section class="scrolly" id="phase1">
-  <div class="text-col">
+<div id="scrolly">
+  <div id="text-col">
 
     <!-- s0: Why Now -->
     <div class="step" data-step="0">
@@ -91,8 +91,10 @@
     </div>
 
   </div>
-  <div class="sticky-viz">
+  <div id="viz-col">
+    <div id="viz-wrap">
       <svg id="main-svg"></svg>
+    </div>
   </div>
 </div>
 
@@ -104,8 +106,8 @@
   <span class="sb-label">The Stack</span>
 </div>
 
-<section class="scrolly" id="phase2" style="display:flex;position:relative;align-items:flex-start">
-  <div class="text-col" style="width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0">
+<div id="scrolly2" style="display:flex;position:relative;align-items:flex-start">
+  <div class="text-col2" style="width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0">
 
     <!-- s3: The Agent Engineering Stack -->
     <div class="step" data-step="3">
@@ -137,8 +139,10 @@
     </div>
 
   </div>
-  <div class="sticky-viz" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
+  <div id="viz-col2" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
+    <div id="viz-wrap2" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem">
       <svg id="main-svg2"></svg>
+    </div>
   </div>
 </div>
 
@@ -150,8 +154,8 @@
   <span class="sb-label">Build &amp; Test</span>
 </div>
 
-<section class="scrolly" id="phase3" style="display:flex;position:relative;align-items:flex-start">
-  <div class="text-col" style="width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0">
+<div id="scrolly3" style="display:flex;position:relative;align-items:flex-start">
+  <div class="text-col3" style="width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0">
 
     <!-- s6: Writing Hooks -->
     <div class="step" data-step="6">
@@ -193,8 +197,10 @@
     </div>
 
   </div>
-  <div class="sticky-viz" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
+  <div id="viz-col3" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
+    <div id="viz-wrap3" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem">
       <svg id="main-svg3"></svg>
+    </div>
   </div>
 </div>
 
@@ -206,8 +212,8 @@
   <span class="sb-label">Ship &amp; Observe</span>
 </div>
 
-<section class="scrolly" id="phase4" style="display:flex;position:relative;align-items:flex-start">
-  <div class="text-col" style="width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0">
+<div id="scrolly4" style="display:flex;position:relative;align-items:flex-start">
+  <div class="text-col4" style="width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0">
 
     <!-- s10: Shipping Agents -->
     <div class="step" data-step="10">
@@ -239,8 +245,10 @@
     </div>
 
   </div>
-  <div class="sticky-viz" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
+  <div id="viz-col4" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
+    <div id="viz-wrap4" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem">
       <svg id="main-svg4"></svg>
+    </div>
   </div>
 </div>
 
@@ -252,8 +260,8 @@
   <span class="sb-label">Govern &amp; Principles</span>
 </div>
 
-<section class="scrolly" id="phase5" style="display:flex;position:relative;align-items:flex-start">
-  <div class="text-col" style="width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0">
+<div id="scrolly5" style="display:flex;position:relative;align-items:flex-start">
+  <div class="text-col5" style="width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0">
 
     <!-- s13: Guardrails -->
     <div class="step" data-step="13">
@@ -291,8 +299,10 @@
     </div>
 
   </div>
-  <div class="sticky-viz" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
+  <div id="viz-col5" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
+    <div id="viz-wrap5" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem">
       <svg id="main-svg5"></svg>
+    </div>
   </div>
 </div>
 
