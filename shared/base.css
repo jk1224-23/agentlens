@@ -31,8 +31,8 @@ body{background:var(--bg);color:var(--text);font-family:'Georgia',serif;font-siz
 /* ── NAVBAR (for advanced/capstone pages) ──────────────────────────────────── */
 .navbar{position:fixed;top:0;left:0;right:0;height:52px;background:var(--hdr-bg);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);display:flex;align-items:center;z-index:200}
 .nav-content{display:flex;align-items:center;justify-content:space-between;width:100%;padding:0 2rem;gap:.75rem}
-.logo{color:var(--heading);font-family:'Courier New',monospace;font-size:13px;font-weight:bold;text-decoration:none;transition:color .2s}
-.logo:hover{color:var(--accent)}
+.logo{color:var(--accent);font-family:'Courier New',monospace;font-size:13px;font-weight:bold;text-decoration:none;transition:color .2s}
+.logo:hover{color:var(--heading)}
 .nav-links{display:flex;align-items:center;gap:1.5rem;margin-left:auto}
 .nav-link{color:var(--dim);font-size:13px;text-decoration:none;transition:color .2s}
 .nav-link:hover{color:var(--accent)}
