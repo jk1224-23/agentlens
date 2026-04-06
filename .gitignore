@@ -11,3 +11,7 @@ build/
 *.swo
 .vscode/
 .idea/
+BUG_REPORT.md
+VALIDATION_*.md
+*_REPORT.md
+DEPLOYMENT_MANIFEST.md
