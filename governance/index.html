@@ -18,17 +18,17 @@
 }
 @media(prefers-color-scheme:light){
   :root:not([data-theme="dark"]){
-    --accent:#0d8659;
-    --accent-subtle:rgba(13,134,89,.07);
-    --accent-subtle2:rgba(13,134,89,.08);
-    --accent-border:rgba(13,134,89,.28);
+    --accent:#0891b2;
+    --accent-subtle:rgba(8,145,178,.07);
+    --accent-subtle2:rgba(8,145,178,.08);
+    --accent-border:rgba(8,145,178,.28);
   }
 }
 [data-theme="light"]{
-  --accent:#0d8659;
-  --accent-subtle:rgba(13,134,89,.07);
-  --accent-subtle2:rgba(13,134,89,.08);
-  --accent-border:rgba(13,134,89,.28);
+  --accent:#0891b2;
+  --accent-subtle:rgba(8,145,178,.07);
+  --accent-subtle2:rgba(8,145,178,.08);
+  --accent-border:rgba(8,145,178,.28);
 }
 </style>
 </head>
@@ -308,7 +308,6 @@
 <script src="../shared/viz-utils.js"></script>
 <script>
 const STEP_NAMES=['Governance Foundations','Identity','Policy as Code','Authorization','Delegation','Accountability','Regulatory','Data Residency','Incident Response','Risk Classification','Red Teaming','Continuous Monitoring','Governance Structure','Training','10 Rules'];
-let activeStep=-1;
 function renderStep(n){
   if(n===activeStep)return;
   activeStep=n;

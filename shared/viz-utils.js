@@ -404,7 +404,7 @@ function initSharedUI(renderStepFn){
   },{passive:true});
 
   // Theme toggle
-  const btn=document.getElementById('theme-btn');
+  const btn=document.getElementById('themeToggle');
   const prefersDark=window.matchMedia('(prefers-color-scheme:dark)');
   function getTheme(){const s=localStorage.getItem('theme');return s||(prefersDark.matches?'dark':'light');}
   function applyTheme(t){

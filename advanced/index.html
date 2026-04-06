@@ -32,6 +32,7 @@
             </div>
         </div>
     </nav>
+    <div id="prog"></div>
 
     <main class="guide-container">
         <header class="hero" id="hero">
@@ -212,14 +213,94 @@
     <script src="../shared/viz-utils.js"></script>
     <script>
         const colorPair = ['#0ea5e9', '#0369a1'];
-        const viz = [
-            { id: 'scene1', defs: 'viz1Defs', data: [{ type: 'hexagon', x: 280, y: 280, fill: colorPair[0], size: 60 }] },
-            { id: 'scene2', defs: 'viz2Defs', data: [{ type: 'rect', x: 140, y: 140, w: 280, h: 280, fill: colorPair[0], opacity: 0.2 }, { type: 'hexagon', x: 280, y: 280, fill: colorPair[0], size: 50 }] },
-            { id: 'scene3', defs: 'viz3Defs', data: [{ type: 'hexagon', x: 200, y: 200, fill: colorPair[0], size: 40 }, { type: 'hexagon', x: 360, y: 360, fill: colorPair[0], size: 40 }] },
-            { id: 'scene4', defs: 'viz4Defs', data: [{ type: 'rect', x: 100, y: 100, w: 360, h: 360, fill: colorPair[0], opacity: 0.15 }] },
-            { id: 'scene5', defs: 'viz5Defs', data: [{ type: 'hexagon', x: 280, y: 280, fill: colorPair[0], size: 70 }] }
-        ];
-        viz.forEach(v => renderScene(v.id, v.defs, v.data));
+
+        function initVisualizations(){
+            // Scene 1: Foundations - Core Reasoning
+            {
+                const svg = d3.select('#viz1');
+                svg.selectAll('*').remove();
+                setupDefs(svg);
+                renderScene(svg.node(), 560, 560, {
+                    nodes: [{id: 'core', type: 'circle', x: 0.5, y: 0.5, r: 40, label: 'Reasoning', color: 'blue', delay: 0}],
+                    edges: [],
+                    labels: [{text: 'Foundations', x: 0.5, y: 0.08, size: 13}]
+                });
+            }
+
+            // Scene 2: Chain of Thought - Sequential Steps
+            {
+                const svg = d3.select('#viz2');
+                svg.selectAll('*').remove();
+                setupDefs(svg);
+                renderScene(svg.node(), 560, 560, {
+                    nodes: [
+                        {id: 's1', type: 'rect', x: 0.2, y: 0.5, w: 70, h: 28, label: 'Step 1', color: 'blue', delay: 0},
+                        {id: 's2', type: 'rect', x: 0.5, y: 0.5, w: 70, h: 28, label: 'Step 2', color: 'green', delay: 150},
+                        {id: 's3', type: 'rect', x: 0.8, y: 0.5, w: 70, h: 28, label: 'Step 3', color: 'orange', delay: 300}
+                    ],
+                    edges: [
+                        {from: 's1', to: 's2', color: 'blue', marker: 'arrowBlue', delay: 450},
+                        {from: 's2', to: 's3', color: 'green', marker: 'arrowGreen', delay: 550}
+                    ]
+                });
+            }
+
+            // Scene 3: Multi-Step Planning - Branching Paths
+            {
+                const svg = d3.select('#viz3');
+                svg.selectAll('*').remove();
+                setupDefs(svg);
+                renderScene(svg.node(), 560, 560, {
+                    nodes: [
+                        {id: 'goal', type: 'diamond', x: 0.5, y: 0.2, s: 35, label: 'Goal', color: 'blue', delay: 0},
+                        {id: 'p1', type: 'rect', x: 0.25, y: 0.6, w: 60, h: 24, label: 'Path 1', color: 'green', delay: 150},
+                        {id: 'p2', type: 'rect', x: 0.75, y: 0.6, w: 60, h: 24, label: 'Path 2', color: 'orange', delay: 200}
+                    ],
+                    edges: [
+                        {from: 'goal', to: 'p1', color: 'green', delay: 350},
+                        {from: 'goal', to: 'p2', color: 'orange', delay: 400}
+                    ]
+                });
+            }
+
+            // Scene 4: Reflection & Iteration - Feedback Loop
+            {
+                const svg = d3.select('#viz4');
+                svg.selectAll('*').remove();
+                setupDefs(svg);
+                renderScene(svg.node(), 560, 560, {
+                    nodes: [
+                        {id: 'attempt', type: 'rect', x: 0.3, y: 0.5, w: 70, h: 28, label: 'Attempt', color: 'blue', delay: 0},
+                        {id: 'eval', type: 'rect', x: 0.7, y: 0.5, w: 70, h: 28, label: 'Evaluate', color: 'purple', delay: 150}
+                    ],
+                    edges: [
+                        {from: 'attempt', to: 'eval', color: 'blue', marker: 'arrowBlue', delay: 300},
+                        {from: 'eval', to: 'attempt', color: 'orange', dash: '4,3', marker: 'arrowOrange', delay: 400}
+                    ],
+                    labels: [{text: 'Feedback Loop', x: 0.5, y: 0.08, size: 12}]
+                });
+            }
+
+            // Scene 5: Production Reasoning - Optimization
+            {
+                const svg = d3.select('#viz5');
+                svg.selectAll('*').remove();
+                setupDefs(svg);
+                renderScene(svg.node(), 560, 560, {
+                    nodes: [
+                        {id: 'in', type: 'circle', x: 0.2, y: 0.5, r: 30, label: 'Input', color: 'blue', delay: 0},
+                        {id: 'opt', type: 'diamond', x: 0.5, y: 0.5, s: 40, label: 'Optimize', color: 'green', delay: 150},
+                        {id: 'out', type: 'circle', x: 0.8, y: 0.5, r: 30, label: 'Output', color: 'orange', delay: 300}
+                    ],
+                    edges: [
+                        {from: 'in', to: 'opt', color: 'blue', marker: 'arrowBlue', delay: 450},
+                        {from: 'opt', to: 'out', color: 'orange', marker: 'arrowOrange', delay: 550}
+                    ]
+                });
+            }
+        }
+
+        initVisualizations();
         initSharedUI();
         startHeroNetworkAnimation({selector:'#hero-bg',width:1400,height:900,nodeCount:18,linkDistance:150,fps:28,palette:[colorPair[0],C.blue,C.purple,C.orange]});
     </script>
