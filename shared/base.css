@@ -27,6 +27,7 @@ body{background:var(--bg);color:var(--text);font-family:'Georgia',serif;font-siz
 #hdr{position:fixed;top:0;left:0;right:0;height:52px;background:var(--hdr-bg);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 2rem;z-index:200;font-size:13px;color:var(--dim);gap:.75rem}
 #hdr span{color:var(--accent);font-family:'Courier New',monospace;font-weight:bold}
 #hdr .sep{opacity:.3}
+#hdr-scene{display:inline}
 
 /* ── NAVBAR (for advanced/capstone pages) ──────────────────────────────────── */
 .navbar{position:fixed;top:0;left:0;right:0;height:52px;background:var(--hdr-bg);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);display:flex;align-items:center;z-index:200}
@@ -130,6 +131,15 @@ footer,.guide-footer{border-top:1px solid var(--border);padding:3rem 5rem;displa
 /* ── THEME TOGGLE ──────────────────────────────────────────────────────────── */
 #theme-btn,#themeToggle,.theme-toggle{margin-left:auto;background:none;border:1px solid var(--border);border-radius:6px;color:var(--dim);cursor:pointer;font-size:15px;padding:.2rem .55rem;line-height:1;transition:border-color .2s,color .2s}
 #theme-btn:hover,#themeToggle:hover,.theme-toggle:hover{border-color:var(--accent);color:var(--accent)}
+#theme-btn:focus-visible,#themeToggle:focus-visible,.theme-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ── FOCUS STYLES FOR ACCESSIBILITY ────────────────────────────────────────── */
+button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+a:focus-visible{border-radius:2px}
+
+/* ── SKIP TO CONTENT LINK ──────────────────────────────────────────────────── */
+.skip-link{position:absolute;top:-40px;left:0;background:var(--accent);color:var(--bg);padding:.5rem 1rem;text-decoration:none;z-index:300}
+.skip-link:focus-visible{top:0}
 
 /* ── SCROLLY CLASS LAYOUT (advanced / capstone) ───────────────────────────── */
 .scrolly{display:flex;position:relative;align-items:flex-start}
