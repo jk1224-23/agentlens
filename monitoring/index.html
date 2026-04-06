@@ -334,28 +334,28 @@ function renderStep(n){
 
   if(n<=2){
     const svg=d3.select('#main-svg'); svg.selectAll('*').remove(); setupSVG(svg); setupDefs(svg);
-    renderScene(svg.node(),560,560,{nodes:[{id:'a',type:'rect',x:0.3,y:0.3,w:90,h:36,label:'Logs',color:'yellow',delay:0},
+    renderScene(svg,560,560,{nodes:[{id:'a',type:'rect',x:0.3,y:0.3,w:90,h:36,label:'Logs',color:'yellow',delay:0},
       {id:'b',type:'rect',x:0.5,y:0.3,w:90,h:36,label:'Metrics',color:'orange',delay:150},
       {id:'c',type:'rect',x:0.7,y:0.3,w:90,h:36,label:'Traces',color:'blue',delay:300}],
       edges:[],labels:[{text:'3 Pillars of Observability',x:0.5,y:0.1,size:14}]});
   } else if(n<=5){
     const svg=d3.select('#main-svg2'); svg.selectAll('*').remove(); setupSVG(svg); setupDefs(svg);
-    renderScene(svg.node(),560,560,{nodes:[{id:'x',type:'circle',x:0.5,y:0.5,r:40,label:'SLOs',color:'yellow',delay:0}],edges:[],labels:[{text:'Dashboard Center',x:0.5,y:0.08,size:13}]});
+    renderScene(svg,560,560,{nodes:[{id:'x',type:'circle',x:0.5,y:0.5,r:40,label:'SLOs',color:'yellow',delay:0}],edges:[],labels:[{text:'Dashboard Center',x:0.5,y:0.08,size:13}]});
   } else if(n<=8){
     const svg=d3.select('#main-svg3'); svg.selectAll('*').remove(); setupSVG(svg); setupDefs(svg);
-    renderScene(svg.node(),560,560,{nodes:[{id:'root',type:'rect',x:0.5,y:0.2,w:80,h:28,label:'Root',color:'blue',delay:0},
+    renderScene(svg,560,560,{nodes:[{id:'root',type:'rect',x:0.5,y:0.2,w:80,h:28,label:'Root',color:'blue',delay:0},
       {id:'a1',type:'rect',x:0.3,y:0.5,w:70,h:24,label:'Span A',color:'green',delay:200},
       {id:'a2',type:'rect',x:0.7,y:0.5,w:70,h:24,label:'Span B',color:'green',delay:200}],
       edges:[{from:'root',to:'a1',color:'blue',marker:'arrowBlue',delay:400},{from:'root',to:'a2',color:'blue',marker:'arrowBlue',delay:450}]});
   } else if(n<=11){
     const svg=d3.select('#main-svg4'); svg.selectAll('*').remove(); setupSVG(svg); setupDefs(svg);
-    renderScene(svg.node(),560,560,{nodes:[{id:'healthy',type:'diamond',x:0.25,y:0.5,s:35,label:'Healthy',color:'green',delay:0},
+    renderScene(svg,560,560,{nodes:[{id:'healthy',type:'diamond',x:0.25,y:0.5,s:35,label:'Healthy',color:'green',delay:0},
       {id:'degrade',type:'diamond',x:0.5,y:0.5,s:35,label:'Degraded',color:'orange',delay:150},
       {id:'fail',type:'diamond',x:0.75,y:0.5,s:35,label:'Failed',color:'red',delay:300}],
       edges:[{from:'healthy',to:'degrade',color:'orange',delay:500},{from:'degrade',to:'fail',color:'red',delay:600},{from:'fail',to:'healthy',color:'green',delay:700}]});
   } else {
     const svg=d3.select('#main-svg5'); svg.selectAll('*').remove(); setupSVG(svg); setupDefs(svg);
-    renderScene(svg.node(),560,560,{nodes:[{id:'p1',type:'rect',x:0.15,y:0.25,w:70,h:30,label:'Logs',color:'yellow',delay:0},
+    renderScene(svg,560,560,{nodes:[{id:'p1',type:'rect',x:0.15,y:0.25,w:70,h:30,label:'Logs',color:'yellow',delay:0},
       {id:'p2',type:'rect',x:0.5,y:0.25,w:70,h:30,label:'Metrics',color:'orange',delay:150},
       {id:'p3',type:'rect',x:0.85,y:0.25,w:70,h:30,label:'Traces',color:'blue',delay:300}],edges:[],labels:[{text:'Observability Stack',x:0.5,y:0.08,size:14}]});
   }

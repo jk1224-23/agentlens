@@ -209,6 +209,7 @@
         </footer>
     </main>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
     <script src="../shared/viz-utils.js"></script>
     <script>
         const colorPair = ['#fbbf24', '#a16207'];
@@ -219,7 +220,7 @@
                 const svg = d3.select('#viz1');
                 svg.selectAll('*').remove();
                 setupDefs(svg);
-                renderScene(svg.node(), 560, 560, {
+                renderScene(svg, 560, 560, {
                     nodes: [{id: 'req', type: 'rect', x: 0.5, y: 0.5, w: 100, h: 40, label: 'Requirements', color: 'orange', delay: 0}],
                     edges: [],
                     labels: [{text: 'Phase 1: Plan', x: 0.5, y: 0.08, size: 13}]
@@ -231,7 +232,7 @@
                 const svg = d3.select('#viz2');
                 svg.selectAll('*').remove();
                 setupDefs(svg);
-                renderScene(svg.node(), 560, 560, {
+                renderScene(svg, 560, 560, {
                     nodes: [
                         {id: 'sense', type: 'rect', x: 0.25, y: 0.5, w: 70, h: 28, label: 'Sense', color: 'orange', delay: 0},
                         {id: 'decide', type: 'rect', x: 0.5, y: 0.5, w: 70, h: 28, label: 'Decide', color: 'blue', delay: 150},
@@ -249,7 +250,7 @@
                 const svg = d3.select('#viz3');
                 svg.selectAll('*').remove();
                 setupDefs(svg);
-                renderScene(svg.node(), 560, 560, {
+                renderScene(svg, 560, 560, {
                     nodes: [
                         {id: 'shadow', type: 'rect', x: 0.15, y: 0.5, w: 65, h: 26, label: 'Shadow', color: 'blue', delay: 0},
                         {id: 'canary', type: 'rect', x: 0.42, y: 0.5, w: 65, h: 26, label: 'Canary', color: 'orange', delay: 150},
@@ -268,7 +269,7 @@
                 const svg = d3.select('#viz4');
                 svg.selectAll('*').remove();
                 setupDefs(svg);
-                renderScene(svg.node(), 560, 560, {
+                renderScene(svg, 560, 560, {
                     nodes: [
                         {id: 'healthy', type: 'circle', x: 0.25, y: 0.5, r: 35, label: 'Healthy', color: 'green', delay: 0},
                         {id: 'degrade', type: 'circle', x: 0.5, y: 0.5, r: 35, label: 'Degraded', color: 'orange', delay: 150},
@@ -284,7 +285,7 @@
                 const svg = d3.select('#viz5');
                 svg.selectAll('*').remove();
                 setupDefs(svg);
-                renderScene(svg.node(), 560, 560, {
+                renderScene(svg, 560, 560, {
                     nodes: [
                         {id: 'measure', type: 'diamond', x: 0.25, y: 0.5, s: 40, label: 'Measure', color: 'blue', delay: 0},
                         {id: 'improve', type: 'diamond', x: 0.75, y: 0.5, s: 40, label: 'Improve', color: 'green', delay: 150}

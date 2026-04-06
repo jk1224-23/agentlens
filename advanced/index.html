@@ -210,6 +210,7 @@
         </footer>
     </main>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
     <script src="../shared/viz-utils.js"></script>
     <script>
         const colorPair = ['#0ea5e9', '#0369a1'];
@@ -220,7 +221,7 @@
                 const svg = d3.select('#viz1');
                 svg.selectAll('*').remove();
                 setupDefs(svg);
-                renderScene(svg.node(), 560, 560, {
+                renderScene(svg, 560, 560, {
                     nodes: [{id: 'core', type: 'circle', x: 0.5, y: 0.5, r: 40, label: 'Reasoning', color: 'blue', delay: 0}],
                     edges: [],
                     labels: [{text: 'Foundations', x: 0.5, y: 0.08, size: 13}]
@@ -232,7 +233,7 @@
                 const svg = d3.select('#viz2');
                 svg.selectAll('*').remove();
                 setupDefs(svg);
-                renderScene(svg.node(), 560, 560, {
+                renderScene(svg, 560, 560, {
                     nodes: [
                         {id: 's1', type: 'rect', x: 0.2, y: 0.5, w: 70, h: 28, label: 'Step 1', color: 'blue', delay: 0},
                         {id: 's2', type: 'rect', x: 0.5, y: 0.5, w: 70, h: 28, label: 'Step 2', color: 'green', delay: 150},
@@ -250,7 +251,7 @@
                 const svg = d3.select('#viz3');
                 svg.selectAll('*').remove();
                 setupDefs(svg);
-                renderScene(svg.node(), 560, 560, {
+                renderScene(svg, 560, 560, {
                     nodes: [
                         {id: 'goal', type: 'diamond', x: 0.5, y: 0.2, s: 35, label: 'Goal', color: 'blue', delay: 0},
                         {id: 'p1', type: 'rect', x: 0.25, y: 0.6, w: 60, h: 24, label: 'Path 1', color: 'green', delay: 150},
@@ -268,7 +269,7 @@
                 const svg = d3.select('#viz4');
                 svg.selectAll('*').remove();
                 setupDefs(svg);
-                renderScene(svg.node(), 560, 560, {
+                renderScene(svg, 560, 560, {
                     nodes: [
                         {id: 'attempt', type: 'rect', x: 0.3, y: 0.5, w: 70, h: 28, label: 'Attempt', color: 'blue', delay: 0},
                         {id: 'eval', type: 'rect', x: 0.7, y: 0.5, w: 70, h: 28, label: 'Evaluate', color: 'purple', delay: 150}
@@ -286,7 +287,7 @@
                 const svg = d3.select('#viz5');
                 svg.selectAll('*').remove();
                 setupDefs(svg);
-                renderScene(svg.node(), 560, 560, {
+                renderScene(svg, 560, 560, {
                     nodes: [
                         {id: 'in', type: 'circle', x: 0.2, y: 0.5, r: 30, label: 'Input', color: 'blue', delay: 0},
                         {id: 'opt', type: 'diamond', x: 0.5, y: 0.5, s: 40, label: 'Optimize', color: 'green', delay: 150},

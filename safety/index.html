@@ -1031,7 +1031,7 @@ function drawAlignmentByDesign(){
   rBubble.transition().delay(500).duration(400).style('opacity',1);
   rBubble.append('rect').attr('x',rx-90).attr('y',h*0.29).attr('width',180).attr('height',140)
     .attr('rx',8).attr('fill',C.green+'12').attr('stroke',C.green).attr('stroke-width',1.5);
-  const rLines=['"delete" is irreversible.','Who approved this?','What's the rollback?','"Confirm: delete 8,400','users aged >6mo?"'];
+  const rLines=['"delete" is irreversible.','Who approved this?',"What's the rollback?",'"Confirm: delete 8,400','users aged >6mo?"'];
   rLines.forEach((l,li)=>{
     const lCol=li===0||li===1||li===2?C.blue:C.green;
     rBubble.append('text').attr('x',rx-80).attr('y',h*0.29+24+li*22).attr('fill',lCol)
