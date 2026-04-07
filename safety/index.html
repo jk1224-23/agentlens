@@ -1065,12 +1065,15 @@ function drawEightSafetyRules(){
     const rx=cw*col+cw*0.5, ry=rh*row+rh*0.5+25;
     const rg=g.append('g').style('opacity',0);
     rg.transition().delay(i*120+100).duration(400).style('opacity',1);
-    rg.append('rect').attr('x',cw*col+10).attr('y',ry-28).attr('width',cw-20).attr('height',50)
+    const boxW=Math.max(cw-20,120);// Ensure minimum width
+    rg.append('rect').attr('x',cw*col+10).attr('y',ry-28).attr('width',boxW).attr('height',50)
       .attr('rx',6).attr('fill',r.color+'12').attr('stroke',r.color).attr('stroke-width',1.2);
     rg.append('text').attr('x',cw*col+28).attr('y',ry-5).attr('fill',r.color)
-      .attr('font-size',18).attr('font-family','Courier New').text(r.n);
-    rg.append('text').attr('x',cw*col+52).attr('y',ry-5).attr('fill',C.text)
-      .attr('font-size',10.5).attr('font-family','Courier New').text(r.text);
+      .attr('font-size',18).attr('font-family','Courier New').attr('dominant-baseline','central').text(r.n);
+    const txtX=cw*col+52, txtMaxW=boxW-42;
+    const txt=rg.append('text').attr('x',txtX).attr('y',ry-5).attr('fill',C.text)
+      .attr('font-size',10).attr('font-family','Courier New').attr('dominant-baseline','central')
+      .text(fitNodeText(r.text,Math.max(8,Math.floor(txtMaxW/5.5))));
   });
 }
 
