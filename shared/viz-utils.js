@@ -462,8 +462,12 @@ function initSharedUI(renderStepFn){
     renderStepFn(step);
   }
 
-  // Scroll progress bar
+  // Scroll progress bar (throttled to 60fps)
+  let lastScrollUpdate=0;
   window.addEventListener('scroll',()=>{
+    const now=performance.now();
+    if(now-lastScrollUpdate<16)return; // ~60fps
+    lastScrollUpdate=now;
     const st=window.scrollY,docH=document.documentElement.scrollHeight-window.innerHeight;
     const prog=document.getElementById('prog');
     if(prog)prog.style.width=(st/docH*100)+'%';
