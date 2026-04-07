@@ -656,10 +656,11 @@ function s1(svg,w,h){
   ];
 
   parts.forEach((p2,i)=>{
-    rectN(svg,p2.x,p2.y,120,46,p2.color,p2.label,p2.sub,i*150+200);
+    const boxW=140;// Expanded from 120 to fit longer sublabels
+    rectN(svg,p2.x,p2.y,boxW,48,p2.color,p2.label,p2.sub,i*150+200);
     const dx=cx-p2.x,dy=cy-p2.y,len=Math.sqrt(dx*dx+dy*dy);
     const nx=dx/len,ny=dy/len;
-    edgeLine(svg,p2.x+60*nx,p2.y+60*ny,cx-52*nx,cy-52*ny,p2.color,null,'3,3',i*150+400);
+    edgeLine(svg,p2.x+70*nx,p2.y+70*ny,cx-52*nx,cy-52*ny,p2.color,null,'3,3',i*150+400);
   });
 
   lbl(svg,cx,40,'The Four Components of an Agent',C.text,15,100);
@@ -1271,7 +1272,8 @@ function s15(svg,w,h){
   ];
 
   components.forEach((comp,i)=>{
-    rectN(svg,comp.x,comp.y,130,44,comp.color,comp.label,comp.sub,i*120+100);
+    const boxW=150;// Expanded from 130 to accommodate longer labels
+    rectN(svg,comp.x,comp.y,boxW,48,comp.color,comp.label,comp.sub,i*120+100);
   });
 
   // connections to agent cluster
