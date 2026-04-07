@@ -909,7 +909,7 @@ function drawEvalInfra(){
 
   const cy=h*0.38;
   stages.forEach((s,i)=>{
-    hexN(g,s.x,cy,36,s.col,s.label,null,i*200);
+    hexN(g,s.x,cy,50,s.col,s.label,null,i*200);
     if(i<stages.length-1){
       edgeLine(g,s.x+38,cy,stages[i+1].x-38,cy,C.border,'arrowDim',null,i*200+300);
       pkt(g,s.x+38,cy,stages[i+1].x-38,cy,s.col,600,i*250+600,5,true);
