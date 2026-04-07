@@ -484,9 +484,11 @@ function s4(svg,w,h){
     svg.append('rect').attr('x',q.x-qw/2+3).attr('y',q.y-qh/2+3).attr('width',qw-6).attr('height',qh-6)
       .attr('rx',4).attr('fill',q.color+'10').style('opacity',0)
       .transition().delay(q.delay).duration(400).style('opacity',1);
-    lbl(svg,q.x,q.y,q.label,q.color,11,q.delay);
+    const quadSize=responsiveFontSize(11,10,12);
+    lbl(svg,q.x,q.y,q.label,q.color,quadSize,q.delay);
   });
-  lbl(svg,cx,by+bh+28,'"persona · rules · examples · format"',C.dim,11,1100);
+  const patternSize=responsiveFontSize(11,10,12);
+  lbl(svg,cx,by+bh+28,'"persona · rules · examples · format"',C.dim,patternSize,1100);
 }
 
 // ── s5: Writing Skills ────────────────────────────────────────────────────────
