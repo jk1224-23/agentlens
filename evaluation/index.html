@@ -684,7 +684,7 @@ function drawGoldenDataset(){
 
   // Dataset store box
   const dsX=cx, dsY=h*0.6;
-  rectN(g,dsX,dsY,300,90,C.green,'golden dataset','labeled examples',0);
+  rectNauto(g,dsX,dsY,C.green,'golden dataset','labeled examples',0);
 
   // Example pairs flowing in from top
   const examples=[
@@ -696,7 +696,7 @@ function drawGoldenDataset(){
   ];
 
   examples.forEach((ex,i)=>{
-    rectN(g,ex.x,ex.y,180,50,ex.col,ex.label,ex.tag,i*180+200);
+    rectNauto(g,ex.x,ex.y,ex.col,ex.label,ex.tag,i*180+200);
 
     // Arrow to dataset
     const id=setTimeout(()=>{
@@ -742,7 +742,7 @@ function drawScorers(){
 
   scorers.forEach((s,i)=>{
     edgeLine(g,cx+(s.x-cx)*0.25,outY+(s.y-outY)*0.25,s.x,s.y-40,s.col,s.marker,null,i*150+300);
-    rectN(g,s.x,s.y,140,46,s.col,s.label,s.sub,i*150+200);
+    rectNauto(g,s.x,s.y,s.col,s.label,s.sub,i*150+200);
 
     // Score output badge
     const scoreG=g.append('g').style('opacity',0);
@@ -777,7 +777,7 @@ function drawUnitEval(){
   ];
 
   nodes.forEach((n,i)=>{
-    rectN(g,n.x,n.y,140,50,n.col,n.label,n.sub,i*200);
+    rectNauto(g,n.x,n.y,n.col,n.label,n.sub,i*200);
   });
   edgeLine(g,nodes[0].x+52,nodes[0].y,nodes[1].x-52,nodes[1].y,C.border,'arrowDim',null,300);
   edgeLine(g,nodes[1].x+52,nodes[1].y,nodes[2].x-52,nodes[2].y,C.border,'arrowDim',null,500);
@@ -786,8 +786,8 @@ function drawUnitEval(){
 
   // Expected vs actual comparison
   const expY=h*0.6;
-  rectN(g,w*0.32,expY,230,66,C.green,'expected','{results:[...]}',800);
-  rectN(g,w*0.68,expY,216,66,C.dim,'actual','{results:[...]}',1000);
+  rectNauto(g,w*0.32,expY,C.green,'expected','{results:[...]}',800);
+  rectNauto(g,w*0.68,expY,C.dim,'actual','{results:[...]}',1000);
 
   edgeLine(g,w*0.32,expY+22,cx-10,expY+22,C.border,null,null,1200);
   edgeLine(g,w*0.68,expY+22,cx+10,expY+22,C.border,null,null,1200);
@@ -820,7 +820,7 @@ function drawE2EEval(){
 
   const traceX=w*0.28;
   turns.forEach((t,i)=>{
-    rectN(g,traceX,t.y,200,40,t.col,t.role,fitNodeText(t.txt,20),i*150);
+    rectNauto(g,traceX,t.y,t.col,t.role,fitNodeText(t.txt,20),i*150);
     if(i<turns.length-1){
       edgeLine(g,traceX,t.y+22,traceX,turns[i+1].y-22,C.border,null,'3,3',i*150+200);
     }
@@ -828,7 +828,7 @@ function drawE2EEval(){
 
   // Scorer box on right
   const scoreX=w*0.78;
-  rectN(g,scoreX,h*0.35,250,68,C.orange,'e2e scorer','holistic rubric',900);
+  rectNauto(g,scoreX,h*0.35,C.orange,'e2e scorer','holistic rubric',900);
 
   // Arrow from final output to scorer
   edgeLine(g,traceX+82,turns[4].y,scoreX-62,h*0.35,C.orange,'arrowOrange',null,1100);
@@ -852,11 +852,11 @@ function drawLLMJudge(){
   const cx=w/2;
 
   // Agent output
-  rectN(g,cx,h*0.14,209,40,C.dim,'agent output','response text',0);
+  rectNauto(g,cx,h*0.14,C.dim,'agent output','response text',0);
 
   // Rubric box
   const rubricX=w*0.2, rubricY=h*0.35;
-  rectN(g,rubricX,rubricY,216,52,C.yellow,'rubric','score each dimension',200);
+  rectNauto(g,rubricX,rubricY,C.yellow,'rubric','score each dimension',200);
 
   // Judge LLM
   hexN(g,cx,h*0.5,46,C.blue,'judge','LLM',400);
@@ -946,7 +946,7 @@ function drawEvalInfra(){
 
   // Nightly e2e label
   const nightlyY=h*0.8;
-  rectN(g,w/2,nightlyY,260,50,C.purple,'nightly e2e evals','full suite ~20m',1800);
+  rectNauto(g,w/2,nightlyY,C.purple,'nightly e2e evals','full suite ~20m',1800);
   lbl(g,w/2,nightlyY+44,'runs before every release',C.dim,11,2000);
 }
 

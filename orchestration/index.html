@@ -656,7 +656,7 @@ function s1(svg,w,h){
   ];
 
   parts.forEach((p2,i)=>{
-    rectN(svg,p2.x,p2.y,120,46,p2.color,p2.label,p2.sub,i*150+200);
+    rectNauto(svg,p2.x,p2.y,p2.color,p2.label,p2.sub,i*150+200);
     const dx=cx-p2.x,dy=cy-p2.y,len=Math.sqrt(dx*dx+dy*dy);
     const nx=dx/len,ny=dy/len;
     edgeLine(svg,p2.x+60*nx,p2.y+60*ny,cx-52*nx,cy-52*ny,p2.color,null,'3,3',i*150+400);
@@ -681,7 +681,7 @@ function s2(svg,w,h){
   // Agent on left
   hexN(svg,cx-160,cy,42,C.blue,'Agent',null,0);
   // Runtime middle
-  rectN(svg,cx,cy,90,44,C.dim,'Runtime',null,200);
+  rectNauto(svg,cx,cy,C.dim,'Runtime',null,200);
   // Tool on right
   hexN(svg,cx+170,cy,42,C.orange,'Tool',null,400);
 
@@ -788,7 +788,7 @@ function s4(svg,w,h){
   flow();
 
   // "as-tool" label
-  rectN(svg,cx,cy+120,200,30,C.dim,'agent-as-tool pattern',null,1000);
+  rectNauto(svg,cx,cy+120,C.dim,'agent-as-tool pattern',null,1000);
 }
 
 // ── SCENE 5: Orchestrator-Worker (animated) ────────────────────────────────
@@ -796,14 +796,14 @@ function s5(svg,w,h){
   const cx=w/2,cy=h/2;
   lbl(svg,cx,45,'P02: Orchestrator-Worker',C.blue,14,0);
 
-  rectN(svg,cx,cy-130,140,44,C.blue,'Orchestrator',null,100);
+  rectNauto(svg,cx,cy-130,C.blue,'Orchestrator',null,100);
   const workers=[
     {x:cx-160,y:cy+20,label:'Worker A',color:C.green},
     {x:cx,y:cy+20,label:'Worker B',color:C.green},
     {x:cx+160,y:cy+20,label:'Worker C',color:C.green},
   ];
   workers.forEach((w2,i)=>{
-    rectN(svg,w2.x,w2.y,110,40,w2.color,w2.label,null,200+i*150);
+    rectNauto(svg,w2.x,w2.y,w2.color,w2.label,null,200+i*150);
     edgeLine(svg,cx,cy-108,w2.x,w2.y-20,C.dim,'arrowDim',null,400+i*100);
   });
 
@@ -828,7 +828,7 @@ function s5(svg,w,h){
 
   // result merge arrow
   edgeLine(svg,cx,cy-108,cx,cy-168,C.yellow,'arrowYellow',null,600);
-  rectN(svg,cx,cy-185,110,28,C.yellow,'Final Result',null,700);
+  rectNauto(svg,cx,cy-185,C.yellow,'Final Result',null,700);
 }
 
 // ── SCENE 6: Pipeline ─────────────────────────────────────────────────────
@@ -844,7 +844,7 @@ function s6(svg,w,h){
   ];
 
   stages.forEach((s2,i)=>{
-    rectN(svg,s2.x,cy,100,48,s2.color,s2.label,null,i*200+100);
+    rectNauto(svg,s2.x,cy,s2.color,s2.label,null,i*200+100);
     if(i>0){
       const prev=stages[i-1];
       edgeLine(svg,prev.x+50,cy,s2.x-50,cy,C.dim,'arrowDim',null,i*200+300);
@@ -881,7 +881,7 @@ function s7(svg,w,h){
   const cx=w/2,cy=h/2;
   lbl(svg,cx,40,'P04: Parallel Fan-out / Fan-in',C.orange,14,0);
 
-  rectN(svg,cx,cy-150,110,40,C.blue,'Dispatcher',null,100);
+  rectNauto(svg,cx,cy-150,C.blue,'Dispatcher',null,100);
 
   const agents=[
     {x:cx-170,y:cy,label:'Agent 1'},
@@ -889,11 +889,11 @@ function s7(svg,w,h){
     {x:cx+170,y:cy,label:'Agent 3'},
   ];
   agents.forEach((a,i)=>{
-    rectN(svg,a.x,a.y,100,40,C.orange,a.label,null,200+i*150);
+    rectNauto(svg,a.x,a.y,C.orange,a.label,null,200+i*150);
     edgeLine(svg,cx,cy-130,a.x,a.y-20,C.dim,'arrowDim',null,400+i*100);
   });
 
-  rectN(svg,cx,cy+140,110,40,C.green,'Reducer',null,700);
+  rectNauto(svg,cx,cy+140,C.green,'Reducer',null,700);
   agents.forEach((a,i)=>{
     edgeLine(svg,a.x,a.y+20,cx,cy+120,C.dim,'arrowDim',null,700+i*100);
   });
@@ -986,7 +986,7 @@ function s9(svg,w,h){
   const steps=['Step 1','Step 2','Step 3','Step 4'];
   const planY=[cy-90,cy-30,cy+30,cy+90];
   steps.forEach((s2,i)=>{
-    rectN(svg,cx,planY[i],90,28,C.orange,s2,null,200+i*120);
+    rectNauto(svg,cx,planY[i],C.orange,s2,null,200+i*120);
   });
 
   // Executor
@@ -1023,7 +1023,7 @@ function s10(svg,w,h){
   hexN(svg,cx+130,cy,44,C.red,'Critic',null,200);
 
   // draft output box
-  rectN(svg,cx,cy-110,120,36,C.dim,'Draft Output',null,400);
+  rectNauto(svg,cx,cy-110,C.dim,'Draft Output',null,400);
 
   edgeLine(svg,cx-86,cy-12,cx-60,cy-92,C.blue,'arrowBlue',null,500);
   edgeLine(svg,cx+60,cy-92,cx+86,cy-12,C.red,'arrowRed',null,600);
@@ -1072,7 +1072,7 @@ function s11(svg,w,h){
     {x:cx+30,y:cy+60,color:C.yellow,label:'Agent D'},
   ];
   debaters.forEach((d,i)=>{
-    rectN(svg,d.x,d.y,90,38,d.color,d.label,null,i*120+100);
+    rectNauto(svg,d.x,d.y,d.color,d.label,null,i*120+100);
   });
 
   // Judge
@@ -1131,7 +1131,7 @@ function s12(svg,w,h){
     {x:cx+200,y:cy+80,color:C.red,label:'Agent 4'},
   ];
   agents.forEach((a,i)=>{
-    rectN(svg,a.x,a.y,90,34,a.color,a.label,null,200+i*120);
+    rectNauto(svg,a.x,a.y,a.color,a.label,null,200+i*120);
     // edges to/from blackboard
     const dx=cx-a.x,dy=cy-a.y,len=Math.sqrt(dx*dx+dy*dy);
     const nx=dx/len,ny=dy/len;
@@ -1271,7 +1271,7 @@ function s15(svg,w,h){
   ];
 
   components.forEach((comp,i)=>{
-    rectN(svg,comp.x,comp.y,130,44,comp.color,comp.label,comp.sub,i*120+100);
+    rectNauto(svg,comp.x,comp.y,comp.color,comp.label,comp.sub,i*120+100);
   });
 
   // connections to agent cluster
@@ -1320,7 +1320,7 @@ function s16(svg,w,h){
   allNodes.forEach((n,i)=>{
     const isQ=n.label.includes('?');
     if(isQ){
-      rectN(svg,n.x,n.y,120,36,n.color,n.label.split('\n')[0],n.label.split('\n')[1]||null,i*80+100);
+      rectNauto(svg,n.x,n.y,n.color,n.label.split('\n')[0],n.label.split('\n')[1]||null,i*80+100);
     } else {
       hexN(svg,n.x,n.y,30,n.color,n.label.split('\n')[0],n.label.split('\n')[1]||null,i*80+100);
     }

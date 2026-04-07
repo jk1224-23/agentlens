@@ -520,7 +520,7 @@ function drawMemoryMindset(){
     {x:w*0.2,y:q3y+10,col:C.green,label:'Vector Store',sub:'semantic retrieval'},
   ];
   yesItems.forEach((item,i)=>{
-    rectN(g,item.x,item.y,130,46,item.col,item.label,item.sub,i*200+400);
+    rectNauto(g,item.x,item.y,item.col,item.label,item.sub,i*200+400);
     edgeLine(g,cx-34,questions[i].y,item.x+44,item.y,item.col,'arrowBlue',null,i*200+600);
     lbl(g,(cx-34+item.x+44)/2,questions[i].y-14,'yes',item.col,10,i*200+700);
   });
@@ -535,7 +535,7 @@ function drawMemoryMindset(){
   const noG=g.append('g').style('opacity',0);
   noG.transition().delay(1000).duration(400).style('opacity',1);
   edgeLine(g,cx,q3y+30,procX,procY-16,C.orange,'arrowOrange',null,1000);
-  rectN(g,procX,procY,195,46,C.orange,'Procedural','system prompt',800);
+  rectNauto(g,procX,procY,C.orange,'Procedural','system prompt',800);
   lbl(g,(cx+procX)/2+10,(q3y+30+procY-16)/2,'no',C.orange,10,1100);
 }
 
@@ -785,16 +785,16 @@ function drawEpisodicMemory(){
   const storeX=w*0.5, storeY=h*0.46;
 
   // Session 1
-  rectN(g,w*0.22,sess1Y,167,50,C.blue,'Session 1','turns 1–12',0);
+  rectNauto(g,w*0.22,sess1Y,C.blue,'Session 1','turns 1–12',0);
   // Extract action
   const eG=g.append('g').style('opacity',0);
   eG.transition().delay(300).duration(400).style('opacity',1);
-  rectN(g,w*0.6,sess1Y,181,50,C.orange,'Extract Facts','LLM call',200);
+  rectNauto(g,w*0.6,sess1Y,C.orange,'Extract Facts','LLM call',200);
   edgeLine(g,w*0.22+70,sess1Y,w*0.6-55,sess1Y,C.orange,'arrowOrange',null,400);
   pkt(g,w*0.22+70,sess1Y,w*0.6-55,sess1Y,C.orange,500,500,4,false);
 
   // Memory store
-  rectN(g,storeX,storeY,202,54,C.purple,'Episodic Store','embeddings',600);
+  rectNauto(g,storeX,storeY,C.purple,'Episodic Store','embeddings',600);
 
   // Memories extracted
   const mems=['prefers bullet points','using macOS 14','works in finance'];
@@ -815,7 +815,7 @@ function drawEpisodicMemory(){
   lbl(g,(storeX+w*0.22)/2,storeY+70,'retrieve relevant memories',C.green,10,1600);
 
   // Session 2
-  rectN(g,w*0.22,sess2Y,209,50,C.green,'Session 2','context injected',1200);
+  rectNauto(g,w*0.22,sess2Y,C.green,'Session 2','context injected',1200);
   lbl(g,w*0.22,sess2Y+36,'recalls user prefs ✓',C.dim,9.5,1800);
 }
 
@@ -972,7 +972,7 @@ function drawMemoryStack(){
   const startX=w*0.5, startY=h*0.1;
   diamondN(g,startX,startY,50,C.blue,'Fits in\nwindow?',0);
   // Yes → in-context
-  rectN(g,w*0.8,startY,139,48,C.blue,'In-Context','done!',300);
+  rectNauto(g,w*0.8,startY,C.blue,'In-Context','done!',300);
   edgeLine(g,startX+36,startY,w*0.8-45,startY,C.blue,'arrowBlue',null,400);
   lbl(g,(startX+36+w*0.8-45)/2,startY-12,'yes',C.blue,10,500);
   // No → next diamond
@@ -981,7 +981,7 @@ function drawMemoryStack(){
   lbl(g,startX+15,(startY+36+d2y-36)/2,'no',C.dim,10,600);
   diamondN(g,startX,d2y,50,C.purple,'Cross\nsession?',300);
   // No → optimize in-context
-  rectN(g,w*0.8,d2y,160,48,C.dim,'Optimize\nwindow','eviction rules',600);
+  rectNauto(g,w*0.8,d2y,C.dim,'Optimize\nwindow','eviction rules',600);
   edgeLine(g,startX+36,d2y,w*0.8-45,d2y,C.dim,'arrowDim',null,700);
   lbl(g,(startX+36+w*0.8-45)/2,d2y-12,'no',C.dim,10,750);
   // Yes → next diamond
@@ -991,14 +991,14 @@ function drawMemoryStack(){
   lbl(g,startX-60,(d2y+36+d3y-36)/2,'yes ↓',C.purple,10,800);
   diamondN(g,startX,d3y,50,C.green,'Semantic\nsearch?',600);
   // No → episodic
-  rectN(g,w*0.8,d3y,160,48,C.purple,'Episodic','user prefs',900);
+  rectNauto(g,w*0.8,d3y,C.purple,'Episodic','user prefs',900);
   edgeLine(g,startX+36,d3y,w*0.8-45,d3y,C.purple,'arrowPurple',null,1000);
   lbl(g,(startX+36+w*0.8-45)/2,d3y-12,'no',C.purple,10,1050);
   // Yes → vector store
   const vecY=d3y+100;
   edgeLine(g,startX,d3y+36,startX,vecY-18,C.green,'arrowGreen',null,1100);
   lbl(g,startX-15,(d3y+36+vecY-18)/2,'yes',C.green,10,1150);
-  rectN(g,startX,vecY,216,48,C.green,'Vector Store','semantic index',1200);
+  rectNauto(g,startX,vecY,C.green,'Vector Store','semantic index',1200);
 }
 
 function drawPrivacyMemory(){

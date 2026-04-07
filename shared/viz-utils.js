@@ -58,6 +58,21 @@ function setupDefs(svgSel){
 
 // ── NODE DRAWING ──────────────────────────────────────────────────────────────
 
+/** Calculate minimum width needed for text in rect (with padding) */
+function calcMinWidth(txt, sub, fontSize=13, padding=20) {
+  // Approximate: Courier New ~7.5px per character at 13px font size
+  const charWidth = fontSize * 0.58;
+  const mainWidth = (txt || '').length * charWidth;
+  const subWidth = (sub || '').length * (fontSize * 0.55);
+  return Math.max(mainWidth, subWidth) + padding;
+}
+
+/** Calculate minimum height needed for rect with dual labels */
+function calcMinHeight(hasSub=false, fontSize=13, subSize=11) {
+  // Main text + padding + sub text + spacing
+  return hasSub ? (fontSize + 8 + subSize + 12) : (fontSize + 12);
+}
+
 /** Circle node with optional label + sub-label */
 function hexN(p,x,y,r,color,txt,sub,delay=0){
   const g=p.append('g').style('opacity',0);
@@ -73,7 +88,7 @@ function hexN(p,x,y,r,color,txt,sub,delay=0){
   return g;
 }
 
-/** Rounded-rect node with optional label + sub-label */
+/** Rounded-rect node with optional label + sub-label (FIXED SIZE VERSION - kept for compatibility) */
 function rectN(p,x,y,w2,h2,color,txt,sub,delay=0){
   const g=p.append('g').style('opacity',0);
   g.transition().delay(delay).duration(400).style('opacity',1);
@@ -85,6 +100,30 @@ function rectN(p,x,y,w2,h2,color,txt,sub,delay=0){
     .attr('fill',color).attr('font-size',subTxt?12:13).attr('font-family','Courier New').text(mainTxt);
   if(subTxt)g.append('text').attr('x',x).attr('y',y+15).attr('text-anchor','middle')
     .attr('fill',C.dim).attr('font-size',11).attr('font-family','Courier New').text(subTxt);
+  return g;
+}
+
+/** AUTO-SIZING Rounded-rect node - calculates size based on text length */
+function rectNauto(p,x,y,color,txt,sub,delay=0){
+  // Calculate minimum dimensions needed
+  const minW = calcMinWidth(txt, sub, sub?12:13, 25);
+  const minH = calcMinHeight(!!sub, sub?12:13, 11);
+
+  const w2 = Math.max(minW, 100); // Minimum 100px
+  const h2 = Math.max(minH, 36);  // Minimum 36px
+
+  const g=p.append('g').style('opacity',0);
+  g.transition().delay(delay).duration(400).style('opacity',1);
+  g.append('rect').attr('x',x-w2/2).attr('y',y-h2/2).attr('width',w2).attr('height',h2)
+    .attr('rx',6).attr('fill',color+'18').attr('stroke',color).attr('stroke-width',1.5);
+
+  // Use full text without truncation (it should fit now)
+  if(txt)g.append('text').attr('x',x).attr('y',sub?y-2:y+5).attr('text-anchor','middle')
+    .attr('fill',color).attr('font-size',sub?12:13).attr('font-family','Courier New')
+    .attr('dominant-baseline','middle').text(txt);
+  if(sub)g.append('text').attr('x',x).attr('y',y+15).attr('text-anchor','middle')
+    .attr('fill',C.dim).attr('font-size',11).attr('font-family','Courier New')
+    .attr('dominant-baseline','middle').text(sub);
   return g;
 }
 

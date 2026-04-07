@@ -399,7 +399,7 @@ function s1(svg,w,h){
   ];
   const cardX=cx-90;
   cards.forEach((c,i)=>{
-    rectN(svg,cardX,c.y,120,38,c.color,c.label,null,i*150+200);
+    rectNauto(svg,cardX,c.y,c.color,c.label,null,i*150+200);
     const dx=llmX-cardX,dy=llmY-c.y,len=Math.sqrt(dx*dx+dy*dy);
     const nx=dx/len,ny=dy/len;
     edgeLine(svg,cardX+60*nx,c.y+60*ny,llmX-46*nx,llmY-46*ny,c.color,'arrowBlue',null,i*150+400);
@@ -417,9 +417,9 @@ function s2(svg,w,h){
   lbl(svg,rx,startY-20,'Agent Eng',C.dim,12,100);
   rows.forEach(([left,right],i)=>{
     const y=startY+i*rowH;
-    rectN(svg,lx,y,110,28,C.blue,left,null,i*100+200);
+    rectNauto(svg,lx,y,C.blue,left,null,i*100+200);
     lbl(svg,cx,y+5,'→',C.dim,15,i*100+250);
-    rectN(svg,rx,y,110,28,C.orange,right,null,i*100+300);
+    rectNauto(svg,rx,y,C.orange,right,null,i*100+300);
     pkt(svg,lx+55,y,rx-55,y,C.yellow,550,i*150+500);
   });
 }
@@ -513,7 +513,7 @@ function s5(svg,w,h){
   });
   const ax=cx+52,rtx=cx+130,tx=cx+195;
   hexN(svg,ax,cy-55,28,C.blue,'Agent',null,400);
-  rectN(svg,rtx,cy,80,34,C.dim,'Runtime',null,550);
+  rectNauto(svg,rtx,cy,C.dim,'Runtime',null,550);
   hexN(svg,tx,cy+55,28,C.orange,'Tool',null,700);
   edgeLine(svg,ax+14,cy-28,rtx-40,cy,C.blue,'arrowBlue',null,800);
   edgeLine(svg,rtx+40,cy,tx-14,cy+28,C.orange,'arrowOrange',null,900);
@@ -545,7 +545,7 @@ function s6(svg,w,h){
   edgeLine(svg,nx[3]+22,cy,nx[4]-28,cy,C.yellow,'arrowYellow',null,680);
   const rejX=nx[1],rejY=cy+75;
   edgeLine(svg,nx[1],cy+22,rejX,rejY,C.red,'arrowRed',null,800);
-  rectN(svg,rejX,rejY+18,72,24,C.red,'reject',null,900);
+  rectNauto(svg,rejX,rejY+18,C.red,'reject',null,900);
   lbl(svg,nx[1],cy-46,'validate · log · rate-limit',C.dim,12,600);
   lbl(svg,nx[3],cy-46,'sanitize · cost · PII',C.dim,12,700);
   function flowMain(){
@@ -682,7 +682,7 @@ function s10(svg,w,h){
     {x:cx+10,color:C.yellow,label:'Canary 10%'},
   ];
   stages.forEach((s,i)=>{
-    rectN(svg,s.x,cy,88,40,s.color,s.label,null,i*140+100);
+    rectNauto(svg,s.x,cy,s.color,s.label,null,i*140+100);
     if(i<stages.length-1){
       edgeLine(svg,s.x+44,cy,stages[i+1].x-44,cy,C.dim,'arrowDim',null,i*140+300);
     }
@@ -692,7 +692,7 @@ function s10(svg,w,h){
   lbl(svg,gx,gy+26,'gate',C.purple,12,450);
   edgeLine(svg,stages[2].x+44,cy,gx-23,cy,C.yellow,'arrowYellow',null,550);
   const prodX=cx+200;
-  rectN(svg,prodX,cy,84,40,C.orange,'Prod 100%',null,600);
+  rectNauto(svg,prodX,cy,C.orange,'Prod 100%',null,600);
   edgeLine(svg,gx+23,cy,prodX-42,cy,C.green,'arrowGreen',null,700);
   lbl(svg,cx+155,cy-26,'pass',C.green,12,800);
   edgeLine(svg,gx,gy+23,gx,cy+72,C.red,null,null,900);
@@ -729,9 +729,9 @@ function s11(svg,w,h){
   });
   // panel 0: trace tree
   const tp=panels[0];
-  rectN(svg,tp.x,tp.y-18,58,20,C.blue,'LLM Call',null,300);
-  rectN(svg,tp.x-28,tp.y+18,46,18,C.orange,'search',null,400);
-  rectN(svg,tp.x+28,tp.y+18,46,18,C.orange,'read',null,500);
+  rectNauto(svg,tp.x,tp.y-18,C.blue,'LLM Call',null,300);
+  rectNauto(svg,tp.x-28,tp.y+18,C.orange,'search',null,400);
+  rectNauto(svg,tp.x+28,tp.y+18,C.orange,'read',null,500);
   edgeLine(svg,tp.x,tp.y-8,tp.x-28,tp.y+9,C.border,null,null,500);
   edgeLine(svg,tp.x,tp.y-8,tp.x+28,tp.y+9,C.border,null,null,600);
   // panel 1: bar chart
@@ -818,9 +818,9 @@ function s12(svg,w,h){
 function s13(svg,w,h){
   const cx=w/2,cy=h/2;
   lbl(svg,cx,42,'Guardrails',C.text,15,0);
-  rectN(svg,cx,cy-105,200,40,C.red,'Input Guardrail',null,100);
+  rectNauto(svg,cx,cy-105,C.red,'Input Guardrail',null,100);
   hexN(svg,cx,cy,52,C.blue,'Agent LLM',null,300);
-  rectN(svg,cx,cy+105,200,40,C.red,'Output Guardrail',null,500);
+  rectNauto(svg,cx,cy+105,C.red,'Output Guardrail',null,500);
   edgeLine(svg,cx,cy-85,cx,cy-52,C.dim,'arrowDim',null,700);
   edgeLine(svg,cx,cy+52,cx,cy+85,C.dim,'arrowDim',null,800);
   lbl(svg,cx+120,cy-105,'validates input',C.dim,12,900);
@@ -889,10 +889,10 @@ function s14(svg,w,h){
 function s15(svg,w,h){
   const cx=w/2,cy=h/2;
   lbl(svg,cx,42,"What's Next?",C.text,15,0);
-  rectN(svg,cx-120,cy-10,200,120,C.blue,'Agent Engineering',null,100);
+  rectNauto(svg,cx-120,cy-10,C.blue,'Agent Engineering',null,100);
   lbl(svg,cx-120,cy+18,'Build · Test · Ship',C.dim,12,300);
   lbl(svg,cx-120,cy+31,'Observe · Refine',C.dim,12,300);
-  rectN(svg,cx+120,cy-10,200,120,C.purple,'Orchestration',null,400);
+  rectNauto(svg,cx+120,cy-10,C.purple,'Orchestration',null,400);
   lbl(svg,cx+120,cy+18,'Patterns',C.purple,12,500);
   lbl(svg,cx+120,cy+34,'10 multi-agent patterns',C.dim,12,550);
   edgeLine(svg,cx-18,cy-10,cx+18,cy-10,C.yellow,'arrowYellow',null,700);
