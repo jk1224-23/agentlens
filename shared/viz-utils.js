@@ -195,7 +195,7 @@ function arcPath(p,x1,y1,x2,y2,color,marker,delay=0){
 
 /** Floating text label */
 function lbl(p,x,y,text,color,size,delay=0){
-  const t=p.append('text').attr('x',x).attr('font-family','Georgia,serif')
+  const t=p.append('text').attr('x',x).attr('text-anchor','middle').attr('font-family','Georgia,serif')
     .style('opacity',0);
   createMultilineText(t, text, color||C.dim, size||13);
   t.transition().delay(delay).duration(400).style('opacity',1);
