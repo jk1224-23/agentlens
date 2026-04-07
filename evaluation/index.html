@@ -696,14 +696,7 @@ function drawGoldenDataset(){
   ];
 
   examples.forEach((ex,i)=>{
-    const eg=g.append('g').style('opacity',0);
-    eg.transition().delay(i*180+200).duration(400).style('opacity',1);
-    eg.append('rect').attr('x',ex.x-52).attr('y',ex.y-16).attr('width',104).attr('height',32)
-      .attr('rx',5).attr('fill',ex.col+'18').attr('stroke',ex.col).attr('stroke-width',1.2);
-    eg.append('text').attr('x',ex.x).attr('y',ex.y-3).attr('text-anchor','middle')
-      .attr('fill',ex.col).attr('font-size',10).attr('font-family','Courier New').text(fitNodeText(ex.label,12));
-    eg.append('text').attr('x',ex.x).attr('y',ex.y+11).attr('text-anchor','middle')
-      .attr('fill',C.dim).attr('font-size',9).attr('font-family','Courier New').text(ex.tag);
+    rectN(g,ex.x,ex.y,140,36,ex.col,ex.label,ex.tag,i*180+200);
 
     // Arrow to dataset
     const id=setTimeout(()=>{
@@ -784,7 +777,7 @@ function drawUnitEval(){
   ];
 
   nodes.forEach((n,i)=>{
-    rectN(g,n.x,n.y,110,40,n.col,n.label,fitNodeText(n.sub,18),i*200);
+    rectN(g,n.x,n.y,140,50,n.col,n.label,n.sub,i*200);
   });
   edgeLine(g,nodes[0].x+52,nodes[0].y,nodes[1].x-52,nodes[1].y,C.border,'arrowDim',null,300);
   edgeLine(g,nodes[1].x+52,nodes[1].y,nodes[2].x-52,nodes[2].y,C.border,'arrowDim',null,500);
@@ -793,8 +786,8 @@ function drawUnitEval(){
 
   // Expected vs actual comparison
   const expY=h*0.6;
-  rectN(g,w*0.32,expY,130,40,C.green,'expected',fitNodeText('{results:[...]}',18),800);
-  rectN(g,w*0.68,expY,130,40,C.dim,'actual',fitNodeText('{results:[...]}',18),1000);
+  rectN(g,w*0.32,expY,150,50,C.green,'expected','{results:[...]}',800);
+  rectN(g,w*0.68,expY,150,50,C.dim,'actual','{results:[...]}',1000);
 
   edgeLine(g,w*0.32,expY+22,cx-10,expY+22,C.border,null,null,1200);
   edgeLine(g,w*0.68,expY+22,cx+10,expY+22,C.border,null,null,1200);
@@ -826,21 +819,10 @@ function drawE2EEval(){
   ];
 
   const traceX=w*0.28;
-  const boxH=36; // Increased from 28 to fit two lines
   turns.forEach((t,i)=>{
-    const tg=g.append('g').style('opacity',0);
-    tg.transition().delay(i*150).duration(400).style('opacity',1);
-    // Box
-    tg.append('rect').attr('x',traceX-82).attr('y',t.y-boxH/2).attr('width',164).attr('height',boxH)
-      .attr('rx',5).attr('fill',t.col+'18').attr('stroke',t.col).attr('stroke-width',1.5);
-    // Role text (top line)
-    tg.append('text').attr('x',traceX).attr('y',t.y-6).attr('text-anchor','middle')
-      .attr('fill',t.col).attr('font-size',10).attr('font-family','Courier New').attr('font-weight','bold').text(t.role);
-    // Content text (bottom line)
-    tg.append('text').attr('x',traceX).attr('y',t.y+9).attr('text-anchor','middle')
-      .attr('fill',t.col).attr('font-size',9.5).attr('font-family','Courier New').text(fitNodeText(t.txt,22));
+    rectN(g,traceX,t.y,200,40,t.col,t.role,fitNodeText(t.txt,20),i*150);
     if(i<turns.length-1){
-      edgeLine(g,traceX,t.y+boxH/2+3,traceX,turns[i+1].y-boxH/2-3,C.border,null,'3,3',i*150+200);
+      edgeLine(g,traceX,t.y+22,traceX,turns[i+1].y-22,C.border,null,'3,3',i*150+200);
     }
   });
 
@@ -964,7 +946,7 @@ function drawEvalInfra(){
 
   // Nightly e2e label
   const nightlyY=h*0.8;
-  rectN(g,w/2,nightlyY,220,40,C.purple,'nightly e2e',fitNodeText('full suite ~20m',22),1800);
+  rectN(g,w/2,nightlyY,260,50,C.purple,'nightly e2e evals','full suite ~20m',1800);
   lbl(g,w/2,nightlyY+44,'runs before every release',C.dim,11,2000);
 }
 
@@ -1094,7 +1076,7 @@ function drawQualityLoop(){
   const {w,h}=getSize(svg.node());
   const g=svg.append('g');
   const cx=w/2, cy=h*0.48;
-  const r=Math.min(w,h)*0.31;
+  const r=Math.min(w,h)*0.35;
 
   const steps=[
     {label:'Observe',sub:fitNodeText('traces & feedback',14),col:C.blue,angle:-Math.PI/2},
@@ -1119,7 +1101,7 @@ function drawQualityLoop(){
 
   // Nodes
   positions.forEach((p,i)=>{
-    hexN(g,p.x,p.y,38,p.col,p.label,p.sub,i*150);
+    hexN(g,p.x,p.y,46,p.col,p.label,p.sub,i*150);
   });
 
   // Animated packet going around the loop

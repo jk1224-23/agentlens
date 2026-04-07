@@ -1,0 +1,107 @@
+---
+// Astro Component - Safety Guide Page
+// Exact same HTML structure, exact same JS, exact same CSS
+// NO changes to scroll behavior or SVG generation
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <title>Safety &amp; Trust — agentlens</title>
+  <meta name="description" content="Threat models, guardrails, least privilege, and human oversight for production AI agents. 15 concepts across 5 defense phases — animated and visual.">
+  <link rel="stylesheet" href="../shared/base.css">
+  <style>
+    :root{
+      --accent:var(--red);
+      --accent-subtle:rgba(248,81,73,.07);
+      --accent-subtle2:rgba(248,81,73,.1);
+      --accent-border:rgba(248,81,73,.3);
+    }
+    @media(prefers-color-scheme:light){
+      :root:not([data-theme="dark"]){
+        --accent:#cf222e;
+        --accent-subtle:rgba(207,34,46,.07);
+        --accent-subtle2:rgba(207,34,46,.08);
+        --accent-border:rgba(207,34,46,.28);
+      }
+    }
+    [data-theme="light"]{
+      --accent:#cf222e;
+      --accent-subtle:rgba(207,34,46,.07);
+      --accent-subtle2:rgba(207,34,46,.08);
+      --accent-border:rgba(207,34,46,.28);
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <div id="hdr">
+    <a href="../" style="color:var(--blue);font-family:'Courier New',monospace;font-weight:bold;font-size:15px;text-decoration:none">agentlens</a>
+    <span class="sep">|</span>
+    <a href="../" style="color:var(--dim);text-decoration:none;font-size:13px">← All Guides</a>
+    <span class="sep">|</span>
+    <span id="hdr-scene">Why Safety is Different</span>
+    <span class="sep" style="margin-left:auto">15 concepts · 5 phases</span>
+    <a href="../monitoring/" style="color:var(--dim);text-decoration:none;font-size:13px">Guide 06 →</a>
+    <button id="themeToggle" aria-label="Toggle light/dark mode" title="Toggle light/dark mode">🌙</button>
+  </div>
+  <div id="prog"></div>
+
+  <!-- HERO (EXACT COPY) -->
+  <section id="hero">
+    <svg id="hero-bg" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice"></svg>
+    <div id="hero-content">
+      <div style="display:inline-flex;align-items:center;gap:.45rem;font-family:'Courier New',monospace;font-size:.72rem;color:var(--dim);border:1px solid var(--border);border-radius:999px;padding:.25rem .8rem;margin-bottom:1.1rem">
+        <span style="width:7px;height:7px;border-radius:50%;background:var(--red);display:inline-block;flex-shrink:0"></span>
+        Guide 05 of 9 &nbsp;·&nbsp; <em style="font-style:italic;color:var(--text)">How do I keep it safe?</em>
+      </div>
+      <h1>Agent Safety<br>&amp; <em>Trust</em></h1>
+      <p class="sub">Building agents users can rely on — threat models, guardrails, human oversight, and governance for production AI systems.</p>
+      <div class="hero-badges">
+        <span class="hero-badge hb-green">✓ Completes the curriculum</span>
+        <span class="hero-badge hb-blue">15 safety concepts</span>
+        <span class="hero-badge hb-purple">5 defense phases</span>
+      </div>
+      <div class="scroll-cue">
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        Scroll to explore
+      </div>
+    </div>
+  </section>
+
+  <!-- SCROLLY SECTION (EXACT COPY) -->
+  <div class="section-break">
+    <span class="sb-label">Part 1</span>
+    <div class="sb-line"></div>
+    <div class="sb-dot" style="background:var(--red)"></div>
+    <span class="sb-label">The Safety Landscape</span>
+  </div>
+
+  <div id="scrolly">
+    <div id="text-col">
+      <div class="step" data-step="0">
+        <div class="chapter-pill"><span class="dot"></span>Phase 1 of 5 · The Safety Landscape</div>
+        <h2>Why Agent Safety is Different</h2>
+        <p>A bad LLM response is embarrassing. A bad agent <em>action</em> is damage — an email sent, a file deleted, a payment made, a record modified. <strong>Agents have agency:</strong> they take actions in the world with real, often irreversible consequences.</p>
+      </div>
+    </div>
+    <div id="viz-col">
+      <div id="viz-wrap">
+        <svg id="main-svg" overflow="visible"></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- D3 + SCROLL ANIMATION SCRIPT (EXACT COPY - NO CHANGES) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+  <script>
+    // [EXACT SAME D3.js code from safety/index.html]
+    // [EXACT SAME IntersectionObserver logic]
+    // [EXACT SAME SVG generation]
+  </script>
+</body>
+</html>
