@@ -462,6 +462,18 @@ function initSharedUI(renderStepFn){
     renderStepFn(step);
   }
 
+  // Loading state during transitions
+  const loader=document.createElement('div');
+  loader.id='loader';
+  loader.innerHTML='<div class="loader-dot"></div>';
+  document.body.appendChild(loader);
+  const origTransition=window.transitionTo;
+  window.transitionTo=function(step){
+    loader.style.opacity='1';
+    origTransition(step);
+    setTimeout(()=>loader.style.opacity='0',300);
+  };
+
   // Scroll progress bar (throttled to 60fps)
   let lastScrollUpdate=0;
   window.addEventListener('scroll',()=>{
