@@ -53,7 +53,7 @@ body{background:var(--bg);color:var(--text);font-family:'Georgia',serif;font-siz
 .guide-container{padding-top:52px}
 
 /* ── HERO CLASS-BASED (for advanced/capstone pages) ──────────────────────── */
-.hero{height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;overflow:hidden;padding-top:0}
+.hero{height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;overflow:hidden;padding-top:52px}
 .hero-bg{position:absolute;inset:0;pointer-events:none;width:100%;height:100%}
 .hero-content{position:relative;z-index:2;max-width:760px;padding:2rem;display:flex;flex-direction:column;align-items:center}
 .guide-number{font-size:clamp(3rem,8vw,5rem);font-weight:300;color:var(--dim);margin-bottom:1rem;font-family:'Courier New',monospace;letter-spacing:.05em}
