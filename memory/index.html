@@ -831,7 +831,7 @@ function drawProceduralMemory(){
     {x:w*0.85,y:h*0.3, color:C.green,  label:'Re-eval',   sub:'scores improve'},
   ];
   steps.forEach((s,i)=>{
-    hexN(g,s.x,s.y,38,s.color,s.label,s.sub,i*200);
+    hexN(g,s.x,s.y,48,s.color,s.label,s.sub,i*200);
   });
   for(let i=0;i<steps.length-1;i++){
     edgeLine(g,steps[i].x+42,steps[i].y,steps[i+1].x-42,steps[i+1].y,C.border,'arrowDim',null,i*200+300);

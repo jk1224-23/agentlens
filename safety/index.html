@@ -454,7 +454,7 @@ function drawThreatModel(){
     {x:w*0.92,label:'Output',col:C.green},
   ];
   pipeNodes.forEach((n,i)=>{
-    hexN(g,n.x,cy,34,n.col,n.label,null,i*150);
+    hexN(g,n.x,cy,44,n.col,n.label,null,i*150);
   });
   for(let i=0;i<pipeNodes.length-1;i++){
     edgeLine(g,pipeNodes[i].x+38,cy,pipeNodes[i+1].x-38,cy,C.border,'arrowDim',null,i*150+200);
@@ -829,7 +829,7 @@ function drawHumanInLoop(){
 
     // Workflow diagram
     const agentY=h*0.38;
-    hexN(g,cx,agentY,28,p.col,'agent',null,i*160+300);
+    hexN(g,cx,agentY,40,p.col,'agent',null,i*160+300);
 
     if(p.label==='Co-pilot'){
       // Every action goes to human first
