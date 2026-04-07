@@ -30,7 +30,7 @@
 
 <!-- HERO -->
 <section id="hero">
-  <svg id="hero-bg" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice"></svg>
+  <svg id="hero-bg" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice" overflow="visible"></svg>
   <div id="hero-content">
     <div style="display:inline-flex;align-items:center;gap:.45rem;font-family:'Courier New',monospace;font-size:.72rem;color:var(--dim);border:1px solid var(--border);border-radius:999px;padding:.25rem .8rem;margin-bottom:1.1rem">
       <span style="width:7px;height:7px;border-radius:50%;background:var(--blue);display:inline-block;flex-shrink:0"></span>
@@ -44,7 +44,7 @@
       <span class="hero-badge hb-purple">10 agent patterns</span>
     </div>
     <div class="scroll-cue">
-      <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      <svg viewBox="0 0 24 24" overflow="visible"><polyline points="6 9 12 15 18 9"></polyline></svg>
       Scroll to explore
     </div>
   </div>
@@ -122,7 +122,7 @@
   <!-- VIZ PANEL (shared, sticky) -->
   <div id="viz-col">
     <div id="viz-wrap">
-      <svg id="main-svg" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet" overflow="visible"></svg>
+      <svg id="main-svg" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet" overflow="visible" overflow="visible"></svg>
     </div>
   </div>
 </div><!-- end scrolly foundations -->
@@ -147,7 +147,7 @@
       <p>The orchestrator never does the "real work" itself — it focuses on planning, decomposition, and synthesis. Workers focus on execution without worrying about the big picture.</p>
       <div class="mini-viz">
         <div class="mini-viz-label">Orchestrator-Worker topology</div>
-        <svg viewBox="0 0 260 110" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 260 110" xmlns="http://www.w3.org/2000/svg" overflow="visible">
           <rect x="95" y="10" width="70" height="28" rx="5" fill="rgba(88,166,255,.15)" stroke="var(--blue)" stroke-width="1.2"/>
           <text x="130" y="28" text-anchor="middle" fill="var(--blue)" font-size="9" font-family="Courier New">Orchestrator</text>
           <line x1="60" y1="65" x2="130" y2="38" stroke="var(--border)" stroke-width="1.2" marker-end="url(#arr)"/>
@@ -176,7 +176,7 @@
       <p>There's no central coordinator — each agent just receives input, does its job, and hands off to the next.</p>
       <div class="mini-viz">
         <div class="mini-viz-label">Pipeline: each stage refines the output</div>
-        <svg viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg" overflow="visible">
           <rect x="5" y="20" width="55" height="30" rx="5" fill="rgba(88,166,255,.12)" stroke="var(--blue)" stroke-width="1.2"/>
           <text x="32" y="38" text-anchor="middle" fill="var(--blue)" font-size="8" font-family="Courier New">Research</text>
           <line x1="60" y1="35" x2="80" y2="35" stroke="var(--border)" stroke-width="1.5" marker-end="url(#arr2)"/>
@@ -205,7 +205,7 @@
       <p>Instead of processing 10 documents one by one (slow), fan-out processes all 10 at once — then combines the results.</p>
       <div class="mini-viz">
         <div class="mini-viz-label">Fan-out: work splits, then recombines</div>
-        <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg" overflow="visible">
           <rect x="85" y="5" width="70" height="26" rx="5" fill="rgba(88,166,255,.12)" stroke="var(--blue)" stroke-width="1.2"/>
           <text x="120" y="21" text-anchor="middle" fill="var(--blue)" font-size="8" font-family="Courier New">Dispatcher</text>
           <line x1="40" y1="56" x2="120" y2="31" stroke="var(--border)" stroke-width="1.1"/>
@@ -238,7 +238,7 @@
       <p>Each tier only knows about its immediate reports and manager. This keeps the context clean and makes very large tasks tractable.</p>
       <div class="mini-viz">
         <div class="mini-viz-label">Hierarchical: three tiers of agents</div>
-        <svg viewBox="0 0 260 130" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 260 130" xmlns="http://www.w3.org/2000/svg" overflow="visible">
           <rect x="90" y="5" width="80" height="26" rx="5" fill="rgba(210,168,255,.15)" stroke="var(--purple)" stroke-width="1.3"/>
           <text x="130" y="21" text-anchor="middle" fill="var(--purple)" font-size="9" font-family="Courier New">Strategic</text>
           <line x1="65" y1="52" x2="130" y2="31" stroke="var(--border)" stroke-width="1.1"/>
@@ -275,7 +275,7 @@
       <p>Unlike ReAct (which interleaves planning and acting), Plan-and-Execute commits to a full plan first. This produces more coherent, consistent multi-step work.</p>
       <div class="mini-viz">
         <div class="mini-viz-label">Plan first, then execute each step</div>
-        <svg viewBox="0 0 270 90" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 270 90" xmlns="http://www.w3.org/2000/svg" overflow="visible">
           <rect x="5" y="30" width="70" height="28" rx="5" fill="rgba(227,179,65,.12)" stroke="var(--yellow)" stroke-width="1.2"/>
           <text x="40" y="47" text-anchor="middle" fill="var(--yellow)" font-size="9" font-family="Courier New">Planner</text>
           <line x1="75" y1="44" x2="100" y2="44" stroke="var(--border)" stroke-width="1.5" marker-end="url(#arr3)"/>
@@ -307,7 +307,7 @@
       <p>This dramatically improves output quality: the generator focuses on creation, the critic focuses on flaws, and the cycle repeats until quality is acceptable.</p>
       <div class="mini-viz">
         <div class="mini-viz-label">Generate → Critique → Revise loop</div>
-        <svg viewBox="0 0 260 90" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 260 90" xmlns="http://www.w3.org/2000/svg" overflow="visible">
           <rect x="10" y="30" width="70" height="28" rx="5" fill="rgba(88,166,255,.12)" stroke="var(--blue)" stroke-width="1.2"/>
           <text x="45" y="47" text-anchor="middle" fill="var(--blue)" font-size="9" font-family="Courier New">Generator</text>
           <line x1="80" y1="44" x2="105" y2="44" stroke="var(--border)" stroke-width="1.5" marker-end="url(#arr4)"/>
@@ -336,7 +336,7 @@
       <p>Debate reduces single-model hallucinations and blind spots — an error that one agent makes is likely to be caught by another.</p>
       <div class="mini-viz">
         <div class="mini-viz-label">Agents debate; judge picks best answer</div>
-        <svg viewBox="0 0 260 110" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 260 110" xmlns="http://www.w3.org/2000/svg" overflow="visible">
           <rect x="10" y="15" width="65" height="26" rx="5" fill="rgba(88,166,255,.12)" stroke="var(--blue)" stroke-width="1.2"/>
           <text x="42" y="31" text-anchor="middle" fill="var(--blue)" font-size="8.5" font-family="Courier New">Agent A</text>
           <rect x="10" y="55" width="65" height="26" rx="5" fill="rgba(210,168,255,.12)" stroke="var(--purple)" stroke-width="1.2"/>
@@ -369,7 +369,7 @@
       <p>Any agent can contribute facts, hypotheses, or partial results. Others build on top. The system converges on a solution organically.</p>
       <div class="mini-viz">
         <div class="mini-viz-label">Agents share a common workspace</div>
-        <svg viewBox="0 0 260 100" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 260 100" xmlns="http://www.w3.org/2000/svg" overflow="visible">
           <rect x="80" y="30" width="100" height="40" rx="6" fill="rgba(63,185,80,.1)" stroke="var(--green)" stroke-width="1.4"/>
           <text x="130" y="48" text-anchor="middle" fill="var(--green)" font-size="9" font-family="Courier New">Blackboard</text>
           <text x="130" y="62" text-anchor="middle" fill="var(--green)" font-size="7.5" font-family="Courier New">Shared State</text>
@@ -401,7 +401,7 @@
   <!-- VIZ PANEL 2 (sticky) -->
   <div id="viz-col2" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
     <div id="viz-wrap2" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem">
-      <svg id="main-svg2" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet" overflow="visible"></svg>
+      <svg id="main-svg2" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet" overflow="visible" overflow="visible"></svg>
     </div>
   </div>
 </div><!-- end scrolly2 -->
@@ -426,7 +426,7 @@
       <p>HITL doesn't mean humans do the work — they just act as <span class="hl">checkpoints</span> for decisions that shouldn't be fully automated.</p>
       <div class="mini-viz">
         <div class="mini-viz-label">Agent pauses for human approval at gate</div>
-        <svg viewBox="0 0 280 80" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 280 80" xmlns="http://www.w3.org/2000/svg" overflow="visible">
           <rect x="5" y="27" width="65" height="26" rx="5" fill="rgba(88,166,255,.12)" stroke="var(--blue)" stroke-width="1.2"/>
           <text x="37" y="43" text-anchor="middle" fill="var(--blue)" font-size="9" font-family="Courier New">Agent</text>
           <line x1="70" y1="40" x2="90" y2="40" stroke="var(--border)" stroke-width="1.5" marker-end="url(#arr7)"/>
@@ -477,7 +477,7 @@
   <!-- VIZ PANEL 3 (sticky) -->
   <div id="viz-col3" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
     <div id="viz-wrap3" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem">
-      <svg id="main-svg3" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet" overflow="visible"></svg>
+      <svg id="main-svg3" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet" overflow="visible" overflow="visible"></svg>
     </div>
   </div>
 </div><!-- end scrolly3 -->
@@ -535,7 +535,7 @@
   <!-- VIZ PANEL 4 (sticky) -->
   <div id="viz-col4" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
     <div id="viz-wrap4" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem">
-      <svg id="main-svg4" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet" overflow="visible"></svg>
+      <svg id="main-svg4" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet" overflow="visible" overflow="visible"></svg>
     </div>
   </div>
 </div><!-- end scrolly4 -->
