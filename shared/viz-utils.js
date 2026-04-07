@@ -77,6 +77,15 @@ function measureText(text,fontSize=12,fontFamily='Courier New'){
   return bbox.width;
 }
 
+/** Responsive font size: scales between min/max based on viewport */
+function responsiveFontSize(baseSize=12,minSize=9,maxSize=16){
+  // Scale font size based on window width
+  // At 320px: minSize, at 1024px: maxSize
+  const viewportW=Math.max(320,Math.min(1024,window.innerWidth));
+  const scale=(viewportW-320)/(1024-320);
+  return Math.round(minSize+scale*(maxSize-minSize));
+}
+
 function setupDefs(svgSel){
   const defs=svgSel.append('defs');
   const f=defs.append('filter').attr('id','glow').attr('x','-50%').attr('y','-50%').attr('width','200%').attr('height','200%');

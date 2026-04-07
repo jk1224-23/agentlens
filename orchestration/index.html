@@ -1392,8 +1392,10 @@ function s17(svg,w,h){
   // Failure nodes (drawn after arrows so they sit on top)
   failures.forEach((f,i)=>{
     hexN(svg,f.x,f.y,36,f.color,f.icon,null,i*120+100);
-    lbl(svg,f.x,f.y+50,f.label,f.color,11,i*120+350);
-    lbl(svg,f.x,f.y+62,f.desc,C.dim,12,i*120+400);
+    const labelSize=responsiveFontSize(11,10,12);
+    const descSize=responsiveFontSize(12,11,13);
+    lbl(svg,f.x,f.y+50,f.label,f.color,labelSize,i*120+350);
+    lbl(svg,f.x,f.y+62,f.desc,C.dim,descSize,i*120+400);
   });
 
   lbl(svg,cx,h-20,'design defenses for each before deployment',C.dim,12,1100);

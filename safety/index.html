@@ -475,8 +475,9 @@ function drawThreatModel(){
       .attr('stroke',t.col).attr('stroke-width',2).attr('stroke-dasharray','5,3')
       .attr('marker-end',`url(#arrow${t.col===C.red?'Red':t.col===C.orange?'Orange':t.col===C.purple?'Purple':'Yellow'})`);
     const lblY=t.from.y<cy?t.from.y-12:t.from.y+20;
+    const threatSize=responsiveFontSize(10,9,11);
     tg.append('text').attr('x',t.from.x).attr('y',lblY).attr('text-anchor','middle')
-      .attr('fill',t.col).attr('font-size',10).attr('font-family','Courier New').text(t.label);
+      .attr('fill',t.col).attr('font-size',threatSize).attr('font-family','Courier New').text(t.label);
     // Animated attack packet
     pkt(g,t.from.x,t.from.y,t.to.x,t.to.y,t.col,600,i*300+1200,4,true);
   });
@@ -510,10 +511,11 @@ function drawFailureTaxonomy(){
     const defY=h*0.78;
     cg.append('rect').attr('x',col.x-66).attr('y',defY).attr('width',132).attr('height',32)
       .attr('rx',16).attr('fill',col.col+'15').attr('stroke',col.col).attr('stroke-width',1);
+    const defenseSize=responsiveFontSize(9.5,9,10.5);
     cg.append('text').attr('x',col.x).attr('y',defY+14).attr('text-anchor','middle')
-      .attr('fill',col.col).attr('font-size',9.5).attr('font-family','Courier New').text('Defense:');
+      .attr('fill',col.col).attr('font-size',defenseSize).attr('font-family','Courier New').text('Defense:');
     cg.append('text').attr('x',col.x).attr('y',defY+27).attr('text-anchor','middle')
-      .attr('fill',col.col).attr('font-size',9.5).attr('font-family','Courier New').text(col.defense);
+      .attr('fill',col.col).attr('font-size',defenseSize).attr('font-family','Courier New').text(col.defense);
     // Vertical line connecting header to items
     cg.append('line').attr('x1',col.x).attr('y1',66).attr('x2',col.x).attr('y2',100)
       .attr('stroke',col.col).attr('stroke-width',1).style('opacity',.5);
