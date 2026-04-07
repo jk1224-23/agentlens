@@ -99,13 +99,13 @@ body{background:var(--bg);color:var(--text);font-family:'Georgia',serif;font-siz
 .t-y{background:rgba(227,179,65,.12);color:var(--yellow);border:1px solid rgba(227,179,65,.25)}
 
 /* ── CALLOUTS ──────────────────────────────────────────────────────────────── */
-.callout{border-left:3px solid var(--accent);background:var(--accent-subtle);padding:.75rem 1rem;border-radius:0 6px 6px 0;margin:1rem 0;font-size:.88rem;color:var(--text)}
-.callout.blue{border-color:var(--blue);background:rgba(88,166,255,.07)}
-.callout.green{border-color:var(--green);background:rgba(63,185,80,.07)}
-.callout.orange{border-color:var(--orange);background:rgba(240,136,62,.07)}
-.callout.purple{border-color:var(--purple);background:rgba(210,168,255,.07)}
-.callout.red{border-color:var(--red);background:rgba(248,81,73,.07)}
-.callout strong{color:inherit}
+.callout{border:1px solid var(--border);border-left:4px solid var(--accent);background:var(--accent-subtle);padding:.75rem 1rem;border-radius:6px;margin:1rem 0;font-size:.88rem;color:var(--text)}
+.callout.blue{border-left-color:var(--blue);background:rgba(88,166,255,.08)}
+.callout.green{border-left-color:var(--green);background:rgba(63,185,80,.08)}
+.callout.orange{border-left-color:var(--orange);background:rgba(240,136,62,.08)}
+.callout.purple{border-left-color:var(--purple);background:rgba(210,168,255,.08)}
+.callout.red{border-left-color:var(--red);background:rgba(248,81,73,.08)}
+.callout strong{color:var(--heading);font-weight:600}
 
 /* ── PATTERN BADGE ─────────────────────────────────────────────────────────── */
 .pattern-badge{display:inline-flex;align-items:center;gap:.4rem;padding:.2rem .65rem;background:var(--accent-subtle2);border:1px solid var(--accent-border);border-radius:4px;font-size:.72rem;font-family:'Courier New',monospace;color:var(--accent);margin-bottom:.8rem}
