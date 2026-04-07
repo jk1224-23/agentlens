@@ -983,7 +983,14 @@ const obs=new IntersectionObserver(entries=>{
 document.querySelectorAll('.step').forEach(el=>obs.observe(el));
 window.addEventListener('load',()=>{if(activeStep===-1){activeStep=0;transitionTo(0);}});
 
-initSharedUI(transitionTo);
+function tryInitUI() {
+  if (typeof d3 === 'undefined' || typeof initSharedUI === 'undefined') {
+    setTimeout(tryInitUI, 10);
+    return;
+  }
+  initSharedUI(transitionTo);
+}
+tryInitUI();
 
 // ── HERO BACKGROUND ───────────────────────────────────────────────────────────
 function tryHeroAnim() {
