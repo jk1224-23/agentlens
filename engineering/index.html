@@ -585,9 +585,11 @@ function s7(svg,w,h){
       .attr('fill',ring.color+(i===0?'20':'08')).attr('stroke',ring.color).attr('stroke-width',1.5)
       .attr('stroke-dasharray',i===0?null:'4,3').style('opacity',0)
       .transition().delay(i*200+100).duration(400).style('opacity',1);
-    lbl(svg,cx+ring.r+8,cy,ring.label,ring.color,11,i*200+300);
+    const ringLabelSize=responsiveFontSize(11,10,12);
+    lbl(svg,cx+ring.r+8,cy,ring.label,ring.color,ringLabelSize,i*200+300);
   });
-  lbl(svg,cx,cy+4,'LLM',C.purple,12,100);
+  const centerSize=responsiveFontSize(12,11,13);
+  lbl(svg,cx,cy+4,'LLM',C.purple,centerSize,100);
   let pktAngle=0;
   function radialPkt(){
     const ri=Math.floor(Math.random()*3)+1;
