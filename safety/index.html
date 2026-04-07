@@ -1080,9 +1080,14 @@ function drawEightSafetyRules(){
 }
 
 // ── HERO BACKGROUND ───────────────────────────────────────────────────────────
-(()=>{
-  syncC();
-  const svg=d3.select('#hero-bg'); const W=1400,H=900;
+function tryHeroAnim() {
+  if (typeof d3 === 'undefined' || typeof syncC === 'undefined') {
+    setTimeout(tryHeroAnim, 10);
+    return;
+  }
+  (()=>{
+    syncC();
+    const svg=d3.select('#hero-bg'); const W=1400,H=900;
   // Shield-like hexagonal pattern
   const cx=W/2, cy=H/2;
   // Concentric hexagon-ish rings (using circles with dashes for shield feel)
@@ -1104,7 +1109,9 @@ function drawEightSafetyRules(){
     svg.append('circle').attr('cx',Math.random()*W).attr('cy',Math.random()*H)
       .attr('r',Math.random()*2+.4).attr('fill',C_DARK.red).attr('opacity',Math.random()*.35+.05);
   }
-})();
+  })();
+}
+tryHeroAnim();
 
 // ── INTERSECTION OBSERVER ─────────────────────────────────────────────────────
 const steps=document.querySelectorAll('.step');
