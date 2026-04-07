@@ -313,6 +313,22 @@
         }
 
         initVisualizations();
+
+        // ── INTERSECTION OBSERVER for step opacity ───────────────────────────
+        const obs=new IntersectionObserver(entries=>{
+          entries.forEach(e=>{
+            if(e.isIntersecting){
+              e.target.classList.add('active');
+            }else{
+              e.target.classList.remove('active');
+            }
+          });
+        },{
+          threshold:.42,
+          rootMargin:'-12% 0px -34% 0px',
+        });
+        document.querySelectorAll('.step').forEach(el=>obs.observe(el));
+
         initSharedUI();
         startHeroNetworkAnimation({selector:'#hero-bg',width:1400,height:900,nodeCount:18,linkDistance:150,fps:28,palette:[colorPair[0],C.blue,C.purple,C.orange]});
     </script>
