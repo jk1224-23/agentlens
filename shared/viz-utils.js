@@ -44,19 +44,18 @@ function createMultilineText(textEl, text, color, fontSize) {
 
   const lines = text.split('\n').filter(l => l.trim());
   textEl.attr('fill', color).attr('font-size', fontSize)
-    .attr('text-anchor', 'middle').attr('dominant-baseline', 'central');
+    .attr('text-anchor', 'middle');
 
-  const lineHeight = 1.3;
-  const totalHeight = (lines.length - 1) * lineHeight / 2;
+  const lineHeight = 1.3; // em
+  // Center the block: first line starts (n-1)/2 lineHeights above y
+  const startDy = -((lines.length - 1) / 2) * lineHeight;
+  const xVal = textEl.attr('x') || 0;
 
   lines.forEach((line, i) => {
-    const dy = i === 0 ? 0 : lineHeight;
-    const offsetY = -totalHeight + i * lineHeight;
-    const tspan = textEl.append('tspan')
-      .attr('x', 0)
-      .attr('dy', dy === 0 ? null : `${dy}em`)
+    textEl.append('tspan')
+      .attr('x', xVal)
+      .attr('dy', i === 0 ? `${startDy}em` : `${lineHeight}em`)
       .text(line);
-    if (i === 0) textEl.attr('y', offsetY);
   });
 }
 
@@ -133,8 +132,8 @@ function rectN(p,x,y,w2,h2,color,txt,sub,delay=0){
     const mainTextEl=g.append('text').attr('x',x).attr('font-family','Courier New')
       .attr('font-size',subTxt?12:13).attr('fill',color);
     if(txt.includes('\n')){
-      createMultilineText(mainTextEl, txt, color, subTxt?12:13);
       mainTextEl.attr('y', subTxt?y-8:y);
+      createMultilineText(mainTextEl, txt, color, subTxt?12:13);
     }else{
       mainTextEl.attr('y',subTxt?y-2:y+5).attr('text-anchor','middle')
         .attr('dominant-baseline','central').text(mainTxt);
@@ -157,8 +156,8 @@ function diamondN(p,x,y,s,color,txt,delay=0){
   if(mainTxt){
     const textEl=g.append('text').attr('x',x).attr('font-size',10).attr('font-family','Courier New');
     if(txt.includes('\n')){
-      createMultilineText(textEl, txt, color, 10);
       textEl.attr('y', y);
+      createMultilineText(textEl, txt, color, 10);
     }else{
       textEl.attr('y',y+4).attr('text-anchor','middle').attr('dominant-baseline','central')
         .attr('fill',color).text(mainTxt);
@@ -195,7 +194,7 @@ function arcPath(p,x1,y1,x2,y2,color,marker,delay=0){
 
 /** Floating text label */
 function lbl(p,x,y,text,color,size,delay=0){
-  const t=p.append('text').attr('x',x).attr('text-anchor','middle').attr('font-family','Georgia,serif')
+  const t=p.append('text').attr('x',x).attr('y',y).attr('text-anchor','middle').attr('font-family','Georgia,serif')
     .style('opacity',0);
   createMultilineText(t, text, color||C.dim, size||13);
   t.transition().delay(delay).duration(400).style('opacity',1);
