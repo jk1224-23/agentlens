@@ -631,10 +631,10 @@ function drawFourTypes(){
 
   // Pyramid layers (bottom to top: unit, integration, e2e, human)
   const layers=[
-    {label:'Unit Evals',sub:'fast · cheap · many',col:C.green,bw:320,y:h*0.82},
-    {label:'Integration Evals',sub:'minutes · moderate cost',col:C.blue,bw:240,y:h*0.63},
-    {label:'End-to-End Evals',sub:'slow · expensive',col:C.orange,bw:160,y:h*0.44},
-    {label:'Human Evals',sub:'ground truth · slowest',col:C.purple,bw:90,y:h*0.25},
+    {label:'Unit Evals',sub:'fast · cheap · many',col:C.green,bw:340,y:h*0.82},
+    {label:'Integration Evals',sub:'minutes · moderate cost',col:C.blue,bw:280,y:h*0.63},
+    {label:'End-to-End Evals',sub:'slow · expensive',col:C.orange,bw:200,y:h*0.44},
+    {label:'Human Evals',sub:'ground truth · slowest',col:C.purple,bw:160,y:h*0.25},
   ];
 
   layers.forEach((l,i)=>{
@@ -696,7 +696,7 @@ function drawGoldenDataset(){
   ];
 
   examples.forEach((ex,i)=>{
-    rectN(g,ex.x,ex.y,160,42,ex.col,ex.label,ex.tag,i*180+200);
+    rectN(g,ex.x,ex.y,180,50,ex.col,ex.label,ex.tag,i*180+200);
 
     // Arrow to dataset
     const id=setTimeout(()=>{
