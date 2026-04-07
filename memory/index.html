@@ -475,10 +475,12 @@ function drawFourRings(){
     const ly=cy - (rings.length/2 - i)*30;
     rg.append('line').attr('x1',cx+ring.r).attr('y1',cy).attr('x2',lx+2).attr('y2',ly)
       .attr('stroke',ring.color).attr('stroke-width',1).style('opacity',.5);
+    const ringLabelSize=responsiveFontSize(11,10,12);
+    const ringSubSize=responsiveFontSize(9.5,9,10.5);
     rg.append('text').attr('x',lx+6).attr('y',ly-3).attr('fill',ring.color)
-      .attr('font-size',11).attr('font-family','Courier New').text(ring.label);
+      .attr('font-size',ringLabelSize).attr('font-family','Courier New').text(ring.label);
     rg.append('text').attr('x',lx+6).attr('y',ly+11).attr('fill',C.dim)
-      .attr('font-size',9.5).attr('font-family','Courier New').text(ring.sub);
+      .attr('font-size',ringSubSize).attr('font-family','Courier New').text(ring.sub);
   });
   // Center dot
   const cg=g.append('g').style('opacity',0);
