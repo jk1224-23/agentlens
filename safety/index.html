@@ -543,7 +543,7 @@ function drawPromptInjection(){
   // Left path: no isolation (vulnerable)
   const lx=w*0.25;
   lbl(g,lx,cy-40,'WITHOUT ISOLATION',C.red,10,200);
-  hexN(g,lx,cy,36,C.blue,'Agent',null,200);
+  hexN(g,lx,cy,50,C.blue,'Agent',null,200);
   edgeLine(g,poisonX-120,poisonY+30,lx+38,cy-22,C.red,'arrowRed',null,500);
   rectN(g,lx,cy+100,110,34,C.red,'sends email','to attacker',700);
   edgeLine(g,lx,cy+36,lx,cy+83,C.red,'arrowRed',null,900);
@@ -552,7 +552,7 @@ function drawPromptInjection(){
   // Right path: with isolation (defended)
   const rx=w*0.75;
   lbl(g,rx,cy-40,'WITH ISOLATION',C.green,10,300);
-  hexN(g,rx,cy,36,C.blue,'Agent',null,300);
+  hexN(g,rx,cy,50,C.blue,'Agent',null,300);
   edgeLine(g,poisonX+120,poisonY+30,rx-38,cy-22,C.orange,null,'5,4',600);
   // Isolation box
   const isoG=g.append('g').style('opacity',0);
@@ -612,7 +612,7 @@ function drawLeastPrivilege(){
   // Left: broad access
   const lx=w*0.28;
   lbl(g,lx,40,'BROAD ACCESS',C.red,10,0);
-  hexN(g,lx,cy,36,C.red,'Agent',null,100);
+  hexN(g,lx,cy,50,C.red,'Agent',null,100);
   // Large blast radius circle
   const blastG=g.append('g').style('opacity',0);
   blastG.transition().delay(400).duration(600).style('opacity',0.6);
@@ -640,7 +640,7 @@ function drawLeastPrivilege(){
   // Right: scoped access
   const rx=w*0.75;
   lbl(g,rx,40,'SCOPED ACCESS',C.green,10,0);
-  hexN(g,rx,cy,36,C.green,'Agent\n(support)',null,200);
+  hexN(g,rx,cy,50,C.green,'Agent\n(support)',null,200);
   // Small blast radius
   const smallG=g.append('g').style('opacity',0);
   smallG.transition().delay(600).duration(600).style('opacity',0.7);
