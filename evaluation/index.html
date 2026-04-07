@@ -684,7 +684,7 @@ function drawGoldenDataset(){
 
   // Dataset store box
   const dsX=cx, dsY=h*0.6;
-  rectN(g,dsX,dsY,180,60,C.green,'golden dataset','labeled examples',0);
+  rectN(g,dsX,dsY,244,76,C.green,'golden dataset','labeled examples',0);
 
   // Example pairs flowing in from top
   const examples=[
@@ -696,7 +696,7 @@ function drawGoldenDataset(){
   ];
 
   examples.forEach((ex,i)=>{
-    rectN(g,ex.x,ex.y,140,36,ex.col,ex.label,ex.tag,i*180+200);
+    rectN(g,ex.x,ex.y,160,42,ex.col,ex.label,ex.tag,i*180+200);
 
     // Arrow to dataset
     const id=setTimeout(()=>{
@@ -786,8 +786,8 @@ function drawUnitEval(){
 
   // Expected vs actual comparison
   const expY=h*0.6;
-  rectN(g,w*0.32,expY,150,50,C.green,'expected','{results:[...]}',800);
-  rectN(g,w*0.68,expY,150,50,C.dim,'actual','{results:[...]}',1000);
+  rectN(g,w*0.32,expY,195,56,C.green,'expected','{results:[...]}',800);
+  rectN(g,w*0.68,expY,181,56,C.dim,'actual','{results:[...]}',1000);
 
   edgeLine(g,w*0.32,expY+22,cx-10,expY+22,C.border,null,null,1200);
   edgeLine(g,w*0.68,expY+22,cx+10,expY+22,C.border,null,null,1200);
@@ -828,7 +828,7 @@ function drawE2EEval(){
 
   // Scorer box on right
   const scoreX=w*0.78;
-  rectN(g,scoreX,h*0.35,120,46,C.orange,'e2e scorer','holistic rubric',900);
+  rectN(g,scoreX,h*0.35,209,58,C.orange,'e2e scorer','holistic rubric',900);
 
   // Arrow from final output to scorer
   edgeLine(g,traceX+82,turns[4].y,scoreX-62,h*0.35,C.orange,'arrowOrange',null,1100);
@@ -852,11 +852,11 @@ function drawLLMJudge(){
   const cx=w/2;
 
   // Agent output
-  rectN(g,cx,h*0.14,200,36,C.dim,'agent output','response text',0);
+  rectN(g,cx,h*0.14,209,40,C.dim,'agent output','response text',0);
 
   // Rubric box
   const rubricX=w*0.2, rubricY=h*0.35;
-  rectN(g,rubricX,rubricY,130,40,C.yellow,'rubric','score each dimension',200);
+  rectN(g,rubricX,rubricY,216,52,C.yellow,'rubric','score each dimension',200);
 
   // Judge LLM
   hexN(g,cx,h*0.5,46,C.blue,'judge','LLM',400);
