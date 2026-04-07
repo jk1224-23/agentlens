@@ -578,18 +578,30 @@ function s7(svg,w,h){
   const cx=w/2,cy=h/2;
   lbl(svg,cx,42,'Memory Types',C.text,15,0);
   const rings=[
-    {r:36,color:C.blue,label:'In-Context'},
-    {r:72,color:C.green,label:'Vector Store'},
-    {r:110,color:C.purple,label:'Episodic'},
-    {r:148,color:C.orange,label:'Procedural'},
+    {r:36,color:C.blue,label:'In-Context',    angle:-40},
+    {r:72,color:C.green,label:'Vector Store',  angle: 25},
+    {r:110,color:C.purple,label:'Episodic',    angle:-55},
+    {r:148,color:C.orange,label:'Procedural',  angle: 45},
   ];
   rings.forEach((ring,i)=>{
     svg.append('circle').attr('cx',cx).attr('cy',cy).attr('r',ring.r)
       .attr('fill',ring.color+(i===0?'20':'08')).attr('stroke',ring.color).attr('stroke-width',1.5)
       .attr('stroke-dasharray',i===0?null:'4,3').style('opacity',0)
       .transition().delay(i*200+100).duration(400).style('opacity',1);
-    const ringLabelSize=responsiveFontSize(11,10,12);
-    lbl(svg,cx+ring.r+8,cy,ring.label,ring.color,ringLabelSize,i*200+300);
+    // Place label at angle around ring, then draw connector line
+    const rad=ring.angle*Math.PI/180;
+    const anchorX=cx+ring.r*Math.cos(rad);
+    const anchorY=cy+ring.r*Math.sin(rad);
+    const labelX=cx+ring.r+60;
+    const labelY=cy+ring.angle*1.8;
+    const g=svg.append('g').style('opacity',0);
+    g.transition().delay(i*200+200).duration(400).style('opacity',1);
+    g.append('line').attr('x1',anchorX).attr('y1',anchorY).attr('x2',labelX-4).attr('y2',labelY)
+      .attr('stroke',ring.color).attr('stroke-width',1).style('opacity',.4);
+    const ringLabelSize=responsiveFontSize(11,10,13);
+    g.append('text').attr('x',labelX).attr('y',labelY+4)
+      .attr('fill',ring.color).attr('font-size',ringLabelSize)
+      .attr('font-family','Courier New').text(ring.label);
   });
   const centerSize=responsiveFontSize(12,11,13);
   lbl(svg,cx,cy+4,'LLM',C.purple,centerSize,100);
