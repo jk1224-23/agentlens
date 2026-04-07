@@ -68,6 +68,15 @@ function getSize(svgEl){
   return{w:560,h:560};
 }
 
+/** Measure text width for boundary checking */
+function measureText(text,fontSize=12,fontFamily='Courier New'){
+  const svg=d3.select('body').append('svg').style('visibility','hidden');
+  const t=svg.append('text').attr('font-size',fontSize).attr('font-family',fontFamily).text(text);
+  const bbox=t.node().getBBox();
+  svg.remove();
+  return bbox.width;
+}
+
 function setupDefs(svgSel){
   const defs=svgSel.append('defs');
   const f=defs.append('filter').attr('id','glow').attr('x','-50%').attr('y','-50%').attr('width','200%').attr('height','200%');

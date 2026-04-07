@@ -22,4 +22,9 @@ validate-svgs.py
 fix-svgs.py
 svg-validation.js
 SVG_ANALYSIS_CLUSTERS.md
+PHASE_1_VALIDATION_PLAN.md
+IMPLEMENTATION_ROADMAP.md
+STATUS_SUMMARY.md
+DELIVERABLES.md
+README_SVG_FIXES.md
 *.bak
