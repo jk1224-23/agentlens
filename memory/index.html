@@ -413,10 +413,12 @@ function drawStatelessAgent(){
     sg.transition().delay(i*200+100).duration(400).style('opacity',1);
     sg.append('rect').attr('x',40).attr('y',s.y-24).attr('width',cx-80).attr('height',48)
       .attr('rx',6).attr('fill',C.red+'12').attr('stroke',C.red).attr('stroke-width',1.2);
+    const sessionSize=responsiveFontSize(11,10,12);
+    const sessionSubSize=responsiveFontSize(10,9,11);
     sg.append('text').attr('x',cx*0.5).attr('y',s.y-6).attr('text-anchor','middle')
-      .attr('fill',C.red).attr('font-size',11).attr('font-family','Courier New').text(`Session ${i+1}`);
+      .attr('fill',C.red).attr('font-size',sessionSize).attr('font-family','Courier New').text(`Session ${i+1}`);
     sg.append('text').attr('x',cx*0.5).attr('y',s.y+12).attr('text-anchor','middle')
-      .attr('fill',C.dim).attr('font-size',10).attr('font-family','Courier New').text('starts cold');
+      .attr('fill',C.dim).attr('font-size',sessionSubSize).attr('font-family','Courier New').text('starts cold');
   });
   // Fading arrows between sessions (left)
   sessions.slice(0,-1).forEach((s,i)=>{
@@ -425,7 +427,8 @@ function drawStatelessAgent(){
     fa.append('line').attr('x1',cx*0.5).attr('y1',s.y+24).attr('x2',cx*0.5).attr('y2',sessions[i+1].y-24)
       .attr('stroke',C.dim).attr('stroke-width',1.5).attr('stroke-dasharray','3,4')
       .attr('marker-end','url(#arrowDim)');
-    fa.append('text').attr('x',cx*0.5+18).attr('y',s.y+42).attr('fill',C.dim).attr('font-size',9)
+    const contextSize=responsiveFontSize(9,8.5,10);
+    fa.append('text').attr('x',cx*0.5+18).attr('y',s.y+42).attr('fill',C.dim).attr('font-size',contextSize)
       .attr('font-family','Courier New').text('context lost');
   });
 
@@ -596,8 +599,9 @@ function drawContextWindow(){
   warnG.transition().delay(1200).duration(500).style('opacity',1);
   warnG.append('rect').attr('x',cx-110).attr('y',h-80).attr('width',220).attr('height',36)
     .attr('rx',6).attr('fill',C.red+'15').attr('stroke',C.red).attr('stroke-width',1.2);
+  const warnSize=responsiveFontSize(11,10,12);
   warnG.append('text').attr('x',cx).attr('y',h-58).attr('text-anchor','middle')
-    .attr('fill',C.red).attr('font-size',11).attr('font-family','Courier New').text('overflow → oldest context evicted first');
+    .attr('fill',C.red).attr('font-size',warnSize).attr('font-family','Courier New').text('overflow → oldest context evicted first');
 
   // Priority arrow
   lbl(g,cx,barY-10,'← higher priority',C.dim,9,1400);
