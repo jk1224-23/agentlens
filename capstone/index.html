@@ -310,7 +310,15 @@
             }
         }
 
-        initVisualizations();
+        // Wait for d3 to load before initializing
+        function tryInit() {
+          if (typeof d3 !== 'undefined') {
+            initVisualizations();
+          } else {
+            setTimeout(tryInit, 10);
+          }
+        }
+        tryInit();
 
         // ── INTERSECTION OBSERVER for step opacity ───────────────────────────
         const obs=new IntersectionObserver(entries=>{
@@ -327,8 +335,15 @@
         });
         document.querySelectorAll('.step').forEach(el=>obs.observe(el));
 
-        initSharedUI();
-        startHeroNetworkAnimation({selector:'#hero-bg',width:1400,height:900,nodeCount:18,linkDistance:150,fps:28,palette:[colorPair[0],C.orange,C.blue,C.purple]});
+        function tryInitUI() {
+          if (typeof d3 === 'undefined' || typeof initSharedUI === 'undefined') {
+            setTimeout(tryInitUI, 10);
+            return;
+          }
+          initSharedUI();
+          startHeroNetworkAnimation({selector:'#hero-bg',width:1400,height:900,nodeCount:18,linkDistance:150,fps:28,palette:[colorPair[0],C.orange,C.blue,C.purple]});
+        }
+        tryInitUI();
     </script>
 </body>
 </html>

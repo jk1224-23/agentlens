@@ -1079,9 +1079,14 @@ function drawEightRules(){
 }
 
 // ── HERO BACKGROUND ───────────────────────────────────────────────────────────
-(()=>{
-  syncC();
-  const svg=d3.select('#hero-bg'); const W=1400,H=900;
+function tryHeroAnim() {
+  if (typeof d3 === 'undefined' || typeof syncC === 'undefined') {
+    setTimeout(tryHeroAnim, 10);
+    return;
+  }
+  (()=>{
+    syncC();
+    const svg=d3.select('#hero-bg'); const W=1400,H=900;
   // Background rings suggesting memory architecture
   [300,220,145,75].forEach((r,i)=>{
     const colors=[C_DARK.orange,C_DARK.purple,C_DARK.green,C_DARK.blue];
@@ -1094,7 +1099,9 @@ function drawEightRules(){
     svg.append('circle').attr('cx',Math.random()*W).attr('cy',Math.random()*H)
       .attr('r',Math.random()*2+.5).attr('fill',C_DARK.orange).attr('opacity',Math.random()*.4+.05);
   }
-})();
+  })();
+}
+tryHeroAnim();
 
 // ── INTERSECTION OBSERVER ─────────────────────────────────────────────────────
 const steps=document.querySelectorAll('.step');

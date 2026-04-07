@@ -1120,7 +1120,14 @@ const obs=new IntersectionObserver(entries=>{
 },{threshold:.42,rootMargin:'-12% 0px -34% 0px'});
 steps.forEach(s=>obs.observe(s));
 
-initSharedUI(renderStep);
+function tryInitUI() {
+  if (typeof d3 === 'undefined' || typeof initSharedUI === 'undefined') {
+    setTimeout(tryInitUI, 10);
+    return;
+  }
+  initSharedUI(renderStep);
+}
+tryInitUI();
 window.addEventListener('load',()=>{
   renderStep(0);
   // Ensure the first visible step starts fully opaque

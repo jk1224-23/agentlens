@@ -351,9 +351,14 @@
 <script defer src="../shared/viz-utils.js"></script>
 <script>
 // ─── HERO BACKGROUND ─────────────────────────────────────────────────────────
-(function heroAnim(){
-  syncC();
-  const svg=d3.select('#hero-bg');
+function tryHeroAnim() {
+  if (typeof d3 === 'undefined' || typeof syncC === 'undefined') {
+    setTimeout(tryHeroAnim, 10);
+    return;
+  }
+  (function heroAnim(){
+    syncC();
+    const svg=d3.select('#hero-bg');
   const W=1400,H=900;
   // Nodes repositioned so none fall in the center text zone (x:380-1020, y:240-600)
   const nodes=[
@@ -399,7 +404,9 @@
     }
     anim();
   });
-})();
+  })();
+}
+tryHeroAnim();
 
 // ─── STEP DISPATCH ────────────────────────────────────────────────────────────
 const STEP_NAMES=[
@@ -1220,9 +1227,16 @@ const observer=new IntersectionObserver((entries)=>{
 document.querySelectorAll('.step').forEach(el=>observer.observe(el));
 
 // ─── THEME TOGGLE ─────────────────────────────────────────────────────────────
-initSharedUI(renderStep);
-// Bootstrap first step
-renderStep(0);
+function tryInitUI() {
+  if (typeof d3 === 'undefined' || typeof initSharedUI === 'undefined') {
+    setTimeout(tryInitUI, 10);
+    return;
+  }
+  initSharedUI(renderStep);
+  // Bootstrap first step
+  renderStep(0);
+}
+tryInitUI();
 </script>
 </body>
 </html>

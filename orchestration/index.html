@@ -1534,18 +1534,24 @@ window.addEventListener('load',()=>{
   if(activeStep===-1){activeStep=0;transitionTo(0);}
 });
 
-initSharedUI(transitionTo);
-
-// ── HERO BACKGROUND ───────────────────────────────────────────────────────
-startHeroNetworkAnimation({
-  selector:'#hero-bg',
-  width:1400,
-  height:900,
-  nodeCount:18,
+function tryInitUI() {
+  if (typeof d3 === 'undefined' || typeof initSharedUI === 'undefined') {
+    setTimeout(tryInitUI, 10);
+    return;
+  }
+  initSharedUI(transitionTo);
+  // ── HERO BACKGROUND ───────────────────────────────────────────────────────
+  startHeroNetworkAnimation({
+    selector:'#hero-bg',
+    width:1400,
+    height:900,
+    nodeCount:18,
   linkDistance:150,
   fps:28,
   palette:[C.blue,C.purple,C.green,C.orange],
-});
+  });
+}
+tryInitUI();
 </script>
 </body>
 </html>

@@ -328,8 +328,15 @@ function renderStep(n){
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('active');const step=+e.target.dataset.step;if(step!==activeStep){activeStep=-1;renderStep(step);}}else{e.target.classList.remove('active');}});},{threshold:.42,rootMargin:'-12% 0px -34% 0px'});
 document.querySelectorAll('.step').forEach(el=>obs.observe(el));
 window.addEventListener('load',()=>{if(activeStep===-1){activeStep=0;renderStep(0);}});
-initSharedUI(renderStep);
-startHeroNetworkAnimation({selector:'#hero-bg',width:1400,height:900,nodeCount:18,linkDistance:150,fps:28,palette:[C.blue,C.green,C.orange,C.purple]});
+function tryInit() {
+  if (typeof d3 === 'undefined' || typeof initSharedUI === 'undefined') {
+    setTimeout(tryInit, 10);
+    return;
+  }
+  initSharedUI(renderStep);
+  startHeroNetworkAnimation({selector:'#hero-bg',width:1400,height:900,nodeCount:18,linkDistance:150,fps:28,palette:[C.blue,C.green,C.orange,C.purple]});
+}
+tryInit();
 </script>
 </body>
 </html>
