@@ -33,6 +33,33 @@ function fitNodeText(text,maxChars){
   return raw.slice(0,Math.max(1,maxChars-1))+'…';
 }
 
+/** Helper: create multi-line text with proper tspan elements and centering */
+function createMultilineText(textEl, text, color, fontSize) {
+  if (!text || !text.includes('\n')) {
+    textEl.attr('fill', color).attr('font-size', fontSize)
+      .attr('text-anchor', 'middle').attr('dominant-baseline', 'central')
+      .text(text);
+    return;
+  }
+
+  const lines = text.split('\n').filter(l => l.trim());
+  textEl.attr('fill', color).attr('font-size', fontSize)
+    .attr('text-anchor', 'middle').attr('dominant-baseline', 'central');
+
+  const lineHeight = 1.3;
+  const totalHeight = (lines.length - 1) * lineHeight / 2;
+
+  lines.forEach((line, i) => {
+    const dy = i === 0 ? 0 : lineHeight;
+    const offsetY = -totalHeight + i * lineHeight;
+    const tspan = textEl.append('tspan')
+      .attr('x', 0)
+      .attr('dy', dy === 0 ? null : `${dy}em`)
+      .text(line);
+    if (i === 0) textEl.attr('y', offsetY);
+  });
+}
+
 // ── SVG HELPERS ───────────────────────────────────────────────────────────────
 function getSize(svgEl){
   // Return fixed internal coordinate space (560x560) for all renders.
@@ -67,9 +94,11 @@ function hexN(p,x,y,r,color,txt,sub,delay=0){
   const mainTxt=fitNodeText(txt,r>=44?14:11);
   const subTxt=fitNodeText(sub,18);
   if(mainTxt)g.append('text').attr('x',x).attr('y',subTxt?y-3:y+5).attr('text-anchor','middle')
-    .attr('fill',color).attr('font-size',subTxt?13:14).attr('font-family','Courier New').text(mainTxt);
+    .attr('dominant-baseline','central').attr('fill',color).attr('font-size',subTxt?13:14)
+    .attr('font-family','Courier New').text(mainTxt);
   if(subTxt)g.append('text').attr('x',x).attr('y',y+14).attr('text-anchor','middle')
-    .attr('fill',C.dim).attr('font-size',11).attr('font-family','Courier New').text(subTxt);
+    .attr('dominant-baseline','central').attr('fill',C.dim).attr('font-size',11)
+    .attr('font-family','Courier New').text(subTxt);
   return g;
 }
 
@@ -79,12 +108,23 @@ function rectN(p,x,y,w2,h2,color,txt,sub,delay=0){
   g.transition().delay(delay).duration(400).style('opacity',1);
   g.append('rect').attr('x',x-w2/2).attr('y',y-h2/2).attr('width',w2).attr('height',h2)
     .attr('rx',6).attr('fill',color+'18').attr('stroke',color).attr('stroke-width',1.5);
-  const mainTxt=fitNodeText(txt,Math.max(8,Math.floor(w2/8)));
+  const mainTxt=fitNodeText(txt.split('\n')[0],Math.max(8,Math.floor(w2/8)));
   const subTxt=fitNodeText(sub,Math.max(10,Math.floor(w2/7)));
-  if(mainTxt)g.append('text').attr('x',x).attr('y',subTxt?y-2:y+5).attr('text-anchor','middle')
-    .attr('fill',color).attr('font-size',subTxt?12:13).attr('font-family','Courier New').text(mainTxt);
+
+  if(mainTxt){
+    const mainTextEl=g.append('text').attr('x',x).attr('font-family','Courier New')
+      .attr('font-size',subTxt?12:13).attr('fill',color);
+    if(txt.includes('\n')){
+      createMultilineText(mainTextEl, txt, color, subTxt?12:13);
+      mainTextEl.attr('y', subTxt?y-8:y);
+    }else{
+      mainTextEl.attr('y',subTxt?y-2:y+5).attr('text-anchor','middle')
+        .attr('dominant-baseline','central').text(mainTxt);
+    }
+  }
   if(subTxt)g.append('text').attr('x',x).attr('y',y+15).attr('text-anchor','middle')
-    .attr('fill',C.dim).attr('font-size',11).attr('font-family','Courier New').text(subTxt);
+    .attr('dominant-baseline','central').attr('fill',C.dim).attr('font-size',11)
+    .attr('font-family','Courier New').text(subTxt);
   return g;
 }
 
@@ -95,9 +135,17 @@ function diamondN(p,x,y,s,color,txt,delay=0){
   g.append('rect').attr('x',x-s/2).attr('y',y-s/2).attr('width',s).attr('height',s)
     .attr('rx',2).attr('fill',color+'18').attr('stroke',color).attr('stroke-width',1.5)
     .attr('transform',`rotate(45,${x},${y})`);
-  const mainTxt=fitNodeText(txt,9);
-  if(mainTxt)g.append('text').attr('x',x).attr('y',y+4).attr('text-anchor','middle')
-    .attr('fill',color).attr('font-size',10).attr('font-family','Courier New').text(mainTxt);
+  const mainTxt=fitNodeText(txt.split('\n')[0],9);
+  if(mainTxt){
+    const textEl=g.append('text').attr('x',x).attr('font-size',10).attr('font-family','Courier New');
+    if(txt.includes('\n')){
+      createMultilineText(textEl, txt, color, 10);
+      textEl.attr('y', y);
+    }else{
+      textEl.attr('y',y+4).attr('text-anchor','middle').attr('dominant-baseline','central')
+        .attr('fill',color).text(mainTxt);
+    }
+  }
   return g;
 }
 
@@ -129,9 +177,9 @@ function arcPath(p,x1,y1,x2,y2,color,marker,delay=0){
 
 /** Floating text label */
 function lbl(p,x,y,text,color,size,delay=0){
-  const t=p.append('text').attr('x',x).attr('y',y).attr('text-anchor','middle')
-    .attr('fill',color||C.dim).attr('font-size',size||13).attr('font-family','Georgia,serif')
-    .style('opacity',0).text(text);
+  const t=p.append('text').attr('x',x).attr('font-family','Georgia,serif')
+    .style('opacity',0);
+  createMultilineText(t, text, color||C.dim, size||13);
   t.transition().delay(delay).duration(400).style('opacity',1);
   return t;
 }
