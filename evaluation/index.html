@@ -531,7 +531,7 @@ function drawWhyMeasure(){
 
   // Animated packet: right side has an eval cycle
   const ey=h-90;
-  rectN(g, rx-30, ey, 70, 26, C.blue, 'eval', 'runner', 1000);
+  rectN(g, rx-30, ey, 110, 36, C.blue, "eval", "runner", 1000);
   pkt(g, rx-70, ey, rx+20, ey, C.green, 700, 1200, 4, true);
 }
 
@@ -684,7 +684,7 @@ function drawGoldenDataset(){
 
   // Dataset store box
   const dsX=cx, dsY=h*0.6;
-  rectN(g,dsX,dsY,244,76,C.green,'golden dataset','labeled examples',0);
+  rectN(g,dsX,dsY,300,90,C.green,'golden dataset','labeled examples',0);
 
   // Example pairs flowing in from top
   const examples=[
@@ -786,8 +786,8 @@ function drawUnitEval(){
 
   // Expected vs actual comparison
   const expY=h*0.6;
-  rectN(g,w*0.32,expY,195,56,C.green,'expected','{results:[...]}',800);
-  rectN(g,w*0.68,expY,181,56,C.dim,'actual','{results:[...]}',1000);
+  rectN(g,w*0.32,expY,230,66,C.green,'expected','{results:[...]}',800);
+  rectN(g,w*0.68,expY,216,66,C.dim,'actual','{results:[...]}',1000);
 
   edgeLine(g,w*0.32,expY+22,cx-10,expY+22,C.border,null,null,1200);
   edgeLine(g,w*0.68,expY+22,cx+10,expY+22,C.border,null,null,1200);
@@ -828,7 +828,7 @@ function drawE2EEval(){
 
   // Scorer box on right
   const scoreX=w*0.78;
-  rectN(g,scoreX,h*0.35,209,58,C.orange,'e2e scorer','holistic rubric',900);
+  rectN(g,scoreX,h*0.35,250,68,C.orange,'e2e scorer','holistic rubric',900);
 
   // Arrow from final output to scorer
   edgeLine(g,traceX+82,turns[4].y,scoreX-62,h*0.35,C.orange,'arrowOrange',null,1100);
