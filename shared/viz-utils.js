@@ -474,6 +474,37 @@ function initSharedUI(renderStepFn){
     setTimeout(()=>loader.style.opacity='0',300);
   };
 
+  // Skip to Part menu
+  const parts=[];
+  const sections=document.querySelectorAll('.section-break');
+  if(sections.length===0){
+    // Pages 08-09: look for phase sections
+    document.querySelectorAll('section.scrolly[id^="phase"]').forEach((s,i)=>{
+      parts.push({label:`Phase ${i+1}`,el:s});
+    });
+  }else{
+    // Pages 01-07: extract from section-break labels
+    sections.forEach(s=>{
+      const label=s.querySelector('.sb-label')?.textContent||'';
+      if(label)parts.push({label,el:s});
+    });
+  }
+  if(parts.length>0){
+    const menu=document.createElement('div');
+    menu.id='skip-menu';
+    menu.innerHTML='<button id="skip-btn">Parts</button><div id="skip-list" style="display:none">'+
+      parts.map((p,i)=>`<a href="#" data-idx="${i}">${p.label}</a>`).join('')+
+      '</div>';
+    document.body.appendChild(menu);
+    const btn=document.getElementById('skip-btn');
+    const list=document.getElementById('skip-list');
+    btn.addEventListener('click',e=>{e.stopPropagation();list.style.display=list.style.display==='none'?'block':'none'});
+    document.addEventListener('click',()=>list.style.display='none');
+    document.querySelectorAll('#skip-list a').forEach((a,i)=>{
+      a.addEventListener('click',e=>{e.preventDefault();parts[i].el.scrollIntoView({behavior:'smooth'});list.style.display='none'});
+    });
+  }
+
   // Scroll progress bar (throttled to 60fps)
   let lastScrollUpdate=0;
   window.addEventListener('scroll',()=>{
