@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://jk1224-23.github.io/agentlens/sitemap.xml

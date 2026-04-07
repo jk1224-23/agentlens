@@ -81,6 +81,8 @@ body{background:var(--bg);color:var(--text);font-family:'Georgia',serif;font-siz
 .hb-blue{color:var(--blue);border-color:rgba(88,166,255,.35);background:rgba(88,166,255,.07)}
 .hb-purple{color:var(--purple);border-color:rgba(210,168,255,.35);background:rgba(210,168,255,.07)}
 .hb-orange{color:var(--orange);border-color:rgba(240,136,62,.35);background:rgba(240,136,62,.07)}
+.hb-cyan{color:#0ea5e9;border-color:rgba(14,165,233,.35);background:rgba(14,165,233,.07)}
+.hb-amber{color:#fbbf24;border-color:rgba(251,191,36,.35);background:rgba(251,191,36,.07)}
 .scroll-cue{display:flex;flex-direction:column;align-items:center;gap:.4rem;color:var(--dim);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;animation:bob 2s ease-in-out infinite}
 .scroll-cue svg{width:20px;height:20px;stroke:currentColor;stroke-width:2;fill:none}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
@@ -242,6 +244,11 @@ a:focus-visible{border-radius:2px}
 .stat{text-align:center}
 .stat-label{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);font-family:'Courier New',monospace}
 .stat-value{font-size:1.8rem;font-weight:300;color:var(--accent);display:block;margin-top:.3rem}
+
+/* ── ACCESSIBILITY: REDUCED MOTION ────────────────────────────────────────── */
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
 
 /* ── MOBILE ≤ 768px ────────────────────────────────────────────────────────── */
 @media(max-width:768px){
