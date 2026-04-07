@@ -709,9 +709,9 @@ function drawGoldenDataset(){
   const outY=dsY+90;
   lbl(g,cx,outY,'produces reliable regression tests',C.green,12,1500);
 
-  // Animated count growing
-  const countText=g.append('text').attr('x',dsX).attr('y',dsY+3)
-    .attr('text-anchor','middle').attr('fill',C.green).attr('font-size',12)
+  // Animated count growing (positioned below box to avoid overlap)
+  const countText=g.append('text').attr('x',dsX).attr('y',dsY+65)
+    .attr('text-anchor','middle').attr('fill',C.green).attr('font-size',11)
     .attr('font-family','Courier New').style('opacity',0).text('0 examples');
   countText.transition().delay(500).duration(300).style('opacity',1);
   let cnt=0;
