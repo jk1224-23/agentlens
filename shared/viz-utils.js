@@ -482,9 +482,12 @@ function initSharedUI(renderStepFn){
       parts.push({label:`Phase ${i+1}`,el:s});
     });
   }else{
-    // Pages 01-07: extract from section-break labels
+    // Pages 01-07: extract from section-break labels (part number + name)
     sections.forEach(s=>{
-      const label=s.querySelector('.sb-label')?.textContent||'';
+      const labels=s.querySelectorAll('.sb-label');
+      const partNum=labels[0]?.textContent||'';
+      const partName=labels[1]?.textContent||'';
+      const label=partName?`${partNum}: ${partName}`:partNum;
       if(label)parts.push({label,el:s});
     });
   }
