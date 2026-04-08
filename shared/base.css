@@ -90,6 +90,7 @@ body{background:var(--bg);color:var(--text);font-family:'Georgia',serif;font-siz
 /* ── SECTION DIVIDERS ──────────────────────────────────────────────────────── */
 .section-break{padding:3.5rem 5rem 1.5rem;display:flex;align-items:center;gap:1rem}
 .section-break .sb-label{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);font-family:'Courier New',monospace;white-space:nowrap}
+.section-break .sb-label:last-of-type{font-size:.85rem;color:var(--accent);font-weight:600}
 .section-break .sb-line{flex:1;height:1px;background:var(--border)}
 .section-break .sb-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
 

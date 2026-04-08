@@ -1,5 +1,26 @@
 .claude/
+# OS files
 .DS_Store
+Thumbs.db
+
+# Dependencies
+node_modules/
+package-lock.json
+
+# Build & logs
+*.log
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Cache
+.cache/
+*.tmp
 node_modules
 reports/
 *.log
