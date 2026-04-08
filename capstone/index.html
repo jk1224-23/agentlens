@@ -36,6 +36,7 @@
         <span class="sep">|</span>
         <span id="hdr-scene">Building Production</span>
         <span class="sep" style="margin-left:auto">15 concepts · 5 phases</span>
+        <a href="../advanced/" style="color:var(--dim);text-decoration:none;font-size:13px">← Advanced</a>
         <button id="themeToggle" aria-label="Toggle light/dark mode" title="Toggle light/dark mode">🌙</button>
     </div>
     <div id="prog"></div>
@@ -234,7 +235,7 @@
                 renderScene(svg, 560, 560, {
                     nodes: [{id: 'req', type: 'rect', x: 0.5, y: 0.5, w: 100, h: 40, label: 'Requirements', color: 'orange', delay: 0}],
                     edges: [],
-                    labels: [{text: 'Phase 1: Plan', x: 0.5, y: 0.08, size: 13}]
+                    labels: [{text: 'Phase 1: Plan', x: 0.5, y: 0.15, size: 13}]
                 });
             }
 
@@ -271,7 +272,7 @@
                         {from: 'shadow', to: 'canary', color: 'orange', marker: 'arrowOrange', delay: 450},
                         {from: 'canary', to: 'full', color: 'green', marker: 'arrowGreen', delay: 550}
                     ],
-                    labels: [{text: 'Deployment Flow', x: 0.5, y: 0.08, size: 12}]
+                    labels: [{text: 'Deployment Flow', x: 0.5, y: 0.15, size: 12}]
                 });
             }
 
@@ -287,7 +288,7 @@
                         {id: 'failed', type: 'circle', x: 0.75, y: 0.5, r: 35, label: 'Failed', color: 'red', delay: 300}
                     ],
                     edges: [],
-                    labels: [{text: 'SLO States', x: 0.5, y: 0.08, size: 12}]
+                    labels: [{text: 'SLO States', x: 0.5, y: 0.15, size: 12}]
                 });
             }
 
@@ -305,7 +306,7 @@
                         {from: 'measure', to: 'improve', color: 'green', marker: 'arrowGreen', delay: 300},
                         {from: 'improve', to: 'measure', color: 'orange', dash: '4,3', marker: 'arrowOrange', delay: 400}
                     ],
-                    labels: [{text: 'Continuous Evolution', x: 0.5, y: 0.08, size: 11}]
+                    labels: [{text: 'Continuous Evolution', x: 0.5, y: 0.15, size: 11}]
                 });
             }
         }

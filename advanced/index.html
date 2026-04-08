@@ -36,7 +36,9 @@
         <span class="sep">|</span>
         <span id="hdr-scene">Advanced Reasoning</span>
         <span class="sep" style="margin-left:auto">15 concepts · 5 phases</span>
-        <a href="../capstone/" style="color:var(--dim);text-decoration:none;font-size:13px">Guide 09 →</a>
+        <a href="../governance/" style="color:var(--dim);text-decoration:none;font-size:13px">← Governance</a>
+        <span class="sep">|</span>
+        <a href="../capstone/" style="color:var(--dim);text-decoration:none;font-size:13px">Capstone →</a>
         <button id="themeToggle" aria-label="Toggle light/dark mode" title="Toggle light/dark mode">🌙</button>
     </div>
     <div id="prog"></div>
@@ -236,7 +238,7 @@
                 renderScene(svg, 560, 560, {
                     nodes: [{id: 'core', type: 'circle', x: 0.5, y: 0.5, r: 40, label: 'Reasoning', color: 'blue', delay: 0}],
                     edges: [],
-                    labels: [{text: 'Foundations', x: 0.5, y: 0.08, size: 13}]
+                    labels: [{text: 'Foundations', x: 0.5, y: 0.15, size: 13}]
                 });
             }
 
@@ -290,7 +292,7 @@
                         {from: 'attempt', to: 'eval', color: 'blue', marker: 'arrowBlue', delay: 300},
                         {from: 'eval', to: 'attempt', color: 'orange', dash: '4,3', marker: 'arrowOrange', delay: 400}
                     ],
-                    labels: [{text: 'Feedback Loop', x: 0.5, y: 0.08, size: 12}]
+                    labels: [{text: 'Feedback Loop', x: 0.5, y: 0.15, size: 12}]
                 });
             }
 
