@@ -480,7 +480,91 @@
       <svg id="main-svg3" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet" overflow="visible"></svg>
     </div>
   </div>
+  </div>
 </div><!-- end scrolly3 -->
+
+<!-- SECTION: EFFICIENCY & COST OPTIMIZATION -->
+<div class="section-break">
+  <span class="sb-label">Part 3.5</span>
+  <div class="sb-line"></div>
+  <div class="sb-dot" style="background:var(--green)"></div>
+  <span class="sb-label">Efficiency & Cost Optimization</span>
+</div>
+
+<div id="scrolly35" class="scrolly-section" style="display:flex;position:relative;align-items:flex-start">
+  <div class="text-col35" style="width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0">
+
+    <!-- STEP 19: Token Budgets -->
+    <div class="step" data-step="19">
+      <div class="pattern-badge efficient">Pattern · Token Budgets</div>
+      <div class="chapter-pill"><span class="dot" style="background:var(--green)"></span> Control Costs</div>
+      <h2>Token budgeting: controlling agent cost</h2>
+      <p>Every LLM call costs money — typically measured in <strong>tokens per request</strong>. As agents scale from single tasks to thousands of parallel jobs, token costs can explode.</p>
+      <p><strong>Token budgets</strong> are hard caps on how many tokens an agent can spend on a single task. Once the budget is exhausted, the agent must return a result or escalate — no more LLM calls allowed.</p>
+      <div class="callout green"><strong>Real math:</strong> A task that averages 5 LLM calls × 2,000 tokens per call = 10,000 tokens. At $0.003 per 1K tokens, that's $0.03 per task. Scale to 10,000 tasks/day = $300/day. A runaway agent doubling calls by mistake = $600/day. Budget enforcement prevents this.</div>
+      <p>Budgets work at three levels:</p>
+      <p><strong>① Per-call budget:</strong> Each LLM invocation gets a max context size (e.g., "system prompt + 4K tokens of history max").</p>
+      <p><strong>② Per-task budget:</strong> A single user request burns through a token quota (e.g., "max 50K tokens for this research task").</p>
+      <p><strong>③ Per-agent budget:</strong> Across all concurrent users, an agent has a daily/hourly spend limit.</p>
+      <div class="callout"><strong>Pro tip:</strong> Set budgets defensively. Your agent's happy path might use 100K tokens, but a buggy loop could use 10M. Always have an emergency cutoff well below your cost tolerance.</div>
+      <p><span class="tag t-g">token budget</span> <span class="tag t-o">cost control</span> <span class="tag t-b">runaway prevention</span></p>
+    </div>
+
+    <!-- STEP 20: Caching & Memoization -->
+    <div class="step" data-step="20">
+      <div class="pattern-badge efficient">Pattern · Caching Results</div>
+      <div class="chapter-pill"><span class="dot" style="background:var(--blue)"></span> Reuse Computation</div>
+      <h2>Caching and result memoization</h2>
+      <p>Most multi-agent systems perform <strong>redundant work</strong>. If 100 users ask "What are the top AI papers from 2024?" — the agent repeats the same search and reasoning 100 times.</p>
+      <p><strong>Caching</strong> stores the result of expensive operations and reuses them. A cache hit costs zero tokens.</p>
+      <div class="callout blue"><strong>Three caching layers:</strong></div>
+      <p><strong>① Tool result cache:</strong> Memoize tool outputs (API calls, web searches, database queries). If the same search is repeated within 1 hour, return the cached result instead of calling the API again. Saves both tokens and latency.</p>
+      <p><strong>② LLM response cache:</strong> Cache completions. If the same prompt (exact or semantically similar) was already processed, reuse the cached response. Anthropic's prompt caching API supports this natively.</p>
+      <p><strong>③ Knowledge graph cache:</strong> In RAG-based systems, cache retrieved documents and embeddings. Avoid re-embedding the same chunks.</p>
+      <div class="callout"><strong>Cache invalidation:</strong> Your biggest challenge. Data changes, and stale caches mislead agents. Strategy: time-based TTL (cache for 1 hour, then refresh) + event-based invalidation (when data is modified, flush related cache entries).</div>
+      <p><span class="tag t-b">caching</span> <span class="tag t-g">memoization</span> <span class="tag t-y">latency reduction</span> <span class="tag t-o">cost savings</span></p>
+    </div>
+
+    <!-- STEP 21: Batch & Parallel Processing -->
+    <div class="step" data-step="21">
+      <div class="pattern-badge efficient">Pattern · Batch Processing</div>
+      <div class="chapter-pill"><span class="dot" style="background:var(--orange)"></span> Amortize Cost</div>
+      <h2>Batch processing and parallelism</h2>
+      <p>Processing items one-by-one is expensive. Each item requires setup overhead, context building, and model invocation. <strong>Batch processing</strong> groups tasks and processes them together in a single (or fewer) LLM calls.</p>
+      <p><strong>Example:</strong> Classifying 100 support tickets. Sequential: 100 LLM calls, 100× overhead. Batch: Send all 100 tickets in one prompt → 1 LLM call with 100 results. Cost drops 98%.</p>
+      <div class="mini-viz">
+        <div class="mini-viz-label">Sequential vs. Batch processing</div>
+        <svg viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+          <text x="40" y="20" fill="var(--dim)" font-size="9" font-family="Courier New">Sequential:</text>
+          <rect x="10" y="25" width="30" height="20" rx="3" fill="rgba(88,166,255,.15)" stroke="var(--blue)" stroke-width="1"/>
+          <text x="25" y="38" text-anchor="middle" fill="var(--blue)" font-size="7" font-family="Courier New">T1</text>
+          <text x="50" y="38" fill="var(--dim)" font-size="7">→</text>
+          <rect x="60" y="25" width="30" height="20" rx="3" fill="rgba(88,166,255,.15)" stroke="var(--blue)" stroke-width="1"/>
+          <text x="75" y="38" text-anchor="middle" fill="var(--blue)" font-size="7" font-family="Courier New">T2</text>
+          <text x="100" y="38" fill="var(--dim)" font-size="7">→</text>
+          <rect x="110" y="25" width="30" height="20" rx="3" fill="rgba(88,166,255,.15)" stroke="var(--blue)" stroke-width="1"/>
+          <text x="125" y="38" text-anchor="middle" fill="var(--blue)" font-size="7" font-family="Courier New">T3</text>
+          <text x="150" y="38" fill="var(--dim)" font-size="7">... (100 calls)</text>
+
+          <text x="40" y="75" fill="var(--dim)" font-size="9" font-family="Courier New">Batch:</text>
+          <rect x="10" y="80" width="150" height="20" rx="3" fill="rgba(63,185,80,.15)" stroke="var(--green)" stroke-width="1"/>
+          <text x="87" y="93" text-anchor="middle" fill="var(--green)" font-size="7" font-family="Courier New">[T1 + T2 + T3 + ... T100]</text>
+        </svg>
+      </div>
+      <p><strong>Tradeoff:</strong> Batch processing trades latency for cost. You wait for all items to arrive before processing (slower per-item) but use fewer tokens overall.</p>
+      <div class="callout orange"><strong>Best for:</strong> Asynchronous bulk operations (daily log analysis, weekly report generation, batch classification). Not ideal for real-time interactive agents where latency matters.</div>
+      <p><span class="tag t-o">batch processing</span> <span class="tag t-g">parallel execution</span> <span class="tag t-b">cost amortization</span> <span class="tag t-y">throughput</span></p>
+    </div>
+
+  </div><!-- end text-col35 -->
+
+  <!-- VIZ PANEL (shared, sticky) -->
+  <div id="viz-col35" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
+    <div id="viz-wrap35" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem">
+      <svg id="main-svg35" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet" overflow="visible"></svg>
+    </div>
+  </div>
+</div><!-- end scrolly35 -->
 
 <!-- SECTION: GOING DEEPER -->
 <div class="section-break">

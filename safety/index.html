@@ -44,7 +44,7 @@
   <a href="../" style="color:var(--dim);text-decoration:none;font-size:13px">← All Guides</a>
   <span class="sep">|</span>
   <span id="hdr-scene">Why Safety is Different</span>
-  <span class="sep" style="margin-left:auto">15 concepts · 5 phases</span>
+  <span class="sep" style="margin-left:auto">19 concepts · 6 phases</span>
   <a href="../monitoring/" style="color:var(--dim);text-decoration:none;font-size:13px">Guide 06 →</a>
   <button id="themeToggle" aria-label="Toggle light/dark mode" title="Toggle light/dark mode">🌙</button>
 </div>
@@ -62,8 +62,8 @@
     <p class="sub">Building agents users can rely on — threat models, guardrails, human oversight, and governance for production AI systems.</p>
     <div class="hero-badges">
       <span class="hero-badge hb-green">✓ Completes the curriculum</span>
-      <span class="hero-badge hb-blue">15 safety concepts</span>
-      <span class="hero-badge hb-purple">5 defense phases</span>
+      <span class="hero-badge hb-blue">19 safety concepts</span>
+      <span class="hero-badge hb-purple">6 defense phases</span>
     </div>
     <div class="scroll-cue">
       <svg viewBox="0 0 24 24" overflow="visible"><polyline points="6 9 12 15 18 9"></polyline></svg>
@@ -318,6 +318,65 @@
   </div>
 </div>
 
+<!-- PART 6 -->
+<div class="section-break">
+  <span class="sb-label">Part 6</span>
+  <div class="sb-line"></div>
+  <div class="sb-dot" style="background:#9333ea"></div>
+  <span class="sb-label">Confidence &amp; Escalation</span>
+</div>
+
+<div id="scrolly6">
+  <div class="text-col6">
+
+    <!-- s15 -->
+    <div class="step" data-step="15">
+      <div class="chapter-pill"><span class="dot"></span>Phase 6 of 6 · Confidence &amp; Escalation</div>
+      <h2>Measuring Agent Confidence</h2>
+      <p>Not all agent outputs are equally certain. Some decisions are clear: "Is this an even number?" Other decisions are ambiguous: "Should we approve this request?" <strong>Confidence scoring</strong> is a measure of how sure the agent is about its decision, and it's the foundation for safe escalation.</p>
+      <p>Three ways to measure confidence: <strong>Token probability</strong> (how certain was the LLM about each token in its response — lower entropy means higher confidence), <strong>Self-reported uncertainty</strong> (the agent explicitly states its confidence level), <strong>Semantic divergence</strong> (if the agent's answer changes with small input variations, it's low-confidence).</p>
+      <div class="callout"><strong>Confidence is not the same as correctness.</strong> A hallucinating agent can be very confident. Confidence tells you "the model thinks this", not "this is true". Use it only as a signal for when a human should review.</div>
+      <p><span class="tag t-p">token probability</span> <span class="tag t-b">self-reported</span> <span class="tag t-o">semantic divergence</span> <span class="tag t-g">not correctness</span></p>
+    </div>
+
+    <!-- s16 -->
+    <div class="step" data-step="16">
+      <div class="chapter-pill"><span class="dot"></span>Threshold-Based Escalation</div>
+      <h2>When to Hand Off to Humans</h2>
+      <p>Set explicit thresholds that trigger escalation. <strong>High-confidence, low-stakes</strong> (approve automatically) — read file, search web. <strong>High-confidence, high-stakes</strong> (soft gate — stage but require approval) — approve discount, send announcement. <strong>Low-confidence, any stakes</strong> (hard escalate — always human review) — draft policy change, approve high-value purchase.</p>
+      <p>The pattern: for each decision type, define a confidence threshold and a stakes level. Below threshold or above stakes limit → escalate immediately to human. No exceptions, no urgency overrides.</p>
+      <div class="callout orange"><strong>Thresholds are not intuitive.</strong> "Confidence 0.7" means nothing without calibration — in some models, 0.7 means "probably right", in others it means "total guess". Measure your model's actual accuracy at each confidence level and set thresholds from real data, not guesses.</div>
+      <p><span class="tag t-g">auto approve</span> <span class="tag t-o">soft gate</span> <span class="tag t-r">hard escalate</span> <span class="tag t-b">calibrated threshold</span></p>
+    </div>
+
+    <!-- s17 -->
+    <div class="step" data-step="17">
+      <div class="chapter-pill"><span class="dot"></span>Escalation Decision Trees</div>
+      <h2>Routing Logic for Human Handoff</h2>
+      <p>Not all escalations are the same. An escalated question should go to different people depending on complexity and domain. <strong>Simple clarification:</strong> "I'm not sure what you mean" — route to customer service tier 1. <strong>Domain expertise required:</strong> "This could be a GDPR edge case" — route to legal. <strong>High-stakes decision:</strong> "This would cost $50K and I'm only 60% confident" — route to manager. <strong>Security concern:</strong> "This looks like prompt injection" — route to security team.</p>
+      <p>The decision tree answers: <em>what is the nature of the escalation?</em> <em>Who has authority to resolve it?</em> <em>What SLA applies?</em></p>
+      <div class="callout purple"><strong>Document the tree explicitly.</strong> During an incident, your escalation should route to the right person without ambiguity or delay. A flow chart, decision matrix, or routing table in code is non-negotiable.</div>
+      <p><span class="tag t-b">classification</span> <span class="tag t-g">routing</span> <span class="tag t-o">expertise-matched</span> <span class="tag t-p">SLA-aware</span></p>
+    </div>
+
+    <!-- s18 -->
+    <div class="step" data-step="18">
+      <div class="chapter-pill"><span class="dot"></span>Principles</div>
+      <h2>Safe Escalation Patterns</h2>
+      <p><strong>Escalate early.</strong> An agent that hands off at 70% confidence will keep humans in the loop more often, but safer is better than sorry. <strong>Escalate with context.</strong> When you escalate, give the human everything: the original request, the agent's proposed action, the confidence score, the reasoning, the alternative options. A human deciding blindly is worse than no human at all.</p>
+      <p><strong>Log escalation reasons.</strong> Track why you escalated — was it confidence, stakes, missing permissions, or an error? Over time, these logs tell you which decisions humans override and which they confirm. That feedback lets you improve your thresholds.</p>
+      <div class="callout green"><strong>Escalation is not failure.</strong> An agent that escalates appropriately is more trustworthy and safer than one that confidently does the wrong thing. Design systems where escalation is the default and autonomy is the exception, not the other way around.</div>
+      <p><span class="tag t-g">escalate early</span> <span class="tag t-b">with context</span> <span class="tag t-o">log reasons</span> <span class="tag t-p">default: escalate</span></p>
+    </div>
+
+  </div>
+  <div id="viz-col6">
+    <div id="viz-wrap6">
+      <svg id="main-svg6" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet" overflow="visible"></svg>
+    </div>
+  </div>
+</div>
+
 <footer>
   <div class="ft-col" style="flex:2;min-width:280px">
     <h4>About this guide</h4>
@@ -326,13 +385,13 @@
   </div>
   <div class="ft-col">
     <h4>Concepts</h4>
-    <span class="ft-stat">15</span>
-    <p>Safety concepts across 5 defense phases</p>
+    <span class="ft-stat">19</span>
+    <p>Safety concepts across 6 defense phases</p>
   </div>
   <div class="ft-col">
     <h4>Phases</h4>
-    <span class="ft-stat" style="color:var(--red)">5</span>
-    <p>Landscape · Input Safety · Output Safety · Oversight · Governance</p>
+    <span class="ft-stat" style="color:var(--red)">6</span>
+    <p>Landscape · Input Safety · Output Safety · Oversight · Governance · Confidence &amp; Escalation</p>
   </div>
   <div class="ft-col">
     <h4>Next guides</h4>
@@ -351,7 +410,8 @@ const STEP_NAMES=[
   'Prompt Injection','Input Guardrails','Least Privilege',
   'Output Guardrails','Irreversibility Gating','Minimal Footprint',
   'Human-in-the-Loop','Monitoring & Alerting','Audit Trails',
-  'Org Safety Practices','Alignment by Design','8 Safety Rules'
+  'Org Safety Practices','Alignment by Design','8 Safety Rules',
+  'Measuring Confidence','Escalation Thresholds','Decision Trees','Safe Escalation Patterns'
 ];
 
 function renderStep(n){
@@ -384,11 +444,17 @@ function renderStep(n){
     if(n===9)drawHumanInLoop();
     else if(n===10)drawMonitoring();
     else drawAuditTrail();
-  } else {
+  } else if(n<=14){
     const svg=d3.select('#main-svg5'); svg.selectAll('*').remove(); setupSVG(svg); setupDefs(svg);
     if(n===12)drawRedTeam();
     else if(n===13)drawAlignmentByDesign();
     else drawEightSafetyRules();
+  } else {
+    const svg=d3.select('#main-svg6'); svg.selectAll('*').remove(); setupSVG(svg); setupDefs(svg);
+    if(n===15)drawConfidenceScoring();
+    else if(n===16)drawEscalationThresholds();
+    else if(n===17)drawDecisionTrees();
+    else drawSafeEscalationPatterns();
   }
 }
 
@@ -1077,6 +1143,165 @@ function drawEightSafetyRules(){
       .attr('font-size',10).attr('font-family','Courier New').attr('dominant-baseline','central')
       .text(fitNodeText(r.text,Math.max(8,Math.floor(txtMaxW/5.5))));
   });
+}
+
+// ── PART 6 ───────────────────────────────────────────────────────────────────
+
+function drawConfidenceScoring(){
+  const svg=d3.select('#main-svg6');
+  const {w,h}=getSize(svg.node()); const g=svg.append('g');
+  const cx=w/2;
+  // Three confidence examples
+  const examples=[
+    {y:h*0.2, label:'Is 42 even?', value:0.99, col:C.green, reason:'simple arithmetic'},
+    {y:h*0.5, label:'Approve $500K contract?', value:0.65, col:C.yellow, reason:'complex judgment'},
+    {y:h*0.8, label:'Is this prompt injection?', value:0.42, col:C.orange, reason:'adversarial ambiguity'},
+  ];
+  examples.forEach((ex,i)=>{
+    const eg=g.append('g').style('opacity',0);
+    eg.transition().delay(i*200+100).duration(400).style('opacity',1);
+    // Question box
+    eg.append('rect').attr('x',cx-120).attr('y',ex.y-20).attr('width',240).attr('height',32)
+      .attr('rx',6).attr('fill',ex.col+'12').attr('stroke',ex.col).attr('stroke-width',1.5);
+    eg.append('text').attr('x',cx-110).attr('y',ex.y+3).attr('fill',C.text)
+      .attr('font-size',10.5).attr('font-family','Courier New').text(ex.label);
+    // Confidence bar
+    const barW=180*ex.value;
+    eg.append('rect').attr('x',cx-90).attr('y',ex.y+18).attr('width',barW).attr('height',12)
+      .attr('rx',2).attr('fill',ex.col+'40').attr('stroke',ex.col).attr('stroke-width',1);
+    eg.append('rect').attr('x',cx-90).attr('y',ex.y+18).attr('width',180).attr('height',12)
+      .attr('rx',2).attr('fill','none').attr('stroke',C.border).attr('stroke-width',1);
+    // Confidence label
+    const confSize=responsiveFontSize(10,9,11);
+    eg.append('text').attr('x',cx+100).attr('y',ex.y+26).attr('fill',ex.col)
+      .attr('font-size',confSize).attr('font-family','Courier New').text((ex.value*100).toFixed(0)+'%');
+    // Reason
+    eg.append('text').attr('x',cx-110).attr('y',ex.y+42).attr('fill',C.dim)
+      .attr('font-size',9).attr('font-family','Courier New').text(ex.reason);
+  });
+  lbl(g,w/2,h-28,'confidence measures agent certainty — use it to decide when humans should review',C.dim,10.5,800);
+}
+
+function drawEscalationThresholds(){
+  const svg=d3.select('#main-svg6');
+  const {w,h}=getSize(svg.node()); const g=svg.append('g');
+  // Confidence axis (horizontal)
+  g.append('line').attr('x1',w*0.1).attr('y1',h*0.65).attr('x2',w*0.9).attr('y2',h*0.65)
+    .attr('stroke',C.border).attr('stroke-width',2)
+    .style('opacity',0).transition().duration(400).style('opacity',1);
+  // Confidence labels
+  lbl(g,w*0.1,h*0.73,'low confidence',C.dim,9,200);
+  lbl(g,w*0.5,h*0.73,'medium',C.dim,9,200);
+  lbl(g,w*0.9,h*0.73,'high confidence',C.dim,9,200);
+
+  // Zones
+  const zones=[
+    {x1:w*0.08,x2:w*0.35,label:'ESCALATE',col:C.red,desc:'Low confidence — always review'},
+    {x1:w*0.35,x2:w*0.65,label:'SOFT GATE',col:C.yellow,desc:'Medium confidence — stage & confirm'},
+    {x1:w*0.65,x2:w*0.92,label:'AUTO-APPROVE',col:C.green,desc:'High confidence & low stakes'},
+  ];
+  zones.forEach((z,i)=>{
+    const zg=g.append('g').style('opacity',0);
+    zg.transition().delay(i*150+300).duration(400).style('opacity',1);
+    zg.append('rect').attr('x',z.x1).attr('y',h*0.2).attr('width',z.x2-z.x1).attr('height',h*0.4)
+      .attr('fill',z.col+'08').attr('stroke',z.col).attr('stroke-width',1.5);
+    zg.append('text').attr('x',(z.x1+z.x2)/2).attr('y',h*0.35).attr('text-anchor','middle')
+      .attr('fill',z.col).attr('font-size',12).attr('font-family','Courier New').text(z.label);
+    zg.append('text').attr('x',(z.x1+z.x2)/2).attr('y',h*0.52).attr('text-anchor','middle')
+      .attr('fill',C.dim).attr('font-size',9).attr('font-family','Courier New').text(z.desc);
+  });
+  // Threshold markers
+  [0.3,0.7].forEach((t,i)=>{
+    const tx=w*0.1+(w*0.8)*t;
+    const tg=g.append('g').style('opacity',0);
+    tg.transition().delay(i*150+700).duration(400).style('opacity',1);
+    tg.append('line').attr('x1',tx).attr('y1',h*0.65).attr('x2',tx).attr('y2',h*0.75)
+      .attr('stroke',C.red).attr('stroke-width',2);
+    tg.append('circle').attr('cx',tx).attr('cy',h*0.65).attr('r',4)
+      .attr('fill',C.red).attr('stroke',C.bg||C.dim).attr('stroke-width',1);
+  });
+  lbl(g,w/2,h-28,'set thresholds based on model calibration data — measure actual accuracy at each confidence level',C.dim,10,900);
+}
+
+function drawDecisionTrees(){
+  const svg=d3.select('#main-svg6');
+  const {w,h}=getSize(svg.node()); const g=svg.append('g');
+  const cx=w/2;
+  // Root: escalation event
+  rectN(g,cx,h*0.12,180,36,C.dim,'Agent Escalation Needed',null,0);
+
+  // Four escalation paths
+  const routes=[
+    {x:w*0.18,label:'Clarification',team:'Customer Service T1',col:C.blue},
+    {x:w*0.42,label:'Domain Expertise',team:'Legal / Domain Expert',col:C.purple},
+    {x:w*0.66,label:'High Stakes',team:'Manager / Approval',col:C.orange},
+    {x:w*0.9, label:'Security Concern',team:'Security Team',col:C.red},
+  ];
+  routes.forEach((r,i)=>{
+    const rg=g.append('g').style('opacity',0);
+    rg.transition().delay(i*150+200).duration(400).style('opacity',1);
+    // Arrow down
+    edgeLine(g,cx,h*0.15,r.x,h*0.3,C.border,'arrowDim',null,i*150+400);
+    // Classification box
+    rg.append('rect').attr('x',r.x-55).attr('y',h*0.3).attr('width',110).attr('height',32)
+      .attr('rx',6).attr('fill',r.col+'15').attr('stroke',r.col).attr('stroke-width',1.5);
+    rg.append('text').attr('x',r.x).attr('y',h*0.32+11).attr('text-anchor','middle')
+      .attr('fill',r.col).attr('font-size',10).attr('font-family','Courier New').text(r.label);
+    // Route box
+    rg.append('rect').attr('x',r.x-65).attr('y',h*0.52).attr('width',130).attr('height',44)
+      .attr('rx',6).attr('fill',r.col+'10').attr('stroke',r.col).attr('stroke-width',1.5);
+    rg.append('text').attr('x',r.x).attr('y',h*0.57).attr('text-anchor','middle')
+      .attr('fill',r.col).attr('font-size',10.5).attr('font-family','Courier New').text(r.team);
+    // Arrow and icon
+    const arrowX=r.x, arrowY=h*0.55;
+    rg.append('circle').attr('cx',arrowX).attr('cy',arrowY-8).attr('r',4)
+      .attr('fill',r.col+'40').attr('stroke',r.col).attr('stroke-width',1);
+    rg.append('text').attr('x',arrowX).attr('y',arrowY+8).attr('text-anchor','middle')
+      .attr('fill',r.col).attr('font-size',9.5).attr('font-family','Courier New').text('→');
+  });
+  lbl(g,w/2,h-28,'classify escalation type then route to appropriate team/person with matching expertise',C.dim,10,1000);
+}
+
+function drawSafeEscalationPatterns(){
+  const svg=d3.select('#main-svg6');
+  const {w,h}=getSize(svg.node()); const g=svg.append('g');
+  // Three escalation patterns
+  const patterns=[
+    {y:h*0.18,title:'Escalate Early',icon:'⬆',detail:'70% confidence threshold',col:C.green},
+    {y:h*0.5, title:'Escalate with Context',icon:'📋',detail:'provide full reasoning & alternatives',col:C.blue},
+    {y:h*0.82,title:'Log & Learn',icon:'📊',detail:'track why & human decision for feedback',col:C.orange},
+  ];
+  patterns.forEach((p,i)=>{
+    const pg=g.append('g').style('opacity',0);
+    pg.transition().delay(i*200+100).duration(400).style('opacity',1);
+    // Header box
+    pg.append('rect').attr('x',w*0.15).attr('y',p.y-24).attr('width',w*0.7).attr('height',42)
+      .attr('rx',8).attr('fill',p.col+'12').attr('stroke',p.col).attr('stroke-width',1.5);
+    pg.append('text').attr('x',w*0.2).attr('y',p.y-4).attr('fill',p.col)
+      .attr('font-size',13).attr('font-family','Courier New').text(p.icon);
+    pg.append('text').attr('x',w*0.28).attr('y',p.y-3).attr('fill',C.text)
+      .attr('font-size',11.5).attr('font-family','Courier New').text(p.title);
+    pg.append('text').attr('x',w*0.28).attr('y',p.y+10).attr('fill',C.dim)
+      .attr('font-size',9.5).attr('font-family','Courier New').text(p.detail);
+    // Benefit indicator
+    const badge=pg.append('g');
+    badge.append('rect').attr('x',w*0.78).attr('y',p.y-20).attr('width',72).attr('height',34)
+      .attr('rx',6).attr('fill',p.col+'20').attr('stroke',p.col).attr('stroke-width',1);
+    badge.append('text').attr('x',w*0.78+36).attr('y',p.y-12).attr('text-anchor','middle')
+      .attr('fill',p.col).attr('font-size',10).attr('font-family','Courier New').text('✓');
+    const benefitSize=responsiveFontSize(9,8.5,9.5);
+    badge.append('text').attr('x',w*0.78+36).attr('y',p.y+4).attr('text-anchor','middle')
+      .attr('fill',p.col).attr('font-size',benefitSize).attr('font-family','Courier New').text('safer');
+  });
+  // Bottom principle
+  const principleG=g.append('g').style('opacity',0);
+  principleG.transition().delay(800).duration(400).style('opacity',1);
+  principleG.append('rect').attr('x',w*0.15).attr('y',h-56).attr('width',w*0.7).attr('height',48)
+    .attr('rx',8).attr('fill',C.green+'08').attr('stroke',C.green).attr('stroke-width',2);
+  principleG.append('text').attr('x',w*0.5).attr('y',h-34).attr('text-anchor','middle')
+    .attr('fill',C.green).attr('font-size',11.5).attr('font-family','Courier New').text('Default: Escalate — Autonomy is the Exception');
+  principleG.append('text').attr('x',w*0.5).attr('y',h-15).attr('text-anchor','middle')
+    .attr('fill',C.dim).attr('font-size',9.5).attr('font-family','Courier New').text('Design systems where safe escalation is easier than taking action');
 }
 
 // ── HERO BACKGROUND ───────────────────────────────────────────────────────────

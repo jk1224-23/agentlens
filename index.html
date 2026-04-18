@@ -152,6 +152,25 @@ footer .ft-brand{color:var(--blue);font-weight:bold}
   --orange:#f0883e;--red:#f85149;--yellow:#e3b341;--border:#30363d;
   --heading:#ffffff;--hdr-bg:rgba(13,17,23,.92);
 }
+/* ── NEWS STRIP ──────────────────────────────────────────── */
+.news-strip{width:100%;max-width:980px;margin:0 auto}
+.news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;padding-bottom:3rem}
+.news-card{border:1px solid var(--border);border-radius:8px;padding:1rem;text-decoration:none;display:block;transition:background .2s,transform .2s;background:transparent}
+.news-card:hover{background:rgba(255,255,255,.03);transform:translateY(-2px)}
+.news-meta{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem;flex-wrap:wrap}
+.news-tag{font-size:.6rem;font-family:'Courier New',monospace;padding:.15rem .45rem;border-radius:999px;text-transform:uppercase;letter-spacing:.1em}
+.tag-model{color:var(--blue);border:1px solid rgba(88,166,255,.35);background:rgba(88,166,255,.08)}
+.tag-protocol{color:var(--purple);border:1px solid rgba(210,168,255,.35);background:rgba(210,168,255,.08)}
+.tag-framework{color:var(--green);border:1px solid rgba(63,185,80,.35);background:rgba(63,185,80,.08)}
+.tag-research{color:var(--orange);border:1px solid rgba(240,136,62,.35);background:rgba(240,136,62,.08)}
+.tag-industry{color:var(--yellow);border:1px solid rgba(227,179,65,.35);background:rgba(227,179,65,.08)}
+.news-date{font-size:.68rem;font-family:'Courier New',monospace;color:var(--dim)}
+.news-source{font-size:.68rem;font-family:'Courier New',monospace;color:var(--dim);margin-left:auto}
+.news-title{font-size:.9rem;color:var(--heading);font-weight:600;margin-bottom:.35rem;line-height:1.35}
+.news-desc{font-size:.78rem;color:var(--dim);line-height:1.5}
+[data-theme="light"] .news-card:hover{background:rgba(0,0,0,.03)}
+@media(max-width:640px){.news-grid{grid-template-columns:1fr}}
+
 @media(max-width:640px){
   .cards{flex-direction:column;align-items:center}
   .card{max-width:100%;width:100%}
@@ -295,6 +314,64 @@ footer .ft-brand{color:var(--blue);font-weight:bold}
       <div class="card-desc">Architecture, implementation, deployment, operations, and continuous improvement at scale.</div>
       <span class="card-badge badge-amber">15 concepts · 5 phases</span>
     </a>
+  </div>
+
+  <!-- NEWS STRIP -->
+  <div class="news-strip" id="news-strip">
+    <div class="series-label" style="margin-top:3rem">Latest in Agents</div>
+    <div class="news-last-updated" style="font-size:.65rem;color:var(--dim);font-family:'Courier New',monospace;text-align:center;margin-bottom:1rem">Updated: Apr 16, 2026</div>
+    <div class="news-grid">
+      <a class="news-card" href="https://www.anthropic.com/news/claude-opus-4-7" target="_blank" rel="noopener">
+        <div class="news-meta"><span class="news-tag tag-model">MODEL</span><span class="news-date">Apr 16</span><span class="news-source">Anthropic</span></div>
+        <div class="news-title">Claude Opus 4.7</div>
+        <div class="news-desc">Latest Opus with stronger performance on coding, agents, vision, and multi-step reasoning tasks.</div>
+      </a>
+      <a class="news-card" href="https://code.claude.com/docs/en/whats-new/2026-w14" target="_blank" rel="noopener">
+        <div class="news-meta"><span class="news-tag tag-framework">FRAMEWORK</span><span class="news-date">Mar 30</span><span class="news-source">Anthropic</span></div>
+        <div class="news-title">Claude Code 30+ Releases</div>
+        <div class="news-desc">Opus 4.6 1M context GA, NO_FLICKER rendering, 60% speed boost for autonomous coding.</div>
+      </a>
+      <a class="news-card" href="https://www.anthropic.com/news" target="_blank" rel="noopener">
+        <div class="news-meta"><span class="news-tag tag-model">MODEL</span><span class="news-date">Apr 8</span><span class="news-source">Anthropic</span></div>
+        <div class="news-title">Claude Managed Agents</div>
+        <div class="news-desc">Public beta cloud service for long-running task-completion agents in secure environments.</div>
+      </a>
+      <a class="news-card" href="https://blog.google/innovation-and-ai/technology/developers-tools/agentic-vision-gemini-3-flash/" target="_blank" rel="noopener">
+        <div class="news-meta"><span class="news-tag tag-model">MODEL</span><span class="news-date">Apr</span><span class="news-source">Google</span></div>
+        <div class="news-title">Agentic Vision in Gemini 3</div>
+        <div class="news-desc">Image understanding with active investigation: zoom, inspect, and analyze using code execution.</div>
+      </a>
+      <a class="news-card" href="https://blog.google/innovation-and-ai/models-and-research/google-labs/opal-agent/" target="_blank" rel="noopener">
+        <div class="news-meta"><span class="news-tag tag-framework">FRAMEWORK</span><span class="news-date">Apr</span><span class="news-source">Google</span></div>
+        <div class="news-title">Opal Agent Step</div>
+        <div class="news-desc">Step-by-step agentic workflows with customizable control and refinement at any stage.</div>
+      </a>
+      <a class="news-card" href="https://blog.modelcontextprotocol.io/posts/2026-mcp-roadmap/" target="_blank" rel="noopener">
+        <div class="news-meta"><span class="news-tag tag-protocol">PROTOCOL</span><span class="news-date">2026</span><span class="news-source">Anthropic</span></div>
+        <div class="news-title">MCP 2026 Roadmap</div>
+        <div class="news-desc">1,000+ community-built MCP servers; focus on transport scalability and governance maturity.</div>
+      </a>
+      <a class="news-card" href="https://a2a-protocol.org/" target="_blank" rel="noopener">
+        <div class="news-meta"><span class="news-tag tag-protocol">PROTOCOL</span><span class="news-date">2026</span><span class="news-source">Linux Foundation</span></div>
+        <div class="news-title">A2A Protocol Adoption</div>
+        <div class="news-desc">Open agent-to-agent communication protocol; 40% of enterprise apps to use agents by 2026.</div>
+      </a>
+      <a class="news-card" href="https://www.anthropic.com/news/anthropic-infosys" target="_blank" rel="noopener">
+        <div class="news-meta"><span class="news-tag tag-industry">INDUSTRY</span><span class="news-date">2026</span><span class="news-source">Anthropic</span></div>
+        <div class="news-title">Anthropic & Infosys Partnership</div>
+        <div class="news-desc">Collaboration to develop enterprise AI solutions integrating Claude with Infosys Topaz.</div>
+      </a>
+      <a class="news-card" href="#" target="_blank" rel="noopener">
+        <div class="news-meta"><span class="news-tag tag-framework">FRAMEWORK</span><span class="news-date">2026</span><span class="news-source">LangChain</span></div>
+        <div class="news-title">LangGraph MCP Integration</div>
+        <div class="news-desc">MCP tools as first-class graph nodes with full streaming support for stateful workflows.</div>
+      </a>
+      <a class="news-card" href="https://www.anthropic.com/news/apple-xcode-claude-agent-sdk" target="_blank" rel="noopener">
+        <div class="news-meta"><span class="news-tag tag-framework">FRAMEWORK</span><span class="news-date">Feb</span><span class="news-source">Apple</span></div>
+        <div class="news-title">Xcode 26.3 Claude Agent SDK</div>
+        <div class="news-desc">Native IDE integration for autonomous Claude coding with subagents and background tasks.</div>
+      </a>
+    </div>
   </div>
 
 </main>

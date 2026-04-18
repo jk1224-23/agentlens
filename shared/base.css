@@ -128,6 +128,17 @@ body{background:var(--bg);color:var(--text);font-family:'Georgia',serif;font-siz
 /* ── PATTERN BADGE ─────────────────────────────────────────────────────────── */
 .pattern-badge{display:inline-flex;align-items:center;gap:.4rem;padding:.2rem .65rem;background:var(--accent-subtle2);border:1px solid var(--accent-border);border-radius:4px;font-size:.72rem;font-family:'Courier New',monospace;color:var(--accent);margin-bottom:.8rem}
 
+/* ── COLOR-CODED PATHWAYS (Efficiency & Safety patterns) ──────────────────────── */
+/* Green = efficient/safe practice */
+.pattern-badge.efficient{background:rgba(63,185,80,.08);border-color:rgba(63,185,80,.25);color:var(--green)}
+[data-theme="light"] .pattern-badge.efficient{background:rgba(26,127,55,.08);border-color:rgba(26,127,55,.30);color:#1a7f37}
+/* Red = inefficient/unsafe practice */
+.pattern-badge.unsafe{background:rgba(248,81,73,.08);border-color:rgba(248,81,73,.25);color:var(--red)}
+[data-theme="light"] .pattern-badge.unsafe{background:rgba(207,34,46,.08);border-color:rgba(207,34,46,.30);color:#cf222e}
+/* Orange = neutral/moderate practice */
+.pattern-badge.neutral{background:rgba(240,136,62,.08);border-color:rgba(240,136,62,.25);color:var(--orange)}
+[data-theme="light"] .pattern-badge.neutral{background:rgba(188,76,0,.08);border-color:rgba(188,76,0,.30);color:#bc4c00}
+
 /* ── INLINE MINI-VIZ ───────────────────────────────────────────────────────── */
 .mini-viz{background:var(--bg2);border:1px solid var(--border);border-radius:8px;margin:1.2rem 0;padding:.5rem;overflow:hidden}
 .mini-viz svg{display:block;width:100%;height:auto}

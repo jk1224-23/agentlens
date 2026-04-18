@@ -40,6 +40,9 @@ VALIDATION_*.md
 *_REPORT.md
 DEPLOYMENT_MANIFEST.md
 .test-astro-migration/
+*.docx
+package.json
+validate.js
 
 # SVG validation & fix tools (development only)
 validate-svgs.py
