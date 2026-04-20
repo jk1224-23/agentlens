@@ -1,16 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <defs>
-    <style>
-      .dark { fill: #0d1117; }
-      .accent { fill: #58a6ff; }
-      @media (prefers-color-scheme: light) {
-        .dark { fill: #ffffff; }
-        .accent { fill: #0969da; }
-      }
-    </style>
+    
   </defs>
-  <rect class="dark" width="32" height="32"/>
-  <circle class="accent" cx="16" cy="16" r="10"/>
-  <path class="dark" d="M14 12h4v8h-4z" opacity="0.8"/>
-  <path class="dark" d="M11 14h10v2H11z" opacity="0.6"/>
+  <rect class="dark" width="32" height="32"></rect>
+  <circle class="accent" cx="16" cy="16" r="10"></circle>
+  <path class="dark" d="M14 12h4v8h-4z" opacity="0.8"></path>
+  <path class="dark" d="M11 14h10v2H11z" opacity="0.6"></path>
 </svg>

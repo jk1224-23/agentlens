@@ -515,7 +515,7 @@ function initSharedUI(renderStepFn){
     lastScrollUpdate=now;
     const st=window.scrollY,docH=document.documentElement.scrollHeight-window.innerHeight;
     const prog=document.getElementById('prog');
-    if(prog)prog.style.width=(st/docH*100)+'%';
+    if(prog)prog.style.transform=`scaleX(${docH>0?st/docH:0})`;
   },{passive:true});
 
   // Theme toggle

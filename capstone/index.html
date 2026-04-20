@@ -10,6 +10,7 @@
     <meta property="og:description" content="Complete guide to designing, implementing, and deploying production AI agents at enterprise scale.">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="stylesheet" href="../shared/base.css">
+    <link rel="stylesheet" href="../shared/enhancements.css">
     <style>
         :root {
             --accent: #fbbf24;
@@ -18,19 +19,25 @@
             --accent-border: rgba(251, 191, 36, 0.3);
         }
         @media (prefers-color-scheme: light) {
-            :root {
+            :root:not([data-theme="dark"]) {
                 --accent: #d97706;
-                --accent-subtle: rgba(217, 119, 6, 0.15);
+                --accent-subtle: rgba(217, 119, 6, 0.07);
                 --accent-subtle2: rgba(217, 119, 6, 0.08);
-                --accent-border: rgba(217, 119, 6, 0.3);
+                --accent-border: rgba(217, 119, 6, 0.28);
             }
+        }
+        [data-theme="light"] {
+            --accent: #d97706;
+            --accent-subtle: rgba(217, 119, 6, 0.07);
+            --accent-subtle2: rgba(217, 119, 6, 0.08);
+            --accent-border: rgba(217, 119, 6, 0.28);
         }
     </style>
 </head>
 <body>
     <a href="#main" class="skip-link">Skip to main content</a>
     <div id="hdr">
-        <a href="../" style="color:var(--accent);font-family:'Courier New',monospace;font-weight:bold;font-size:15px;text-decoration:none">agentlens</a>
+        <a href="../" style="color:var(--blue);font-family:'Courier New',monospace;font-weight:bold;font-size:15px;text-decoration:none">agentlens</a>
         <span class="sep">|</span>
         <a href="../" style="color:var(--dim);text-decoration:none;font-size:13px">← All Guides</a>
         <span class="sep">|</span>
@@ -39,25 +46,29 @@
         <a href="../advanced/" style="color:var(--dim);text-decoration:none;font-size:13px">← Advanced</a>
         <button id="themeToggle" aria-label="Toggle light/dark mode" title="Toggle light/dark mode">🌙</button>
     </div>
-    <div id="prog"></div>
+    <div id="prog" style="position:fixed;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--purple),var(--green),var(--orange));transform-origin:left;transform:scaleX(0);z-index:999;box-shadow:0 0 8px currentColor"></div>
 
     <main>
-        <header class="hero" id="hero">
-            <div class="hero-content">
-                <div class="guide-number">09</div>
-                <h1>Building Production Agents</h1>
-                <p>Designing, implementing, deploying, and operating agents that serve real users at scale</p>
-                <div class="hero-badges">
-                    <span class="hero-badge hb-green">✓ Complete the series</span>
-                    <span class="hero-badge hb-blue">Production operations</span>
-                    <span class="hero-badge hb-amber">5 deployment phases</span>
-                </div>
+        <section id="hero">
+          <svg id="hero-bg" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice" overflow="visible"></svg>
+          <div id="hero-content">
+            <div style="display:inline-flex;align-items:center;gap:.45rem;font-family:'Courier New',monospace;font-size:.72rem;color:var(--dim);border:1px solid var(--border);border-radius:999px;padding:.25rem .8rem;margin-bottom:1.1rem">
+              <span style="width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block;flex-shrink:0"></span>
+              Guide 09 of 9 &nbsp;·&nbsp; <em style="font-style:italic;color:var(--text)">How do I ship to production?</em>
             </div>
-            <svg class="hero-bg" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid slice" overflow="visible">
-                <defs id="svgDefs"></defs>
-                <g id="heroNetwork"></g>
-            </svg>
-        </header>
+            <h1>Building<br><em>Production Agents</em></h1>
+            <p class="sub">Designing, implementing, deploying, and operating agents that serve real users at scale.</p>
+            <div class="hero-badges">
+              <span class="hero-badge hb-green">✓ Complete the series</span>
+              <span class="hero-badge hb-blue">Production operations</span>
+              <span class="hero-badge hb-amber">5 deployment phases</span>
+            </div>
+            <div class="scroll-cue">
+              <svg viewBox="0 0 24 24" overflow="visible"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              Scroll to explore
+            </div>
+          </div>
+        </section>
 
         <section class="scrolly" id="phase1">
             <div class="text-col">
