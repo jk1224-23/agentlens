@@ -143,8 +143,8 @@
   <span class="sb-label">10 Agent Patterns</span>
 </div>
 
-<div id="scrolly2" class="scrolly-section">
-  <div class="text-col2">
+<div id="scrolly2" class="scrolly-section" style="display:flex;position:relative;align-items:flex-start">
+  <div class="text-col2" style="width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0">
 
     <!-- STEP 5: Orchestrator-Worker -->
     <div class="step" data-step="5">
@@ -407,7 +407,7 @@
   </div><!-- end text-col2 -->
 
   <!-- VIZ PANEL 2 (sticky) -->
-  <div id="viz-col2">
+  <div id="viz-col2" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
     <div id="viz-wrap2">
       <svg id="main-svg2" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet" overflow="visible"></svg>
     </div>
@@ -422,8 +422,8 @@
   <span class="sb-label">Production Considerations</span>
 </div>
 
-<div id="scrolly3" class="scrolly-section">
-  <div class="text-col3">
+<div id="scrolly3" class="scrolly-section" style="display:flex;position:relative;align-items:flex-start">
+  <div class="text-col3" style="width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0">
 
     <!-- STEP 13: HITL -->
     <div class="step" data-step="13">
@@ -483,11 +483,10 @@
   </div><!-- end text-col3 -->
 
   <!-- VIZ PANEL 3 (sticky) -->
-  <div id="viz-col3">
+  <div id="viz-col3" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
     <div id="viz-wrap3">
       <svg id="main-svg3" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet" overflow="visible"></svg>
     </div>
-  </div>
   </div>
 </div><!-- end scrolly3 -->
 
@@ -499,8 +498,8 @@
   <span class="sb-label">Efficiency & Cost Optimization</span>
 </div>
 
-<div id="scrolly35" class="scrolly-section">
-  <div class="text-col35">
+<div id="scrolly35" class="scrolly-section" style="display:flex;position:relative;align-items:flex-start">
+  <div class="text-col35" style="width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0">
 
     <!-- STEP 19: Token Budgets -->
     <div class="step" data-step="19">
@@ -566,8 +565,8 @@
 
   </div><!-- end text-col35 -->
 
-  <!-- VIZ PANEL (shared, sticky) -->
-  <div id="viz-col35">
+  <!-- VIZ PANEL 3.5 (sticky) -->
+  <div id="viz-col35" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
     <div id="viz-wrap35">
       <svg id="main-svg35" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet" overflow="visible"></svg>
     </div>
@@ -582,7 +581,7 @@
   <span class="sb-label">Going Deeper</span>
 </div>
 
-<div id="scrolly4">
+<div id="scrolly4" style="display:flex;position:relative;align-items:flex-start">
   <div class="text-col4" style="width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0">
 
     <!-- STEP 16: Pattern Decision Guide -->
@@ -625,7 +624,7 @@
   </div><!-- end text-col4 -->
 
   <!-- VIZ PANEL 4 (sticky) -->
-  <div id="viz-col4">
+  <div id="viz-col4" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
     <div id="viz-wrap4">
       <svg id="main-svg4" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet" overflow="visible"></svg>
     </div>
@@ -1685,7 +1684,7 @@ function transitionTo(step){
 
   const t=setTimeout(()=>{
     // Clear ALL panels before drawing the new scene
-    const allPanelsClear=['main-svg','main-svg2','main-svg3','main-svg4'];
+    const allPanelsClear=['main-svg','main-svg2','main-svg3','main-svg35','main-svg4'];
     allPanelsClear.forEach(id=>{
       const el=document.getElementById(id);
       if(el) d3.select(el).selectAll('*').remove();
