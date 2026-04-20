@@ -99,9 +99,9 @@ body{background:var(--bg);color:var(--text);font-family:'Georgia',serif;font-siz
 .chapter-pill .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
 
 /* ── SCROLLY LAYOUT ────────────────────────────────────────────────────────── */
-#scrolly,#scrolly2,#scrolly3,#scrolly4,#scrolly5,#scrolly6{display:flex;position:relative;align-items:flex-start}
+#scrolly,#scrolly2,#scrolly3,#scrolly35,#scrolly4,#scrolly5,#scrolly6{display:flex;position:relative;align-items:flex-start}
 #text-col{width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0}
-.text-col2,.text-col3,.text-col4,.text-col5,.text-col6{width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0}
+.text-col2,.text-col3,.text-col35,.text-col4,.text-col5,.text-col6{width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0}
 .step{min-height:85vh;display:flex;flex-direction:column;justify-content:center;padding:12vh 0;opacity:.25;transition:opacity .5s}
 .step.active{opacity:1}
 .step h2{font-size:clamp(1.4rem,2.2vw,2rem);font-weight:400;color:var(--heading);margin-bottom:1.2rem;line-height:1.3}
@@ -147,9 +147,9 @@ body{background:var(--bg);color:var(--text);font-family:'Georgia',serif;font-siz
 /* ── VIZ PANEL ─────────────────────────────────────────────────────────────── */
 /* overflow:visible on viz-col preserves position:sticky (overflow:hidden breaks it in Safari).
    Clipping is handled by viz-wrap (overflow:hidden on a non-sticky child). */
-#viz-col,#viz-col2,#viz-col3,#viz-col4,#viz-col5,#viz-col6{width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0;overflow:visible}
-#viz-wrap,#viz-wrap2,#viz-wrap3,#viz-wrap4,#viz-wrap5,#viz-wrap6{width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem;background:var(--viz-bg);overflow:hidden}
-#main-svg,#main-svg2,#main-svg3,#main-svg4,#main-svg5,#main-svg6{width:100%;height:100%;max-height:600px;overflow:visible}
+#viz-col,#viz-col2,#viz-col3,#viz-col35,#viz-col4,#viz-col5,#viz-col6{width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0;overflow:visible}
+#viz-wrap,#viz-wrap2,#viz-wrap3,#viz-wrap35,#viz-wrap4,#viz-wrap5,#viz-wrap6{width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem;background:var(--viz-bg);overflow:hidden}
+#main-svg,#main-svg2,#main-svg3,#main-svg35,#main-svg4,#main-svg5,#main-svg6{width:100%;height:100%;max-height:600px;overflow:visible}
 
 /* ── FOOTER ────────────────────────────────────────────────────────────────── */
 footer,.guide-footer{border-top:1px solid var(--border);padding:3rem 5rem;display:flex;gap:3rem;flex-wrap:wrap}
@@ -181,6 +181,24 @@ a:focus-visible{border-radius:2px}
   .text-col{width:100%;padding:0 2rem;margin-bottom:2rem}
   .sticky-viz{width:100%;height:60vh;position:relative;top:auto}
   .sticky-viz svg{max-height:70vh}
+
+  /* ID-based scrolly sections: switch to stacked at tablet */
+  #scrolly,#scrolly2,#scrolly3,#scrolly35,#scrolly4,#scrolly5,#scrolly6{
+    flex-direction:column !important;
+    align-items:stretch !important;
+  }
+  #viz-col,#viz-col2,#viz-col3,#viz-col35,#viz-col4,#viz-col5,#viz-col6{
+    width:100% !important;
+    height:50vh !important;
+    min-height:280px !important;
+    position:sticky !important;
+    top:52px !important;
+    flex-shrink:0 !important;
+  }
+  #text-col,.text-col2,.text-col3,.text-col35,.text-col4,.text-col5,.text-col6{
+    width:100% !important;
+    padding:0 2.5rem !important;
+  }
 }
 
 /* ── LIGHT THEME (system preference - only when no explicit theme set) ──────── */
@@ -289,12 +307,12 @@ a:focus-visible{border-radius:2px}
 
   .section-break{padding:2rem 1.25rem 1rem}
 
-  #scrolly,#scrolly2,#scrolly3,#scrolly4,#scrolly5,#scrolly6{
+  #scrolly,#scrolly2,#scrolly3,#scrolly35,#scrolly4,#scrolly5,#scrolly6{
     flex-direction:column !important;
     align-items:stretch !important;
   }
 
-  #viz-col,#viz-col2,#viz-col3,#viz-col4,#viz-col5,#viz-col6{
+  #viz-col,#viz-col2,#viz-col3,#viz-col35,#viz-col4,#viz-col5,#viz-col6{
     order:-1;
     width:100% !important;
     height:40vh !important;
@@ -306,11 +324,11 @@ a:focus-visible{border-radius:2px}
     border-bottom:1px solid var(--border);
   }
 
-  #viz-wrap,#viz-wrap2,#viz-wrap3,#viz-wrap4,#viz-wrap5,#viz-wrap6{
+  #viz-wrap,#viz-wrap2,#viz-wrap3,#viz-wrap35,#viz-wrap4,#viz-wrap5,#viz-wrap6{
     padding:.5rem !important;
   }
 
-  #text-col,.text-col2,.text-col3,.text-col4,.text-col5,.text-col6{
+  #text-col,.text-col2,.text-col3,.text-col35,.text-col4,.text-col5,.text-col6{
     width:100% !important;
     padding:0 1.25rem !important;
     flex-shrink:1 !important;
@@ -331,12 +349,12 @@ a:focus-visible{border-radius:2px}
 
 /* ── MOBILE ≤ 480px ────────────────────────────────────────────────────────── */
 @media(max-width:480px){
-  #viz-col,#viz-col2,#viz-col3,#viz-col4,#viz-col5,#viz-col6{
+  #viz-col,#viz-col2,#viz-col3,#viz-col35,#viz-col4,#viz-col5,#viz-col6{
     height:34vh !important;
     min-height:180px !important;
   }
   .step{padding:4vh 0 3vh}
-  #text-col,.text-col2,.text-col3,.text-col4,.text-col5,.text-col6{padding:0 1rem !important}
+  #text-col,.text-col2,.text-col3,.text-col35,.text-col4,.text-col5,.text-col6{padding:0 1rem !important}
   footer{padding:1.5rem 1rem}
   #hero h1{font-size:clamp(1.5rem,8vw,2rem)}
   .hero-badges{justify-content:flex-start}
@@ -344,4 +362,11 @@ a:focus-visible{border-radius:2px}
   .navbar{padding:.5rem 1rem}
   .guide-number{font-size:clamp(1.5rem,6vw,2.2rem)}
   .hero h1{font-size:clamp(1.5rem,8vw,2rem)}
+
+  /* tighten section-break text on small screens */
+  .section-break h2{font-size:clamp(1rem,4.5vw,1.4rem)}
+  .section-break p{font-size:.8rem}
+
+  /* skip menu off-screen on tiny devices */
+  #skip-menu{display:none}
 }

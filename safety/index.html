@@ -469,7 +469,7 @@ function drawSafetyDiff(){
     .attr('stroke',C.border).attr('stroke-width',1).attr('stroke-dasharray','4,4')
     .style('opacity',0).transition().duration(400).style('opacity',1);
   lbl(g,cx*0.5,36,'CHATBOT FAILURE',C.orange,10,0);
-  lbl(g,cx*1.5,36,'AGENT FAILURE',C.red,10,0);
+  lbl(g,cx*1.35,36,'AGENT FAILURE',C.red,10,0);
 
   // Left: chatbot bad output
   rectN(g,cx*0.5,h*0.25,202,48,C.dim,'User Input','summarize this',100);
@@ -490,9 +490,9 @@ function drawSafetyDiff(){
     {y:h*0.65, label:'post_public', col:C.red},
   ];
   acts.forEach((a,i)=>{
-    rectN(g,cx*1.5,a.y,130,36,a.col,a.label,null,i*150+200);
+    rectN(g,cx*1.35,a.y,120,36,a.col,a.label,null,i*150+200);
     if(i<acts.length-1){
-      edgeLine(g,cx*1.5,a.y+15,cx*1.5,acts[i+1].y-15,a.col,'arrowRed',null,i*150+450);
+      edgeLine(g,cx*1.35,a.y+15,cx*1.35,acts[i+1].y-15,a.col,'arrowRed',null,i*150+450);
     }
   });
   // Damage badges
@@ -500,12 +500,12 @@ function drawSafetyDiff(){
   damages.forEach((d,i)=>{
     const dg=g.append('g').style('opacity',0);
     dg.transition().delay(i*150+900).duration(400).style('opacity',1);
-    dg.append('rect').attr('x',cx*1.5+58).attr('y',acts[i+1].y-12).attr('width',120).attr('height',24)
+    dg.append('rect').attr('x',cx*1.35+58).attr('y',acts[i+1].y-12).attr('width',110).attr('height',24)
       .attr('rx',4).attr('fill',C.red+'15').attr('stroke',C.red).attr('stroke-width',1);
-    dg.append('text').attr('x',cx*1.5+118).attr('y',acts[i+1].y+4).attr('text-anchor','middle')
+    dg.append('text').attr('x',cx*1.35+113).attr('y',acts[i+1].y+4).attr('text-anchor','middle')
       .attr('fill',C.red).attr('font-size',9.5).attr('font-family','Courier New').text(d);
   });
-  lbl(g,cx*1.5,h-28,'real damage · often irreversible',C.red,10,1400);
+  lbl(g,cx*1.35,h-28,'real damage · often irreversible',C.red,10,1400);
 }
 
 function drawThreatModel(){
@@ -619,14 +619,14 @@ function drawPromptInjection(){
   pkt(g,lx,cy+36,lx,cy+83,C.red,500,1000,5,false);
 
   // Right path: with isolation (defended)
-  const rx=w*0.75;
+  const rx=w*0.70;
   lbl(g,rx,cy-40,'WITH ISOLATION',C.green,10,300);
   hexN(g,rx,cy,50,C.blue,'Agent',null,300);
   edgeLine(g,poisonX+120,poisonY+30,rx-38,cy-22,C.orange,null,'5,4',600);
   // Isolation box
   const isoG=g.append('g').style('opacity',0);
   isoG.transition().delay(800).duration(400).style('opacity',1);
-  isoG.append('rect').attr('x',rx-80).attr('y',cy+45).attr('width',160).attr('height',44)
+  isoG.append('rect').attr('x',rx-75).attr('y',cy+45).attr('width',150).attr('height',44)
     .attr('rx',6).attr('fill',C.green+'12').attr('stroke',C.green).attr('stroke-width',1.5)
     .attr('stroke-dasharray','6,3');
   isoG.append('text').attr('x',rx).attr('y',cy+66).attr('text-anchor','middle')
@@ -707,7 +707,7 @@ function drawLeastPrivilege(){
   });
 
   // Right: scoped access
-  const rx=w*0.75;
+  const rx=w*0.72;
   lbl(g,rx,40,'SCOPED ACCESS',C.green,10,0);
   hexN(g,rx,cy,50,C.green,'Agent\n(support)',null,200);
   // Small blast radius
@@ -849,7 +849,7 @@ function drawMinimalFootprint(){
   lbl(g,lx,h*0.92,'acted boldly → damage done',C.red,10,1200);
 
   // Right path: minimal footprint
-  const rx=w*0.75;
+  const rx=w*0.72;
   lbl(g,rx,taskY+52,'MINIMAL PATH',C.green,10,200);
   const minSteps=[
     {y:h*0.3, label:'draft report',col:C.dim},

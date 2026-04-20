@@ -143,8 +143,8 @@
   <span class="sb-label">10 Agent Patterns</span>
 </div>
 
-<div id="scrolly2" class="scrolly-section" style="display:flex;position:relative;align-items:flex-start">
-  <div class="text-col2" style="width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0">
+<div id="scrolly2" class="scrolly-section">
+  <div class="text-col2">
 
     <!-- STEP 5: Orchestrator-Worker -->
     <div class="step" data-step="5">
@@ -407,8 +407,8 @@
   </div><!-- end text-col2 -->
 
   <!-- VIZ PANEL 2 (sticky) -->
-  <div id="viz-col2" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
-    <div id="viz-wrap2" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem">
+  <div id="viz-col2">
+    <div id="viz-wrap2">
       <svg id="main-svg2" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet" overflow="visible"></svg>
     </div>
   </div>
@@ -422,8 +422,8 @@
   <span class="sb-label">Production Considerations</span>
 </div>
 
-<div id="scrolly3" class="scrolly-section" style="display:flex;position:relative;align-items:flex-start">
-  <div class="text-col3" style="width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0">
+<div id="scrolly3" class="scrolly-section">
+  <div class="text-col3">
 
     <!-- STEP 13: HITL -->
     <div class="step" data-step="13">
@@ -483,8 +483,8 @@
   </div><!-- end text-col3 -->
 
   <!-- VIZ PANEL 3 (sticky) -->
-  <div id="viz-col3" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
-    <div id="viz-wrap3" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem">
+  <div id="viz-col3">
+    <div id="viz-wrap3">
       <svg id="main-svg3" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet" overflow="visible"></svg>
     </div>
   </div>
@@ -499,8 +499,8 @@
   <span class="sb-label">Efficiency & Cost Optimization</span>
 </div>
 
-<div id="scrolly35" class="scrolly-section" style="display:flex;position:relative;align-items:flex-start">
-  <div class="text-col35" style="width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0">
+<div id="scrolly35" class="scrolly-section">
+  <div class="text-col35">
 
     <!-- STEP 19: Token Budgets -->
     <div class="step" data-step="19">
@@ -567,8 +567,8 @@
   </div><!-- end text-col35 -->
 
   <!-- VIZ PANEL (shared, sticky) -->
-  <div id="viz-col35" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
-    <div id="viz-wrap35" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem">
+  <div id="viz-col35">
+    <div id="viz-wrap35">
       <svg id="main-svg35" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet" overflow="visible"></svg>
     </div>
   </div>
@@ -582,7 +582,7 @@
   <span class="sb-label">Going Deeper</span>
 </div>
 
-<div id="scrolly4" style="display:flex;position:relative;align-items:flex-start">
+<div id="scrolly4">
   <div class="text-col4" style="width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0">
 
     <!-- STEP 16: Pattern Decision Guide -->
@@ -625,8 +625,8 @@
   </div><!-- end text-col4 -->
 
   <!-- VIZ PANEL 4 (sticky) -->
-  <div id="viz-col4" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
-    <div id="viz-wrap4" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem">
+  <div id="viz-col4">
+    <div id="viz-wrap4">
       <svg id="main-svg4" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet" overflow="visible"></svg>
     </div>
   </div>
@@ -1552,6 +1552,110 @@ function s18(svg,w,h){
   traceFlow();
 }
 
+// ── SCENE 19: Token Budgets ───────────────────────────────────────────────
+function s19(svg,w,h){
+  const cx=w/2,cy=h/2;
+  lbl(svg,cx,38,'Token Budget Control',C.green,15,0);
+
+  // Budget meter bar
+  const barX=cx-140,barY=cy-120,barW=280,barH=32;
+  svg.append('rect').attr('x',barX).attr('y',barY).attr('width',barW).attr('height',barH)
+    .attr('rx',6).attr('fill',C.bg2).attr('stroke',C.border).attr('stroke-width',1.2);
+  const fill=svg.append('rect').attr('x',barX).attr('y',barY).attr('width',0).attr('height',barH)
+    .attr('rx',6).attr('fill',C.green);
+  fill.transition().delay(300).duration(900).attr('width',barW*0.72);
+  lbl(svg,cx,barY+barH/2+5,'72% of token budget used',C.text,11,400);
+
+  // Three budget levels
+  const levels=[
+    {label:'① Per-call budget',sub:'max context size',color:C.blue,y:cy-30},
+    {label:'② Per-task budget',sub:'50K token cap',color:C.orange,y:cy+50},
+    {label:'③ Per-agent budget',sub:'daily spend limit',color:C.purple,y:cy+130},
+  ];
+  levels.forEach((lv,i)=>{
+    rectN(svg,cx,lv.y,220,36,lv.color,lv.label,lv.sub,500+i*150);
+  });
+
+  // Emergency cutoff
+  rectN(svg,cx,cy+215,160,32,C.red,'CUTOFF',null,900);
+  edgeLine(svg,cx,cy+130+18,cx,cy+215-16,C.red,'arrowRed','4,3',950);
+
+  // Packet loop — tokens being consumed
+  function spend(){
+    const t=pkt(svg,barX+10,barY+barH/2,barX+barW*0.72,barY+barH/2,C.green,800,0,4,false);
+    const id=setTimeout(spend,1200);
+    timers.push(id);
+  }
+  spend();
+}
+
+// ── SCENE 20: Caching ─────────────────────────────────────────────────────
+function s20(svg,w,h){
+  const cx=w/2,cy=h/2;
+  lbl(svg,cx,38,'Caching Layers',C.blue,15,0);
+
+  // Three cache layers stacked
+  const layers=[
+    {label:'Tool Result Cache',sub:'API / search results',color:C.orange,y:cy-130},
+    {label:'LLM Response Cache',sub:'prompt → completion',color:C.blue,y:cy-30},
+    {label:'Knowledge Cache',sub:'embeddings + chunks',color:C.purple,y:cy+70},
+  ];
+  layers.forEach((l,i)=>{
+    rectN(svg,cx-60,l.y,210,38,l.color,l.label,l.sub,150+i*180);
+    // Cache HIT indicator
+    rectN(svg,cx+130,l.y,70,28,C.green,'HIT',null,500+i*180);
+    edgeLine(svg,cx+35,l.y,cx+95,l.y,C.dim,'arrowDim',null,600+i*180);
+  });
+
+  // Incoming request → check cache flow
+  rectN(svg,cx-220,cy-30,90,36,C.dim,'Request',null,100);
+  edgeLine(svg,cx-175,cy-30,cx-165,cy-30,C.dim,'arrowDim',null,200);
+
+  // TTL label
+  lbl(svg,cx+130,cy+150,'TTL: 1h',C.dim,11,1000);
+
+  // Animate cache hit packet
+  function cacheHit(){
+    const layer=layers[Math.floor(Math.random()*layers.length)];
+    pkt(svg,cx-165,layer.y,cx+95,layer.y,C.green,600,0,5,false);
+    const id=setTimeout(cacheHit,900);
+    timers.push(id);
+  }
+  cacheHit();
+}
+
+// ── SCENE 21: Batch Processing ────────────────────────────────────────────
+function s21(svg,w,h){
+  const cx=w/2,cy=h/2;
+  lbl(svg,cx,38,'Batch vs Sequential',C.orange,15,0);
+
+  // Sequential row — 5 individual calls
+  lbl(svg,120,cy-120,'Sequential',C.dim,12,0);
+  [0,1,2,3,4].forEach((i)=>{
+    rectN(svg,80+i*78,cy-85,60,30,C.blue,`T${i+1}`,null,100+i*120);
+    if(i<4) edgeLine(svg,110+i*78,cy-85,118+i*78,cy-85,C.dim,'arrowDim',null,200+i*120);
+  });
+  lbl(svg,cx,cy-50,'5 LLM calls',C.red,11,700);
+
+  // Batch row — 1 big call
+  lbl(svg,120,cy+10,'Batch',C.dim,12,0);
+  rectN(svg,cx,cy+50,320,38,C.green,'T1 + T2 + T3 + T4 + T5',null,800);
+  lbl(svg,cx,cy+90,'1 LLM call · 98% cost reduction',C.green,11,1000);
+
+  // Animate: packets arriving into batch box
+  function batchIn(){
+    [0,1,2,3,4].forEach((i)=>{
+      const t=setTimeout(()=>{
+        pkt(svg,80+i*78,cy-70,cx,cy+50,C.orange,500,0,4,false);
+      },i*200);
+      timers.push(t);
+    });
+    const loop=setTimeout(batchIn,2000);
+    timers.push(loop);
+  }
+  batchIn();
+}
+
 // ── TRANSITION FUNCTIONS ──────────────────────────────────────────────────
 // Map step numbers to scene functions and SVG IDs
 const stepToScene={
@@ -1560,6 +1664,7 @@ const stepToScene={
   9:[s9,'main-svg2'],10:[s10,'main-svg2'],11:[s11,'main-svg2'],12:[s12,'main-svg2'],
   13:[s13,'main-svg3'],14:[s14,'main-svg3'],15:[s15,'main-svg3'],
   16:[s16,'main-svg4'],17:[s17,'main-svg4'],18:[s18,'main-svg4'],
+  19:[s19,'main-svg35'],20:[s20,'main-svg35'],21:[s21,'main-svg35'],
 };
 
 function transitionTo(step){
@@ -1572,7 +1677,7 @@ function transitionTo(step){
   if(!svgEl)return;
 
   // Fade out ALL panels so stale content doesn't bleed across sections
-  const allPanels=['main-svg','main-svg2','main-svg3','main-svg4'];
+  const allPanels=['main-svg','main-svg2','main-svg3','main-svg35','main-svg4'];
   allPanels.forEach(id=>{
     const el=document.getElementById(id);
     if(el) d3.select(el).selectAll('*').transition('out').duration(220).style('opacity',0);

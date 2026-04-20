@@ -835,6 +835,19 @@ footer.site a:hover { color: var(--accent); }
   footer.site > div:last-child { border-bottom: 0; }
   .colophon { grid-template-columns: 1fr; gap: 12px; }
 }
+
+@media (max-width: 480px) {
+  .guide-row { grid-template-columns: 32px 90px 1fr; }
+  .gr-cta { display: none; }
+  .hero { grid-template-columns: 1fr; padding: 24px 16px; }
+  .hero-mark { display: none; }
+  .hero h1 { font-size: 28px; }
+  .hero p { font-size: 14px; }
+  .statusbar { display: none; }
+  .guide-num { font-size: 11px; }
+  .guide-title { font-size: 13px; }
+  .guide-sub { font-size: 11px; }
+}
 </style>
 </head>
 <body>
