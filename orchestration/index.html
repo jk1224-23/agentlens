@@ -1520,6 +1520,7 @@ function transitionTo(step){
     svgSel.attr('viewBox',`${-pad} ${-pad} ${w+pad*2} ${h+pad*2}`)
           .attr('preserveAspectRatio','xMidYMid meet');
     setupDefs(svgSel);
+    setupViewportCulling(svgSel,{margin:40});
     sceneFn(svgSel,w,h);
     finalizeScene(svgSel,{
       padding:window.innerWidth<=768?24:30,

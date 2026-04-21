@@ -67,13 +67,9 @@ function getSize(svgEl){
   return{w:560,h:560};
 }
 
-/** Measure text width for boundary checking */
+/** Measure text width for boundary checking (uses cache to reduce reflows) */
 function measureText(text,fontSize=12,fontFamily='Courier New'){
-  const svg=d3.select('body').append('svg').style('visibility','hidden');
-  const t=svg.append('text').attr('font-size',fontSize).attr('font-family',fontFamily).text(text);
-  const bbox=t.node().getBBox();
-  svg.remove();
-  return bbox.width;
+  return measureTextCached(text,fontSize,fontFamily);
 }
 
 /** Responsive font size: scales between min/max based on viewport */
