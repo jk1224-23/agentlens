@@ -67,8 +67,8 @@
 </div>
 
 <!-- SCROLLYTELLING -->
-<div id="scrolly">
-  <div id="text-col">
+<div id="scrolly" class="scrolly-section" style="display:flex;position:relative;align-items:flex-start">
+  <div id="text-col" style="width:50%;padding:0 3.5rem 0 5rem;flex-shrink:0">
 
     <!-- STEP 0: Agent Loop / ReAct -->
     <div class="step" data-step="0">
@@ -128,8 +128,8 @@
   </div><!-- end text-col for foundations -->
 
   <!-- VIZ PANEL (shared, sticky) -->
-  <div id="viz-col">
-    <div id="viz-wrap">
+  <div id="viz-col" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
+    <div id="viz-wrap" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem;background:var(--viz-bg);overflow:hidden">
       <svg id="main-svg" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet" overflow="visible" width="100%" height="100%"></svg>
     </div>
   </div>
@@ -624,9 +624,9 @@
   </div><!-- end text-col4 -->
 
   <!-- VIZ PANEL 4 (sticky) -->
-  <div id="viz-col4" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
-    <div id="viz-wrap4" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem;background:var(--viz-bg);overflow:hidden">
-      <svg id="main-svg4" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet" overflow="visible" width="100%" height="100%"></svg>
+  <div id="viz-col4">
+    <div id="viz-wrap4">
+      <svg id="main-svg4"></svg>
     </div>
   </div>
 </div><!-- end scrolly4 -->
