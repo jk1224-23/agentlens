@@ -408,7 +408,7 @@
 
   <!-- VIZ PANEL 2 (sticky) -->
   <div id="viz-col2" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
-    <div id="viz-wrap2">
+    <div id="viz-wrap2" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem">
       <svg id="main-svg2" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet" overflow="visible"></svg>
     </div>
   </div>
@@ -484,7 +484,7 @@
 
   <!-- VIZ PANEL 3 (sticky) -->
   <div id="viz-col3" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
-    <div id="viz-wrap3">
+    <div id="viz-wrap3" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem">
       <svg id="main-svg3" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet" overflow="visible"></svg>
     </div>
   </div>
@@ -567,7 +567,7 @@
 
   <!-- VIZ PANEL 3.5 (sticky) -->
   <div id="viz-col35" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
-    <div id="viz-wrap35">
+    <div id="viz-wrap35" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem">
       <svg id="main-svg35" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet" overflow="visible"></svg>
     </div>
   </div>
@@ -625,7 +625,7 @@
 
   <!-- VIZ PANEL 4 (sticky) -->
   <div id="viz-col4" style="width:50%;position:sticky;top:52px;height:calc(100vh - 52px);flex-shrink:0">
-    <div id="viz-wrap4">
+    <div id="viz-wrap4" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem">
       <svg id="main-svg4" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid meet" overflow="visible"></svg>
     </div>
   </div>
@@ -1684,7 +1684,7 @@ function transitionTo(step){
 
   const t=setTimeout(()=>{
     // Clear ALL panels before drawing the new scene
-    const allPanelsClear=['main-svg','main-svg2','main-svg3','main-svg35','main-svg4'];
+    const allPanelsClear=['main-svg','main-svg2','main-svg3','main-svg4'];
     allPanelsClear.forEach(id=>{
       const el=document.getElementById(id);
       if(el) d3.select(el).selectAll('*').remove();
