@@ -14,7 +14,7 @@
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       const scrolled = docHeight > 0 ? scrollTop / docHeight : 0;
-      prog.style.width = (scrolled * 100) + '%';
+      prog.style.transform = `scaleX(${scrolled})`;
     });
   }
 
@@ -40,7 +40,12 @@
   }
 
   // ── SCROLL REVEAL ANIMATIONS ────────────────────────────────────
+  // Only runs on pages without their own scrollytelling observer.
+  // Pages with data-step elements (orchestration-style guides) manage
+  // step visibility via their own IntersectionObserver + CSS .step.active.
   function initScrollReveal() {
+    if (document.querySelector('[data-step]')) return;
+
     const steps = document.querySelectorAll('.step');
     if (steps.length === 0) return;
 
