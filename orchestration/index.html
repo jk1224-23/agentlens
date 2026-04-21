@@ -1684,7 +1684,7 @@ function transitionTo(step){
 
   const t=setTimeout(()=>{
     // Clear ALL panels before drawing the new scene
-    const allPanelsClear=['main-svg','main-svg2','main-svg3','main-svg4'];
+    const allPanelsClear=['main-svg','main-svg2','main-svg3','main-svg35','main-svg4'];
     allPanelsClear.forEach(id=>{
       const el=document.getElementById(id);
       if(el) d3.select(el).selectAll('*').remove();
