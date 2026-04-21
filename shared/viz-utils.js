@@ -201,6 +201,98 @@ function lbl(p,x,y,text,color,size,delay=0){
   return t;
 }
 
+/** Measure the rendered scene against the current SVG viewBox. */
+function collectSceneMetrics(svgSel){
+  const node=svgSel?.node?.();
+  if(!node)return null;
+  let bbox;
+  try{
+    bbox=node.getBBox();
+  }catch{
+    return null;
+  }
+  if(!Number.isFinite(bbox.width)||!Number.isFinite(bbox.height)||bbox.width<=0||bbox.height<=0)return null;
+  const vb=node.viewBox?.baseVal;
+  if(!vb)return null;
+  return{
+    bbox:{x:bbox.x,y:bbox.y,width:bbox.width,height:bbox.height},
+    viewBox:{x:vb.x,y:vb.y,width:vb.width,height:vb.height},
+    occupancyX:bbox.width/vb.width,
+    occupancyY:bbox.height/vb.height,
+    leftGap:bbox.x-vb.x,
+    topGap:bbox.y-vb.y,
+    rightGap:(vb.x+vb.width)-(bbox.x+bbox.width),
+    bottomGap:(vb.y+vb.height)-(bbox.y+bbox.height),
+  };
+}
+
+/** Fit the SVG viewBox to the actually rendered content with guardrails. */
+function fitSceneFrame(svgSel,opts={}){
+  const metrics=collectSceneMetrics(svgSel);
+  if(!metrics)return null;
+  const padding=opts.padding??30;
+  const minWidth=opts.minWidth??460;
+  const minHeight=opts.minHeight??460;
+  const maxWidth=opts.maxWidth??620;
+  const maxHeight=opts.maxHeight??620;
+  const bbox=metrics.bbox;
+  const targetWidth=Math.max(minWidth,Math.min(maxWidth,bbox.width+padding*2));
+  const targetHeight=Math.max(minHeight,Math.min(maxHeight,bbox.height+padding*2));
+  const cx=bbox.x+bbox.width/2;
+  const cy=bbox.y+bbox.height/2;
+  svgSel.attr('viewBox',`${cx-targetWidth/2} ${cy-targetHeight/2} ${targetWidth} ${targetHeight}`);
+  return collectSceneMetrics(svgSel);
+}
+
+function isSceneDebugEnabled(){
+  try{
+    const params=new URLSearchParams(window.location.search);
+    return params.get('scene-debug')==='1';
+  }catch{
+    return false;
+  }
+}
+
+function drawSceneDebugOverlay(svgSel,metrics){
+  if(!metrics)return;
+  svgSel.selectAll('.scene-debug-overlay').remove();
+  const g=svgSel.append('g').attr('class','scene-debug-overlay').style('pointer-events','none');
+  const vb=metrics.viewBox;
+  const bb=metrics.bbox;
+  g.append('rect')
+    .attr('x',vb.x).attr('y',vb.y).attr('width',vb.width).attr('height',vb.height)
+    .attr('fill','none').attr('stroke',C.blue).attr('stroke-width',2).attr('stroke-dasharray','8,4');
+  g.append('rect')
+    .attr('x',bb.x).attr('y',bb.y).attr('width',bb.width).attr('height',bb.height)
+    .attr('fill','none').attr('stroke',C.red).attr('stroke-width',1.5).attr('stroke-dasharray','4,3');
+  const lines=[
+    `content ${Math.round(bb.width)}x${Math.round(bb.height)}`,
+    `viewBox ${Math.round(vb.width)}x${Math.round(vb.height)}`,
+    `gaps L${Math.round(metrics.leftGap)} T${Math.round(metrics.topGap)} R${Math.round(metrics.rightGap)} B${Math.round(metrics.bottomGap)}`
+  ];
+  g.append('rect')
+    .attr('x',vb.x+12).attr('y',vb.y+12).attr('width',210).attr('height',58)
+    .attr('rx',6).attr('fill',C.bg2).attr('stroke',C.border).attr('opacity',0.95);
+  lines.forEach((line,i)=>{
+    g.append('text')
+      .attr('x',vb.x+22).attr('y',vb.y+30+i*15)
+      .attr('fill',i===0?C.red:(i===1?C.blue:C.dim))
+      .attr('font-size',10)
+      .attr('font-family','Courier New')
+      .text(line);
+  });
+}
+
+/** Fit scene framing and expose diagnostics for ad-hoc validation. */
+function finalizeScene(svgSel,opts={}){
+  const metrics=fitSceneFrame(svgSel,opts)||collectSceneMetrics(svgSel);
+  if(metrics){
+    window.__agentlensSceneMetrics=metrics;
+    if(isSceneDebugEnabled())drawSceneDebugOverlay(svgSel,metrics);
+  }
+  return metrics;
+}
+
 /** Animated packet that travels along a line */
 function pkt(p,x1,y1,x2,y2,color,dur,delay,r2=5,repeat=true){
   const c=p.append('circle').attr('cx',x1).attr('cy',y1).attr('r',r2)

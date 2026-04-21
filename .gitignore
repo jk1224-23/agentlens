@@ -59,3 +59,4 @@ PHASE_*_PROGRESS.md
 PHASE_*_COMPLETE.md
 FINAL_SUMMARY.md
 *.bak
+/output
