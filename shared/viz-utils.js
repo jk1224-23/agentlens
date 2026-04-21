@@ -293,6 +293,57 @@ function finalizeScene(svgSel,opts={}){
   return metrics;
 }
 
+/** Text measurement cache: stores dimensions to avoid repeated getBBox() calls */
+const textMeasureCache=new Map();
+function measureTextCached(text,fontSize=12,fontFamily='Courier New'){
+  const key=`${text}|${fontSize}|${fontFamily}`;
+  if(textMeasureCache.has(key))return textMeasureCache.get(key);
+  const svg=d3.select('body').append('svg').style('visibility','hidden');
+  const t=svg.append('text').attr('font-size',fontSize).attr('font-family',fontFamily).text(text);
+  const bbox=t.node().getBBox();
+  svg.remove();
+  const result=bbox.width;
+  textMeasureCache.set(key,result);
+  return result;
+}
+
+/** Performance observer: tracks render frame rate and scene complexity */
+function createPerfObserver(svgSel){
+  let frameCount=0,lastTime=performance.now(),fps=60,elementCount=0;
+  const observer={
+    fps:()=>fps,
+    elements:()=>svgSel.selectAll('*').size(),
+    record:()=>{frameCount++;const now=performance.now();if(now-lastTime>=1000){fps=frameCount;frameCount=0;lastTime=now;}},
+    report:()=>({fps,elementCount:observer.elements()})
+  };
+  return observer;
+}
+
+/** Accessibility helper: adds semantic labeling and focus management */
+function addAriaLabel(sel,label){
+  sel.attr('role','img').attr('aria-label',label).attr('tabindex','0');
+  return sel;
+}
+
+/** Viewport-aware culling: hides elements outside visible frame to reduce DOM pressure */
+function setupViewportCulling(svgSel,opts={}){
+  const margin=opts.margin??50;
+  const updateCull=()=>{
+    const vb=svgSel.node().viewBox.baseVal;
+    svgSel.selectAll('[data-cull]').style('display',sel=>{
+      const bbox=d3.select(sel).node().getBBox?.();
+      if(!bbox)return null;
+      const visible=(bbox.x+bbox.width>=vb.x-margin)&&
+        (bbox.x<=vb.x+vb.width+margin)&&
+        (bbox.y+bbox.height>=vb.y-margin)&&
+        (bbox.y<=vb.y+vb.height+margin);
+      return visible?null:'none';
+    });
+  };
+  window.addEventListener('resize',updateCull);
+  return updateCull;
+}
+
 /** Animated packet that travels along a line */
 function pkt(p,x1,y1,x2,y2,color,dur,delay,r2=5,repeat=true){
   const c=p.append('circle').attr('cx',x1).attr('cy',y1).attr('r',r2)
