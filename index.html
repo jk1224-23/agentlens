@@ -1086,14 +1086,22 @@ const feedEl = document.getElementById('feed-list');
 
 function renderFeed(filter = 'ALL') {
   const items = FEED.filter(f => filter === 'ALL' || f.tag === filter);
-  feedEl.innerHTML = items.map(f => `
-    <div class="feed-item">
+  feedEl.innerHTML = '';
+  items.forEach(f => {
+    const link = document.createElement('a');
+    link.href = f.url;
+    link.target = '_blank';
+    link.className = 'feed-item';
+    link.style.textDecoration = 'none';
+    link.style.color = 'inherit';
+    link.innerHTML = `
       <span class="date">${f.date}</span>
       <span class="tag" data-t="${f.tag}">${f.tag}</span>
       <div class="title">${f.title}<small>${f.body}</small></div>
       <span class="src">${f.src}</span>
-    </div>
-  `).join('');
+    `;
+    feedEl.appendChild(link);
+  });
 }
 
 renderFeed();
