@@ -43,6 +43,7 @@ DEPLOYMENT_MANIFEST.md
 *.docx
 package.json
 validate.js
+COWORK_WEEKLY_UPDATE.md
 
 # SVG validation & fix tools (development only)
 validate-svgs.py
