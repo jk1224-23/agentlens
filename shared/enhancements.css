@@ -296,34 +296,161 @@ html.dark-mode {
 }
 
 /* ── SVG TEXT READABILITY FIX ──────────────────────────────────────────── */
-/* All SVG text gets better contrast via filters and subtle styling */
+/* Universal solution: All SVG text gets better contrast via filters and styling */
+
+/* Base text styling — applies to ALL svg text elements */
 svg text {
   font-weight: 500;
   letter-spacing: 0.3px;
-  /* Drop shadow for contrast against any background */
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6)) 
-          drop-shadow(0 -1px 1px rgba(255, 255, 255, 0.1));
-  paint-order: stroke;
+  /* Multi-layer drop shadow for maximum contrast */
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.8))
+          drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7))
+          drop-shadow(0 -1px 1px rgba(255, 255, 255, 0.15));
+  paint-order: stroke fill;
   stroke-width: 0.3px;
-  stroke-opacity: 0.4;
+  stroke-opacity: 0.5;
+  /* Ensure text renders on top */
+  position: relative;
+  z-index: 10;
 }
 
-/* Make text slightly larger and bolder for better readability */
-#main-svg text, #main-svg2 text, #main-svg3 text, #main-svg35 text,
-#main-svg4 text, #main-svg5 text, #main-svg6 text,
-svg[id^="viz"] text {
-  font-size: 1.05em;
+/* Text inside shape groups gets even stronger styling */
+svg g text {
+  font-weight: 600;
+  font-size: 1.02em;
   letter-spacing: 0.4px;
 }
 
-/* Scene text elements get even better contrast */
-svg text[fill] {
-  text-shadow: 0 0 2px currentColor;
+/* Main SVG elements get proper stacking context */
+#main-svg, #main-svg2, #main-svg3, #main-svg35,
+#main-svg4, #main-svg5, #main-svg6,
+svg[id^="viz"],
+.sticky-viz svg {
+  position: relative;
+  z-index: 1;
 }
 
-/* ── PRINT STYLES ──────────────────────────────────────────────────────── */
-@media print {
-  #prog, #themeToggle, .section-break {
-    display: none;
+/* Text groups get visual separation from shapes */
+svg g:has(> text) {
+  mix-blend-mode: normal;
+  opacity: 1;
+}
+
+/* Floating labels (created by lbl() function) get backgrounds */
+svg text[font-family*="Georgia"],
+svg text[font-family*="serif"] {
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.8))
+          drop-shadow(0 -1px 2px rgba(255, 255, 255, 0.2));
+}
+
+/* Ensure text in dark shapes stays light */
+svg text[fill="#c9d1d9"],
+svg text[fill="#ffffff"],
+svg text[fill*="rgb(255"],
+svg text[fill*="hsl("] {
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
+}
+
+/* Ensure text in light shapes stays dark */
+svg text[fill="#0d1117"],
+svg text[fill="#000000"],
+svg text[fill*="rgb(0"] {
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
+}
+
+/* Make text slightly larger on all visualizations for readability */
+#main-svg text, #main-svg2 text, #main-svg3 text, #main-svg35 text,
+#main-svg4 text, #main-svg5 text, #main-svg6 text,
+svg[id^="viz"] text {
+  font-size: 1.08em;
+}
+
+/* Mobile: ensure text stays readable at smaller sizes */
+@media (max-width: 768px) {
+  svg text {
+    font-size: 1.12em !important;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.9))
+            drop-shadow(0 1px 2px rgba(0, 0, 0, 0.8))
+            drop-shadow(0 -1px 1px rgba(255, 255, 255, 0.2));
   }
 }
+
+/* ── SVG ANIMATIONS ────────────────────────────────────────────────────────── */
+/* Fade-in animation for all SVG groups */
+@keyframes fadeInGroup {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Pulse animation for shapes */
+@keyframes pulse {
+  0%, 100% { filter: drop-shadow(0 0 0 rgba(88,166,255,0)); }
+  50% { filter: drop-shadow(0 0 8px rgba(88,166,255,0.6)); }
+}
+
+/* Glow on hover */
+@keyframes glowHover {
+  from { filter: brightness(1) drop-shadow(0 0 4px rgba(88,166,255,0.3)); }
+  to { filter: brightness(1.1) drop-shadow(0 0 12px rgba(88,166,255,0.6)); }
+}
+
+/* Apply animations to all SVG groups */
+svg g {
+  animation: fadeInGroup 0.6s ease-out both;
+}
+
+/* Stagger animations for nested groups */
+svg g:nth-child(1) { animation-delay: 0.1s; }
+svg g:nth-child(2) { animation-delay: 0.2s; }
+svg g:nth-child(3) { animation-delay: 0.3s; }
+svg g:nth-child(n+4) { animation-delay: 0.4s; }
+
+svg circle:hover,
+svg rect:hover,
+svg path:hover,
+svg polygon:hover {
+  filter: brightness(1.15) drop-shadow(0 0 8px currentColor);
+  transition: filter 0.3s ease;
+  cursor: pointer;
+}
+
+/* Tooltip on hover (use title attribute if present) */
+svg [title] {
+  position: relative;
+}
+
+svg [title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  background: var(--bg2);
+  color: var(--text);
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  border: 1px solid var(--border);
+  white-space: nowrap;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+/* Continuous pulse on key elements */
+svg circle[r="28"],
+svg circle[r="40"],
+svg circle[r="52"] {
+  animation: pulse 3s ease-in-out infinite;
+}
+
+/* Subtle animation for edges/lines */
+svg line,
+svg path[stroke] {
+  animation: fadeInGroup 0.8s ease-out both;
+  stroke-linecap: round;
+}
+
+svg line:nth-of-type(1) { animation-delay: 0.5s; }
+svg line:nth-of-type(2) { animation-delay: 0.6s; }
+svg line:nth-of-type(n+3) { animation-delay: 0.7s; }
