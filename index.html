@@ -1068,18 +1068,18 @@ container.innerHTML = GUIDES.map(g => `
 
 // ---- Feed data ----
 const FEED = [
-  { date: '2026.04.16', tag: 'MODEL', src: 'Anthropic', title: 'Claude Opus 4.7', body: 'Latest Opus with stronger performance on coding, agents, vision, and reasoning.' },
-  { date: '2026.04.16', tag: 'FRAMEWORK', src: 'OpenAI', title: 'OpenAI Agents SDK Update', body: 'Native sandbox execution (E2B, Modal, Vercel, Cloudflare); model-native harness for long-horizon multi-step tasks.' },
-  { date: '2026.04.08', tag: 'PROTOCOL', src: 'MCP', title: 'MCP New Maintainer & Dev Summit', body: 'Clare Liguori joins as core maintainer; NYC summit drew ~1,200 attendees. 2026 roadmap: transport evolution, task retry semantics, enterprise auth.' },
-  { date: '2026.03.30', tag: 'FRAMEWORK', src: 'Anthropic', title: 'Claude Code 30+ Releases', body: 'Opus 4.6 with 1M-token context GA, NO_FLICKER rendering, 60% speed improvements.' },
-  { date: '2026.04.08', tag: 'MODEL', src: 'Anthropic', title: 'Claude Managed Agents', body: 'Public beta cloud service for long-running task-completion agents.' },
-  { date: '2026.04.05', tag: 'MODEL', src: 'Google', title: 'Agentic Vision in Gemini 3', body: 'Image understanding with active investigation — zoom, inspect, analyze.' },
-  { date: '2026.04.02', tag: 'FRAMEWORK', src: 'Google', title: 'Opal Agent Step', body: 'Step-by-step agentic workflows with customizable control.' },
-  { date: '2026.03.18', tag: 'PROTOCOL', src: 'Anthropic', title: 'MCP 2026 Roadmap', body: '1,000+ community-built MCP servers; transport scalability focus.' },
-  { date: '2026.03.11', tag: 'PROTOCOL', src: 'Linux Foundation', title: 'A2A Protocol Adoption', body: 'Open agent-to-agent communication protocol adoption accelerating.' },
-  { date: '2026.02.24', tag: 'FRAMEWORK', src: 'LangChain', title: 'LangGraph MCP Integration', body: 'MCP tools as first-class graph nodes with streaming support.' },
-  { date: '2026.02.10', tag: 'FRAMEWORK', src: 'Apple', title: 'Xcode 26.3 Claude SDK', body: 'Native IDE integration for autonomous Claude coding.' },
-  { date: '2026.01.28', tag: 'INDUSTRY', src: 'Anthropic', title: 'Enterprise AI Partnership', body: 'Anthropic & Infosys collaboration on enterprise AI solutions.' },
+  { date: '2026.04.16', tag: 'MODEL', src: 'Anthropic', title: 'Claude Opus 4.7', body: 'Latest Opus with stronger performance on coding, agents, vision, and reasoning.', url: 'https://platform.claude.com/docs/en/about-claude/models/whats-new-claude-4-7' },
+  { date: '2026.04.16', tag: 'FRAMEWORK', src: 'OpenAI', title: 'OpenAI Agents SDK Update', body: 'Native sandbox execution (E2B, Modal, Vercel, Cloudflare); model-native harness for long-horizon multi-step tasks.', url: 'https://openai.com/index/the-next-evolution-of-the-agents-sdk/' },
+  { date: '2026.04.08', tag: 'PROTOCOL', src: 'MCP', title: 'MCP New Maintainer & Dev Summit', body: 'Clare Liguori joins as core maintainer; NYC summit drew ~1,200 attendees. 2026 roadmap: transport evolution, task retry semantics, enterprise auth.', url: 'https://blog.modelcontextprotocol.io/posts/2026-04-08-maintainer-update/' },
+  { date: '2026.03.30', tag: 'FRAMEWORK', src: 'Anthropic', title: 'Claude Code 30+ Releases', body: 'Opus 4.6 with 1M-token context GA, NO_FLICKER rendering, 60% speed improvements.', url: 'https://support.claude.com/en/articles/12138966-release-notes' },
+  { date: '2026.04.08', tag: 'MODEL', src: 'Anthropic', title: 'Claude Managed Agents', body: 'Public beta cloud service for long-running task-completion agents.', url: 'https://www.anthropic.com/news/claude-managed-agents' },
+  { date: '2026.04.05', tag: 'MODEL', src: 'Google', title: 'Agentic Vision in Gemini 3', body: 'Image understanding with active investigation — zoom, inspect, analyze.', url: 'https://blog.google/technology/ai/gemini-3-agentic-vision/' },
+  { date: '2026.04.02', tag: 'FRAMEWORK', src: 'Google', title: 'Opal Agent Step', body: 'Step-by-step agentic workflows with customizable control.', url: 'https://blog.google/technology/developers/opal/' },
+  { date: '2026.03.18', tag: 'PROTOCOL', src: 'Anthropic', title: 'MCP 2026 Roadmap', body: '1,000+ community-built MCP servers; transport scalability focus.', url: 'https://blog.modelcontextprotocol.io/posts/2026-03-18-roadmap/' },
+  { date: '2026.03.11', tag: 'PROTOCOL', src: 'Linux Foundation', title: 'A2A Protocol Adoption', body: 'Open agent-to-agent communication protocol adoption accelerating.', url: 'https://www.linuxfoundation.org/press/a2a-protocol/' },
+  { date: '2026.02.24', tag: 'FRAMEWORK', src: 'LangChain', title: 'LangGraph MCP Integration', body: 'MCP tools as first-class graph nodes with streaming support.', url: 'https://blog.langchain.dev/langgraph-mcp-integration/' },
+  { date: '2026.02.10', tag: 'FRAMEWORK', src: 'Apple', title: 'Xcode 26.3 Claude SDK', body: 'Native IDE integration for autonomous Claude coding.', url: 'https://developer.apple.com/xcode/whatsnew/' },
+  { date: '2026.01.28', tag: 'INDUSTRY', src: 'Anthropic', title: 'Enterprise AI Partnership', body: 'Anthropic & Infosys collaboration on enterprise AI solutions.', url: 'https://www.anthropic.com/press/infosys-partnership' },
 ];
 
 const feedEl = document.getElementById('feed-list');
