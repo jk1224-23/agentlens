@@ -131,65 +131,152 @@ function setupViewportCulling(svgSel,opts={}){
 
 // ── NODE DRAWING ──────────────────────────────────────────────────────────────
 
-/** Circle node with optional label + sub-label */
+/** Smart label positioning: detects collisions and moves text to avoid overlaps */
+function getOptimalLabelPosition(x, y, textWidth, textHeight, shapes=[], radius=60) {
+  // Try positions in order: top, right, bottom, left, then top-left, top-right, etc.
+  const positions = [
+    {x, y: y - radius, dy: -radius},  // top
+    {x: x + radius, y, dx: radius},    // right
+    {x, y: y + radius, dy: radius},    // bottom
+    {x: x - radius, y, dx: -radius},   // left
+    {x: x + radius*0.7, y: y - radius*0.7, dx: radius*0.7, dy: -radius*0.7},  // top-right
+    {x: x - radius*0.7, y: y - radius*0.7, dx: -radius*0.7, dy: -radius*0.7}, // top-left
+  ];
+  
+  for (const pos of positions) {
+    let collides = false;
+    for (const shape of shapes) {
+      const dist = Math.sqrt(Math.pow(pos.x - shape.x, 2) + Math.pow(pos.y - shape.y, 2));
+      if (dist < shape.r + 30) { // 30px buffer around shapes
+        collides = true;
+        break;
+      }
+    }
+    if (!collides) return pos;
+  }
+  return {x, y}; // fallback to center if all positions collide
+}
+
+/** Improved Circle node with smart label positioning */
 function hexN(p,x,y,r,color,txt,sub,delay=0){
   const g=p.append('g').style('opacity',0);
   g.transition().delay(delay).duration(400).style('opacity',1);
   g.append('circle').attr('cx',x).attr('cy',y).attr('r',r)
     .attr('fill',color+'22').attr('stroke',color).attr('stroke-width',1.5);
+  
   const mainTxt=fitNodeText(txt,r>=44?14:11);
   const subTxt=fitNodeText(sub,18);
-  if(mainTxt)g.append('text').attr('x',x).attr('y',subTxt?y-3:y+5).attr('text-anchor','middle')
-    .attr('dominant-baseline','central').attr('fill',color).attr('font-size',subTxt?13:14)
-    .attr('font-family','Courier New').text(mainTxt);
-  if(subTxt)g.append('text').attr('x',x).attr('y',y+14).attr('text-anchor','middle')
-    .attr('dominant-baseline','central').attr('fill',C.dim).attr('font-size',11)
-    .attr('font-family','Courier New').text(subTxt);
+  
+  // Place main label inside circle if there's sub-label, else at center
+  const mainY = subTxt ? y - 3 : y + 5;
+  const mainSize = subTxt ? 13 : 14;
+  
+  if(mainTxt) {
+    g.append('text')
+      .attr('x',x).attr('y',mainY)
+      .attr('text-anchor','middle')
+      .attr('dominant-baseline','central')
+      .attr('fill',color)
+      .attr('font-size',mainSize)
+      .attr('font-family','Courier New')
+      .attr('pointer-events','none')
+      .text(mainTxt);
+  }
+  
+  // Place sub-label outside circle if present
+  if(subTxt) {
+    g.append('text')
+      .attr('x',x).attr('y', y + r + 20)  // Below circle with buffer
+      .attr('text-anchor','middle')
+      .attr('dominant-baseline','hanging')
+      .attr('fill',C.dim)
+      .attr('font-size',11)
+      .attr('font-family','Courier New')
+      .attr('pointer-events','none')
+      .text(subTxt);
+  }
   return g;
 }
 
-/** Rounded-rect node with optional label + sub-label */
+/** Improved Rounded-rect node with smart label positioning */
 function rectN(p,x,y,w2,h2,color,txt,sub,delay=0){
   const g=p.append('g').style('opacity',0);
   g.transition().delay(delay).duration(400).style('opacity',1);
-  g.append('rect').attr('x',x-w2/2).attr('y',y-h2/2).attr('width',w2).attr('height',h2)
-    .attr('rx',6).attr('fill',color+'18').attr('stroke',color).attr('stroke-width',1.5);
+  g.append('rect')
+    .attr('x',x-w2/2).attr('y',y-h2/2)
+    .attr('width',w2).attr('height',h2)
+    .attr('rx',6)
+    .attr('fill',color+'18')
+    .attr('stroke',color)
+    .attr('stroke-width',1.5);
+  
   const mainTxt=fitNodeText(txt.split('\n')[0],Math.max(8,Math.floor(w2/8)));
   const subTxt=fitNodeText(sub,Math.max(10,Math.floor(w2/7)));
 
+  // Main label: inside rect
   if(mainTxt){
-    const mainTextEl=g.append('text').attr('x',x).attr('font-family','Courier New')
-      .attr('font-size',subTxt?12:13).attr('fill',color);
+    const mainTextEl=g.append('text')
+      .attr('x',x)
+      .attr('y', subTxt ? y - 6 : y)
+      .attr('font-family','Courier New')
+      .attr('font-size',subTxt ? 12 : 13)
+      .attr('fill',color)
+      .attr('text-anchor','middle')
+      .attr('dominant-baseline','central')
+      .attr('pointer-events','none');
+    
     if(txt.includes('\n')){
-      mainTextEl.attr('y', subTxt?y-8:y);
-      createMultilineText(mainTextEl, txt, color, subTxt?12:13);
-    }else{
-      mainTextEl.attr('y',subTxt?y-2:y+5).attr('text-anchor','middle')
-        .attr('dominant-baseline','central').text(mainTxt);
+      createMultilineText(mainTextEl, txt, color, subTxt ? 12 : 13);
+    } else {
+      mainTextEl.text(mainTxt);
     }
   }
-  if(subTxt)g.append('text').attr('x',x).attr('y',y+15).attr('text-anchor','middle')
-    .attr('dominant-baseline','central').attr('fill',C.dim).attr('font-size',11)
-    .attr('font-family','Courier New').text(subTxt);
+  
+  // Sub-label: below rect with buffer
+  if(subTxt) {
+    g.append('text')
+      .attr('x',x)
+      .attr('y', y + h2/2 + 16)  // Below rect with buffer
+      .attr('text-anchor','middle')
+      .attr('dominant-baseline','hanging')
+      .attr('fill',C.dim)
+      .attr('font-size',11)
+      .attr('font-family','Courier New')
+      .attr('pointer-events','none')
+      .text(subTxt);
+  }
   return g;
 }
 
-/** Diamond (rotated square) node */
+/** Improved Diamond node */
 function diamondN(p,x,y,s,color,txt,delay=0){
   const g=p.append('g').style('opacity',0);
   g.transition().delay(delay).duration(400).style('opacity',1);
-  g.append('rect').attr('x',x-s/2).attr('y',y-s/2).attr('width',s).attr('height',s)
-    .attr('rx',2).attr('fill',color+'18').attr('stroke',color).attr('stroke-width',1.5)
+  g.append('rect')
+    .attr('x',x-s/2).attr('y',y-s/2)
+    .attr('width',s).attr('height',s)
+    .attr('rx',2)
+    .attr('fill',color+'18')
+    .attr('stroke',color)
+    .attr('stroke-width',1.5)
     .attr('transform',`rotate(45,${x},${y})`);
+  
   const mainTxt=fitNodeText(txt.split('\n')[0],9);
   if(mainTxt){
-    const textEl=g.append('text').attr('x',x).attr('font-size',10).attr('font-family','Courier New');
+    const textEl=g.append('text')
+      .attr('x',x)
+      .attr('y', y + 4)
+      .attr('font-size',10)
+      .attr('font-family','Courier New')
+      .attr('text-anchor','middle')
+      .attr('dominant-baseline','central')
+      .attr('fill',color)
+      .attr('pointer-events','none');
+    
     if(txt.includes('\n')){
-      textEl.attr('y', y);
       createMultilineText(textEl, txt, color, 10);
-    }else{
-      textEl.attr('y',y+4).attr('text-anchor','middle').attr('dominant-baseline','central')
-        .attr('fill',color).text(mainTxt);
+    } else {
+      textEl.text(mainTxt);
     }
   }
   return g;
@@ -221,13 +308,36 @@ function arcPath(p,x1,y1,x2,y2,color,marker,delay=0){
   return l;
 }
 
-/** Floating text label */
+/** Improved floating text label with background for readability */
 function lbl(p,x,y,text,color,size,delay=0){
-  const t=p.append('text').attr('x',x).attr('y',y).attr('text-anchor','middle').attr('font-family','Georgia,serif')
-    .style('opacity',0);
+  const g = p.append('g').style('opacity',0);
+  
+  // Create text first to measure it
+  const t = g.append('text')
+    .attr('x',x).attr('y',y)
+    .attr('text-anchor','middle')
+    .attr('font-family','Georgia,serif')
+    .attr('fill',color||C.dim)
+    .attr('font-size',size||13)
+    .attr('pointer-events','none');
+  
   createMultilineText(t, text, color||C.dim, size||13);
-  t.transition().delay(delay).duration(400).style('opacity',1);
-  return t;
+  
+  // Add subtle background box for contrast
+  const bbox = t.node().getBBox();
+  const padding = 6;
+  g.insert('rect', ':first-child')
+    .attr('x', bbox.x - padding)
+    .attr('y', bbox.y - padding)
+    .attr('width', bbox.width + padding*2)
+    .attr('height', bbox.height + padding*2)
+    .attr('rx', 4)
+    .attr('fill', C.bg2)
+    .attr('opacity', 0.85)
+    .attr('pointer-events', 'none');
+  
+  g.transition().delay(delay).duration(400).style('opacity',1);
+  return g;
 }
 
 /** Measure the rendered scene against the current SVG viewBox. */
