@@ -1,18 +1,18 @@
-# AgentLens Repository Update - Interactive Workflow
+# Weekly AgentLens Update - CoWork Manual Version
 
-Run this in Claude Code to manually update the agentlens repository.
+Run this interactively in Claude Code to manually update the agentlens repository. Same as the scheduled agent, but you control when it runs and can fix issues in real-time.
 
 ---
 
 ## Mission
-Keep agentlens as the authoritative, fact-checked guide for AI agent orchestration patterns. Focus on accuracy and staying within the scope of what we're building.
+Keep agentlens as the authoritative, fact-checked guide for AI agent orchestration patterns. Focus on staying current with rapid AI developments while maintaining accuracy and staying within the scope of what we're building.
 
 ---
 
-## Research & Fact-Check
+## Phase 1: Research & Fact-Check (30-40 min)
 
 ### Current AI Landscape Review
-- Research major AI developments in frameworks, patterns, and best practices
+- Research major AI developments from the past 7 days (frameworks, patterns, best practices)
 - Focus on: agent orchestration, multi-agent systems, LLM safety, evaluation methods
 - Check if any existing agentlens content needs updating due to:
   - Framework deprecations or breaking changes
@@ -20,7 +20,7 @@ Keep agentlens as the authoritative, fact-checked guide for AI agent orchestrati
   - Inaccurate or outdated technical details
   - Better examples that have emerged
 
-### Scope Boundaries
+### Scope Boundaries (Stay Within These)
 - ✓ Agent orchestration patterns and architectures
 - ✓ Safety, evaluation, monitoring for multi-agent systems
 - ✓ Memory, governance, and advanced orchestration concepts
@@ -32,13 +32,13 @@ Keep agentlens as the authoritative, fact-checked guide for AI agent orchestrati
 - Verify all code examples still work with current framework versions
 - Cross-check pattern names and definitions against industry standards
 - Ensure no contradictions within guides themselves
-- Mark uncertain findings for manual review (don't commit unverified claims)
+- Mark any uncertain findings for manual review (don't commit unverified claims)
 
 ---
 
-## Update Repository
+## Phase 2: Update agentlens Repository (20-30 min)
 
-### Style Compliance
+### Style Compliance - Simple Rule
 
 **Source of Truth:** `guide-template.html`
 
@@ -76,7 +76,7 @@ When updating or creating ANY guide:
 **Current News Section (FEED array):**
 - Keep ONLY latest 10 news/update entries visible in FEED array
 - Each entry MUST have: `{ date, tag, src, title, body, url }`
-- Date format: `YYYY.MM.DD`
+- Date format: `YYYY.MM.DD` (e.g., `2026.04.17`)
 - Tags: MODEL, FRAMEWORK, PROTOCOL, INDUSTRY
 - Example:
   ```javascript
@@ -102,7 +102,7 @@ When updating or creating ANY guide:
 
 ---
 
-## Commit & Push
+## Phase 3: Commit & Push (10 min)
 
 ### Git Commits - CRITICAL: Zero AI Attribution
 
@@ -111,6 +111,7 @@ When updating or creating ANY guide:
 Commits must read as if a human made the changes:
 - Do NOT mention: "Claude", "AI", "automated", "generated", "tool", etc.
 - Language: Direct, action-based, professional
+- All commits represent human work
 
 **Commit Format:**
 ```
@@ -170,25 +171,52 @@ git push origin main
 
 ---
 
+## Advantages of CoWork Version
+
+✅ **Run anytime** — Don't wait for Wednesday  
+✅ **Fix immediately** — If something breaks, you fix it live  
+✅ **See results** — Watch changes happen in real-time  
+✅ **Interactive** — Ask questions, dig deeper into topics  
+✅ **No timeout** — Take as long as you need  
+✅ **Full access** — Can do anything on your local filesystem  
+✅ **Test locally** — See changes before pushing to GitHub  
+
+---
+
 ## Quick Start Checklist
 
-- [ ] Research AI developments and frameworks
+- [ ] Research this week's AI developments
 - [ ] Open guide-template.html (reference)
 - [ ] Open guide you're updating (your work)
 - [ ] Update content (keep structure from template)
 - [ ] Check: 3-question style checklist
 - [ ] Update news feed in index.html (10 max, all with URLs)
+- [ ] Test locally (open in browser if needed)
 - [ ] `git status` to see changes
 - [ ] `git add [files]`
 - [ ] `git commit -m "message"` (zero AI mention)
 - [ ] `git push origin main`
-- [ ] Done!
+- [ ] ✅ Done!
 
 ---
 
 ## Tools & Resources
-- Repository: `c:\Workspace\App\agent\agent-orchestration-guide`
+- Repository: Local copy at `c:\Workspace\App\agent\agent-orchestration-guide`
 - **Style Source:** `guide-template.html` (copy from this, don't memorize)
 - Guide structure: top-level directories = guide categories
 - Homepage: `index.html` - FEED array (max 10 entries, each with url field)
 - Archive: `news-archive.html` - create when news exceeds 10 entries
+
+---
+
+## Difference from Scheduled Agent
+
+| Aspect | Scheduled | CoWork |
+|--------|-----------|--------|
+| When | Every Wed 9am | You decide |
+| Run time | ~1-2 hours max | No limit |
+| Errors | Can't fix live | Fix immediately |
+| Testing | None (goes live) | Test locally first |
+| Token budget | Set limit | 200k context |
+| Cost | Pay per run | Your plan |
+| Convenience | Automatic | Manual |
