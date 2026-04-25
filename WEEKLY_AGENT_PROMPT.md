@@ -68,18 +68,24 @@ When updating or creating ANY guide:
 
 ### Homepage News Management (index.html)
 
-**Current News Section:**
-- Keep ONLY latest 10 news/update entries visible
-- Display format: `[Topic - Date] → [summary]`
-- Example: `[Safety patterns update - 2026-04-17] → New validation framework`
+**Current News Section (FEED array):**
+- Keep ONLY latest 10 news/update entries visible in FEED array
+- Each entry MUST have: `{ date, tag, src, title, body, url }`
+- Date format: `YYYY.MM.DD` (e.g., `2026.04.17`)
+- Tags: MODEL, FRAMEWORK, PROTOCOL, INDUSTRY
+- Example:
+  ```javascript
+  { date: '2026.04.17', tag: 'SAFETY', src: 'Anthropic', title: 'Safety patterns update', body: 'New validation framework...', url: 'https://anthropic.com/...' }
+  ```
+- **CRITICAL:** Every news item MUST include a `url` field linking to the source
 
 **Archive Management (When news > 10):**
 - If total news entries exceed 10, move older entries to separate file
 - Create/update: `news-archive.html`
-- Archive format: Organize entries by month with dates
+- Archive format: Organize entries by month with clickable links
   - Header: `News Archive — AgentLens`
   - Sections: `[2026-04] | [2026-03] | [2026-02]`
-  - Each entry: `[Topic - Date] → [summary]`
+  - Each entry: `[Topic - Date] → [summary]` WITH clickable link to source URL
 - Link from homepage: "View older updates → news-archive.html"
 
 **Update Process:**
