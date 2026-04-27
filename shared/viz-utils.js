@@ -162,7 +162,7 @@ function hexN(p,x,y,r,color,txt,sub,delay=0){
   const g=p.append('g').style('opacity',0);
   g.transition().delay(delay).duration(400).style('opacity',1);
   g.append('circle').attr('cx',x).attr('cy',y).attr('r',r)
-    .attr('fill',color+'22').attr('stroke',color).attr('stroke-width',1.5);
+    .attr('fill',color+'22').attr('stroke',color).attr('stroke-width',1);
   
   const mainTxt=fitNodeText(txt,r>=44?14:11);
   const subTxt=fitNodeText(sub,18);
@@ -208,7 +208,7 @@ function rectN(p,x,y,w2,h2,color,txt,sub,delay=0){
     .attr('rx',6)
     .attr('fill',color+'18')
     .attr('stroke',color)
-    .attr('stroke-width',1.5);
+    .attr('stroke-width',1);
   
   const mainTxt=fitNodeText(txt.split('\n')[0],Math.max(8,Math.floor(w2/8)));
   const subTxt=fitNodeText(sub,Math.max(10,Math.floor(w2/7)));
@@ -258,7 +258,7 @@ function diamondN(p,x,y,s,color,txt,delay=0){
     .attr('rx',2)
     .attr('fill',color+'18')
     .attr('stroke',color)
-    .attr('stroke-width',1.5)
+    .attr('stroke-width',1)
     .attr('transform',`rotate(45,${x},${y})`);
   
   const mainTxt=fitNodeText(txt.split('\n')[0],9);
@@ -286,7 +286,7 @@ function diamondN(p,x,y,s,color,txt,delay=0){
 function edgeLine(p,x1,y1,x2,y2,color,marker,dash,delay=0){
   const l=p.append('line')
     .attr('x1',x1).attr('y1',y1).attr('x2',x2).attr('y2',y2)
-    .attr('stroke',color).attr('stroke-width',1.5)
+    .attr('stroke',color).attr('stroke-width',1)
     .attr('stroke-dasharray',dash||null)
     .attr('marker-end',marker?`url(#${marker})`:null)
     .style('opacity',0);
@@ -301,7 +301,7 @@ function arcPath(p,x1,y1,x2,y2,color,marker,delay=0){
   const cpx=mx-dy/len*32,cpy=my+dx/len*32;
   const l=p.append('path')
     .attr('d',`M${x1},${y1} Q${cpx},${cpy} ${x2},${y2}`)
-    .attr('stroke',color).attr('stroke-width',1.5).attr('fill','none')
+    .attr('stroke',color).attr('stroke-width',1).attr('fill','none')
     .attr('marker-end',marker?`url(#${marker})`:null)
     .style('opacity',0);
   l.transition().delay(delay).duration(300).style('opacity',1);
@@ -400,10 +400,10 @@ function drawSceneDebugOverlay(svgSel,metrics){
   const bb=metrics.bbox;
   g.append('rect')
     .attr('x',vb.x).attr('y',vb.y).attr('width',vb.width).attr('height',vb.height)
-    .attr('fill','none').attr('stroke',C.blue).attr('stroke-width',2).attr('stroke-dasharray','8,4');
+    .attr('fill','none').attr('stroke',C.blue).attr('stroke-width',1.5).attr('stroke-dasharray','8,4');
   g.append('rect')
     .attr('x',bb.x).attr('y',bb.y).attr('width',bb.width).attr('height',bb.height)
-    .attr('fill','none').attr('stroke',C.red).attr('stroke-width',1.5).attr('stroke-dasharray','4,3');
+    .attr('fill','none').attr('stroke',C.red).attr('stroke-width',1).attr('stroke-dasharray','4,3');
   const lines=[
     `content ${Math.round(bb.width)}x${Math.round(bb.height)}`,
     `viewBox ${Math.round(vb.width)}x${Math.round(vb.height)}`,
