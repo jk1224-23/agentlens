@@ -247,7 +247,7 @@
                 svg.selectAll('*').remove();
                 setupDefs(svg);
                 renderScene(svg, 560, 560, {
-                    nodes: [{id: 'core', type: 'circle', x: 0.5, y: 0.5, r: 40, label: 'Reasoning', color: 'blue', delay: 0}],
+                    nodes: [{id: 'core', type: 'circle', x: 0.5, y: 0.5, r: 50, label: 'Reasoning', color: 'blue', delay: 0}],
                     edges: [],
                     labels: [{text: 'Foundations', x: 0.5, y: 0.15, size: 13}]
                 });
@@ -260,9 +260,9 @@
                 setupDefs(svg);
                 renderScene(svg, 560, 560, {
                     nodes: [
-                        {id: 's1', type: 'rect', x: 0.2, y: 0.5, w: 70, h: 28, label: 'Step 1', color: 'blue', delay: 0},
-                        {id: 's2', type: 'rect', x: 0.5, y: 0.5, w: 70, h: 28, label: 'Step 2', color: 'green', delay: 150},
-                        {id: 's3', type: 'rect', x: 0.8, y: 0.5, w: 70, h: 28, label: 'Step 3', color: 'orange', delay: 300}
+                        {id: 's1', type: 'rect', x: 0.2, y: 0.5, w: 100, h: 36, label: 'Step 1', color: 'blue', delay: 0},
+                        {id: 's2', type: 'rect', x: 0.5, y: 0.5, w: 100, h: 36, label: 'Step 2', color: 'green', delay: 150},
+                        {id: 's3', type: 'rect', x: 0.8, y: 0.5, w: 100, h: 36, label: 'Step 3', color: 'orange', delay: 300}
                     ],
                     edges: [
                         {from: 's1', to: 's2', color: 'blue', marker: 'arrowBlue', delay: 450},
@@ -278,9 +278,9 @@
                 setupDefs(svg);
                 renderScene(svg, 560, 560, {
                     nodes: [
-                        {id: 'goal', type: 'diamond', x: 0.5, y: 0.2, s: 35, label: 'Goal', color: 'blue', delay: 0},
-                        {id: 'p1', type: 'rect', x: 0.25, y: 0.6, w: 60, h: 24, label: 'Path 1', color: 'green', delay: 150},
-                        {id: 'p2', type: 'rect', x: 0.75, y: 0.6, w: 60, h: 24, label: 'Path 2', color: 'orange', delay: 200}
+                        {id: 'goal', type: 'diamond', x: 0.5, y: 0.2, s: 50, label: 'Goal', color: 'blue', delay: 0},
+                        {id: 'p1', type: 'rect', x: 0.25, y: 0.6, w: 90, h: 32, label: 'Path 1', color: 'green', delay: 150},
+                        {id: 'p2', type: 'rect', x: 0.75, y: 0.6, w: 90, h: 32, label: 'Path 2', color: 'orange', delay: 200}
                     ],
                     edges: [
                         {from: 'goal', to: 'p1', color: 'green', delay: 350},
@@ -296,8 +296,8 @@
                 setupDefs(svg);
                 renderScene(svg, 560, 560, {
                     nodes: [
-                        {id: 'attempt', type: 'rect', x: 0.3, y: 0.5, w: 70, h: 28, label: 'Attempt', color: 'blue', delay: 0},
-                        {id: 'eval', type: 'rect', x: 0.7, y: 0.5, w: 70, h: 28, label: 'Evaluate', color: 'purple', delay: 150}
+                        {id: 'attempt', type: 'rect', x: 0.3, y: 0.5, w: 100, h: 40, label: 'Attempt', color: 'blue', delay: 0},
+                        {id: 'eval', type: 'rect', x: 0.7, y: 0.5, w: 100, h: 40, label: 'Evaluate', color: 'purple', delay: 150}
                     ],
                     edges: [
                         {from: 'attempt', to: 'eval', color: 'blue', marker: 'arrowBlue', delay: 300},
@@ -314,9 +314,9 @@
                 setupDefs(svg);
                 renderScene(svg, 560, 560, {
                     nodes: [
-                        {id: 'in', type: 'circle', x: 0.2, y: 0.5, r: 30, label: 'Input', color: 'blue', delay: 0},
-                        {id: 'opt', type: 'diamond', x: 0.5, y: 0.5, s: 40, label: 'Optimize', color: 'green', delay: 150},
-                        {id: 'out', type: 'circle', x: 0.8, y: 0.5, r: 30, label: 'Output', color: 'orange', delay: 300}
+                        {id: 'in', type: 'circle', x: 0.2, y: 0.5, r: 50, label: 'Input', color: 'blue', delay: 0},
+                        {id: 'opt', type: 'diamond', x: 0.5, y: 0.5, s: 55, label: 'Optimize', color: 'green', delay: 150},
+                        {id: 'out', type: 'circle', x: 0.8, y: 0.5, r: 50, label: 'Output', color: 'orange', delay: 300}
                     ],
                     edges: [
                         {from: 'in', to: 'opt', color: 'blue', marker: 'arrowBlue', delay: 450},

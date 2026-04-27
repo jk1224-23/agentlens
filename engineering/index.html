@@ -385,7 +385,7 @@ function s1(svg,w,h){
   const cx=w/2,cy=h/2;
   lbl(svg,cx,42,'What is Agent Engineering?',C.text,15,0);
   const llmX=cx+90,llmY=cy;
-  hexN(svg,llmX,llmY,46,C.purple,'LLM','Runtime',100);
+  hexN(svg,llmX,llmY,56,C.purple,'LLM','Runtime',100);
   const pulse=svg.append('circle').attr('cx',llmX).attr('cy',llmY).attr('r',46)
     .attr('fill','none').attr('stroke',C.purple).attr('stroke-width',1).style('opacity',.5);
   function doPulse(){
@@ -401,7 +401,7 @@ function s1(svg,w,h){
   ];
   const cardX=cx-90;
   cards.forEach((c,i)=>{
-    rectN(svg,cardX,c.y,120,38,c.color,c.label,null,i*150+200);
+    rectN(svg,cardX,c.y,140,46,c.color,c.label,null,i*150+200);
     const dx=llmX-cardX,dy=llmY-c.y,len=Math.sqrt(dx*dx+dy*dy);
     const nx=dx/len,ny=dy/len;
     edgeLine(svg,cardX+60*nx,c.y+60*ny,llmX-46*nx,llmY-46*ny,c.color,'arrowBlue',null,i*150+400);
@@ -419,9 +419,9 @@ function s2(svg,w,h){
   lbl(svg,rx,startY-20,'Agent Eng',C.dim,12,100);
   rows.forEach(([left,right],i)=>{
     const y=startY+i*rowH;
-    rectN(svg,lx,y,110,28,C.blue,left,null,i*100+200);
+    rectN(svg,lx,y,130,36,C.blue,left,null,i*100+200);
     lbl(svg,cx,y+5,'→',C.dim,15,i*100+250);
-    rectN(svg,rx,y,110,28,C.orange,right,null,i*100+300);
+    rectN(svg,rx,y,130,36,C.orange,right,null,i*100+300);
     pkt(svg,lx+55,y,rx-55,y,C.yellow,550,i*150+500);
   });
 }
@@ -440,7 +440,7 @@ function s3(svg,w,h){
   const lw=Math.min(w*0.78,360),lh=44,gap=6,startY=cy-120;
   layers.forEach((l,i)=>{
     const y=startY+i*(lh+gap);
-    rectN(svg,cx,y,lw,lh,l.color,l.label,null,i*120+100);
+    rectN(svg,cx,y,lw+20,lh+10,l.color,l.label,null,i*120+100);
     if(i<layers.length-1){
       edgeLine(svg,cx,y+lh/2,cx,y+lh/2+gap,l.color,'arrowBlue',null,i*120+300);
     }
@@ -516,9 +516,9 @@ function s5(svg,w,h){
     lbl(svg,tcx+34,tcy-tH/2+46+i*26,v,C.dim,12,200+i*100);
   });
   const ax=cx+52,rtx=cx+130,tx=cx+195;
-  hexN(svg,ax,cy-55,28,C.blue,'Agent',null,400);
-  rectN(svg,rtx,cy,80,34,C.dim,'Runtime',null,550);
-  hexN(svg,tx,cy+55,28,C.orange,'Tool',null,700);
+  hexN(svg,ax,cy-55,48,C.blue,'Agent',null,400);
+  rectN(svg,rtx,cy,100,42,C.dim,'Runtime',null,550);
+  hexN(svg,tx,cy+55,48,C.orange,'Tool',null,700);
   edgeLine(svg,ax+14,cy-28,rtx-40,cy,C.blue,'arrowBlue',null,800);
   edgeLine(svg,rtx+40,cy,tx-14,cy+28,C.orange,'arrowOrange',null,900);
   edgeLine(svg,tx-14,cy+28,rtx+40,cy,C.green,'arrowGreen',null,1000);
@@ -538,18 +538,18 @@ function s6(svg,w,h){
   lbl(svg,cx,42,'Writing Hooks',C.text,15,0);
   const sp=95;
   const nx=[cx-sp*2,cx-sp,cx,cx+sp,cx+sp*2];
-  hexN(svg,nx[0],cy,28,C.blue,'Agent',null,0);
-  diamondN(svg,nx[1],cy,36,C.yellow,'pre-hook',100);
-  hexN(svg,nx[2],cy,28,C.orange,'Tool',null,200);
-  diamondN(svg,nx[3],cy,36,C.yellow,'post-hook',300);
-  hexN(svg,nx[4],cy,28,C.blue,'Agent',null,400);
+  hexN(svg,nx[0],cy,48,C.blue,'Agent',null,0);
+  diamondN(svg,nx[1],cy,55,C.yellow,'pre-hook',100);
+  hexN(svg,nx[2],cy,48,C.orange,'Tool',null,200);
+  diamondN(svg,nx[3],cy,55,C.yellow,'post-hook',300);
+  hexN(svg,nx[4],cy,48,C.blue,'Agent',null,400);
   edgeLine(svg,nx[0]+28,cy,nx[1]-22,cy,C.yellow,'arrowYellow',null,500);
   edgeLine(svg,nx[1]+22,cy,nx[2]-28,cy,C.yellow,'arrowYellow',null,560);
   edgeLine(svg,nx[2]+28,cy,nx[3]-22,cy,C.yellow,'arrowYellow',null,620);
   edgeLine(svg,nx[3]+22,cy,nx[4]-28,cy,C.yellow,'arrowYellow',null,680);
   const rejX=nx[1],rejY=cy+75;
   edgeLine(svg,nx[1],cy+22,rejX,rejY,C.red,'arrowRed',null,800);
-  rectN(svg,rejX,rejY+18,72,24,C.red,'reject',null,900);
+  rectN(svg,rejX,rejY+18,130,40,C.red,'reject',null,900);
   lbl(svg,nx[1],cy-46,'validate · log · rate-limit',C.dim,12,600);
   lbl(svg,nx[3],cy-46,'sanitize · cost · PII',C.dim,12,700);
   function flowMain(){
@@ -667,7 +667,7 @@ function s9(svg,w,h){
     const rad=n.angle*Math.PI/180;
     n.x=cx+R*Math.cos(rad);
     n.y=cy+R*Math.sin(rad);
-    hexN(svg,n.x,n.y,32,n.color,n.label,null,i*120+100);
+    hexN(svg,n.x,n.y,42,n.color,n.label,null,i*120+100);
   });
   nodes.forEach((n,i)=>{
     const next=nodes[(i+1)%nodes.length];
@@ -700,17 +700,17 @@ function s10(svg,w,h){
     {x:cx+10,color:C.yellow,label:'Canary 10%'},
   ];
   stages.forEach((s,i)=>{
-    rectN(svg,s.x,cy,88,40,s.color,s.label,null,i*140+100);
+    rectN(svg,s.x,cy,110,48,s.color,s.label,null,i*140+100);
     if(i<stages.length-1){
       edgeLine(svg,s.x+44,cy,stages[i+1].x-44,cy,C.dim,'arrowDim',null,i*140+300);
     }
   });
   const gx=cx+110,gy=cy;
-  diamondN(svg,gx,gy,38,C.purple,'eval',400);
+  diamondN(svg,gx,gy,50,C.purple,'eval',400);
   lbl(svg,gx,gy+26,'gate',C.purple,12,450);
   edgeLine(svg,stages[2].x+44,cy,gx-23,cy,C.yellow,'arrowYellow',null,550);
   const prodX=cx+200;
-  rectN(svg,prodX,cy,84,40,C.orange,'Prod 100%',null,600);
+  rectN(svg,prodX,cy,110,48,C.orange,'Prod 100%',null,600);
   edgeLine(svg,gx+23,cy,prodX-42,cy,C.green,'arrowGreen',null,700);
   lbl(svg,cx+155,cy-26,'pass',C.green,12,800);
   edgeLine(svg,gx,gy+23,gx,cy+72,C.red,null,null,900);
@@ -747,9 +747,9 @@ function s11(svg,w,h){
   });
   // panel 0: trace tree
   const tp=panels[0];
-  rectN(svg,tp.x,tp.y-18,58,20,C.blue,'LLM Call',null,300);
-  rectN(svg,tp.x-28,tp.y+18,46,18,C.orange,'search',null,400);
-  rectN(svg,tp.x+28,tp.y+18,46,18,C.orange,'read',null,500);
+  rectN(svg,tp.x,tp.y-18,80,28,C.blue,'LLM Call',null,300);
+  rectN(svg,tp.x-28,tp.y+18,70,26,C.orange,'search',null,400);
+  rectN(svg,tp.x+28,tp.y+18,70,26,C.orange,'read',null,500);
   edgeLine(svg,tp.x,tp.y-8,tp.x-28,tp.y+9,C.border,null,null,500);
   edgeLine(svg,tp.x,tp.y-8,tp.x+28,tp.y+9,C.border,null,null,600);
   // panel 1: bar chart
@@ -805,7 +805,7 @@ function s12(svg,w,h){
     const rad=n.angle*Math.PI/180;
     n.x=cx+R*Math.cos(rad);
     n.y=cy+R*Math.sin(rad);
-    hexN(svg,n.x,n.y,30,n.color,n.label,null,i*120+100);
+    hexN(svg,n.x,n.y,44,n.color,n.label,null,i*120+100);
   });
   nodes.forEach((n,i)=>{
     const next=nodes[(i+1)%nodes.length];
@@ -883,7 +883,7 @@ function s14(svg,w,h){
   rules.forEach((r,i)=>{
     const col=i%cols,row=Math.floor(i/cols);
     const x=startX+col*cw,y=rowY[row];
-    hexN(svg,x,y,28,r.color,r.n,null,i*90+100);
+    hexN(svg,x,y,42,r.color,r.n,null,i*90+100);
     lbl(svg,x,y+44,r.label,r.color,12,i*90+280);
   });
   let pktIdx=0;
@@ -1011,5 +1011,6 @@ function tryHeroAnim() {
 }
 tryHeroAnim();
 </script>
-</body>
+    <script defer src="../shared/enhancements.js"></script>
+  </body>
 </html>

@@ -516,7 +516,7 @@ function drawMemoryMindset(){
     {y:q3y,q:'Semantic search?'},
   ];
   questions.forEach((q,i)=>{
-    diamondN(g,cx,q.y,46,C.orange,q.q,i*200);
+    diamondN(g,cx,q.y,58,C.orange,q.q,i*200);
   });
 
   // "Yes" branches (left) → recommendations
@@ -526,7 +526,7 @@ function drawMemoryMindset(){
     {x:w*0.2,y:q3y+10,col:C.green,label:'Vector Store',sub:'semantic retrieval'},
   ];
   yesItems.forEach((item,i)=>{
-    rectN(g,item.x,item.y,130,46,item.col,item.label,item.sub,i*200+400);
+    rectN(g,item.x,item.y,160,54,item.col,item.label,item.sub,i*200+400);
     edgeLine(g,cx-34,questions[i].y,item.x+44,item.y,item.col,'arrowBlue',null,i*200+600);
     lbl(g,(cx-34+item.x+44)/2,questions[i].y-14,'yes',item.col,10,i*200+700);
   });
@@ -541,7 +541,7 @@ function drawMemoryMindset(){
   const noG=g.append('g').style('opacity',0);
   noG.transition().delay(1000).duration(400).style('opacity',1);
   edgeLine(g,cx,q3y+30,procX,procY-16,C.orange,'arrowOrange',null,1000);
-  rectN(g,procX,procY,195,46,C.orange,'Procedural','system prompt',800);
+  rectN(g,procX,procY,230,54,C.orange,'Procedural','system prompt',800);
   lbl(g,(cx+procX)/2+10,(q3y+30+procY-16)/2,'no',C.orange,10,1100);
 }
 
@@ -711,7 +711,7 @@ function drawVectorRetrieval(){
   ];
   steps.forEach((n,i)=>{
     const rw=n.wide?110:90, rh=38;
-    rectN(g,n.x,cy,rw,rh,n.color,n.label,null,i*180);
+    rectN(g,n.x,cy,rw+20,rh+8,n.color,n.label,null,i*180);
   });
   // Edges
   const gaps=[[steps[0].x+45,steps[1].x-45],[steps[1].x+45,steps[2].x-55],[steps[2].x+55,steps[3].x-45],[steps[3].x+45,steps[4].x-45]];
@@ -762,7 +762,7 @@ function drawGoodRetrievals(){
   ];
   const cy=h*0.42;
   stages.forEach((s,i)=>{
-    hexN(g,s.x,cy,40,s.color,s.label,s.sub,i*200);
+    hexN(g,s.x,cy,50,s.color,s.label,s.sub,i*200);
   });
   // Arrows between stages
   for(let i=0;i<stages.length-1;i++){
@@ -792,16 +792,16 @@ function drawEpisodicMemory(){
   const storeX=w*0.5, storeY=h*0.46;
 
   // Session 1
-  rectN(g,w*0.22,sess1Y,167,50,C.blue,'Session 1','turns 1–12',0);
+  rectN(g,w*0.22,sess1Y,200,58,C.blue,'Session 1','turns 1–12',0);
   // Extract action
   const eG=g.append('g').style('opacity',0);
   eG.transition().delay(300).duration(400).style('opacity',1);
-  rectN(g,w*0.6,sess1Y,181,50,C.orange,'Extract Facts','LLM call',200);
+  rectN(g,w*0.6,sess1Y,220,58,C.orange,'Extract Facts','LLM call',200);
   edgeLine(g,w*0.22+70,sess1Y,w*0.6-55,sess1Y,C.orange,'arrowOrange',null,400);
   pkt(g,w*0.22+70,sess1Y,w*0.6-55,sess1Y,C.orange,500,500,4,false);
 
   // Memory store
-  rectN(g,storeX,storeY,202,54,C.purple,'Episodic Store','embeddings',600);
+  rectN(g,storeX,storeY,240,62,C.purple,'Episodic Store','embeddings',600);
 
   // Memories extracted
   const mems=['prefers bullet points','using macOS 14','works in finance'];
@@ -822,7 +822,7 @@ function drawEpisodicMemory(){
   lbl(g,(storeX+w*0.22)/2,storeY+70,'retrieve relevant memories',C.green,10,1600);
 
   // Session 2
-  rectN(g,w*0.22,sess2Y,209,50,C.green,'Session 2','context injected',1200);
+  rectN(g,w*0.22,sess2Y,250,58,C.green,'Session 2','context injected',1200);
   lbl(g,w*0.22,sess2Y+36,'recalls user prefs ✓',C.dim,9.5,1800);
 }
 
@@ -838,7 +838,7 @@ function drawProceduralMemory(){
     {x:w*0.85,y:h*0.3, color:C.green,  label:'Re-eval',   sub:'scores improve'},
   ];
   steps.forEach((s,i)=>{
-    hexN(g,s.x,s.y,48,s.color,s.label,s.sub,i*200);
+    hexN(g,s.x,s.y,58,s.color,s.label,s.sub,i*200);
   });
   for(let i=0;i<steps.length-1;i++){
     edgeLine(g,steps[i].x+42,steps[i].y,steps[i+1].x-42,steps[i+1].y,C.border,'arrowDim',null,i*200+300);
@@ -896,9 +896,9 @@ function drawSharedMemory(){
   });
 
   // Agent A
-  hexN(g,agentAX,agentAY,50,C.blue,'Agent A','orchestrator',200);
+  hexN(g,agentAX,agentAY,60,C.blue,'Agent A','orchestrator',200);
   // Agent B
-  hexN(g,agentBX,agentBY,50,C.green,'Agent B','subagent',200);
+  hexN(g,agentBX,agentBY,60,C.green,'Agent B','subagent',200);
 
   // Read/write edges
   edgeLine(g,agentAX+40,agentAY+20,boardX-82,boardY-30,C.blue,'arrowBlue',null,600);
@@ -977,18 +977,18 @@ function drawMemoryStack(){
   const {w,h}=getSize(svg.node()); const g=svg.append('g');
   // Decision flowchart
   const startX=w*0.5, startY=h*0.1;
-  diamondN(g,startX,startY,50,C.blue,'Fits in\nwindow?',0);
+  diamondN(g,startX,startY,60,C.blue,'Fits in\nwindow?',0);
   // Yes → in-context
-  rectN(g,w*0.8,startY,139,48,C.blue,'In-Context','done!',300);
+  rectN(g,w*0.8,startY,170,56,C.blue,'In-Context','done!',300);
   edgeLine(g,startX+36,startY,w*0.8-45,startY,C.blue,'arrowBlue',null,400);
   lbl(g,(startX+36+w*0.8-45)/2,startY-12,'yes',C.blue,10,500);
   // No → next diamond
   const d2y=startY+120;
   edgeLine(g,startX,startY+36,startX,d2y-36,C.dim,'arrowDim','4,3',500);
   lbl(g,startX+15,(startY+36+d2y-36)/2,'no',C.dim,10,600);
-  diamondN(g,startX,d2y,50,C.purple,'Cross\nsession?',300);
+  diamondN(g,startX,d2y,60,C.purple,'Cross\nsession?',300);
   // No → optimize in-context
-  rectN(g,w*0.8,d2y,160,48,C.dim,'Optimize\nwindow','eviction rules',600);
+  rectN(g,w*0.8,d2y,190,56,C.dim,'Optimize\nwindow','eviction rules',600);
   edgeLine(g,startX+36,d2y,w*0.8-45,d2y,C.dim,'arrowDim',null,700);
   lbl(g,(startX+36+w*0.8-45)/2,d2y-12,'no',C.dim,10,750);
   // Yes → next diamond
@@ -996,16 +996,16 @@ function drawMemoryStack(){
   edgeLine(g,startX,d2y+36,startX,d3y-36,C.dim,'arrowDim','4,3',700);
   lbl(g,startX+15,(d2y+36+d3y-36)/2,'no →',C.dim,10,800);
   lbl(g,startX-60,(d2y+36+d3y-36)/2,'yes ↓',C.purple,10,800);
-  diamondN(g,startX,d3y,50,C.green,'Semantic\nsearch?',600);
+  diamondN(g,startX,d3y,60,C.green,'Semantic\nsearch?',600);
   // No → episodic
-  rectN(g,w*0.8,d3y,160,48,C.purple,'Episodic','user prefs',900);
+  rectN(g,w*0.8,d3y,190,56,C.purple,'Episodic','user prefs',900);
   edgeLine(g,startX+36,d3y,w*0.8-45,d3y,C.purple,'arrowPurple',null,1000);
   lbl(g,(startX+36+w*0.8-45)/2,d3y-12,'no',C.purple,10,1050);
   // Yes → vector store
   const vecY=d3y+100;
   edgeLine(g,startX,d3y+36,startX,vecY-18,C.green,'arrowGreen',null,1100);
   lbl(g,startX-15,(d3y+36+vecY-18)/2,'yes',C.green,10,1150);
-  rectN(g,startX,vecY,216,48,C.green,'Vector Store','semantic index',1200);
+  rectN(g,startX,vecY,260,56,C.green,'Vector Store','semantic index',1200);
 }
 
 function drawPrivacyMemory(){
@@ -1013,7 +1013,7 @@ function drawPrivacyMemory(){
   const {w,h}=getSize(svg.node()); const g=svg.append('g');
   const panelX=w*0.5, panelY=h*0.12;
   // Dashboard panel
-  rectN(g,panelX,panelY,w*0.85,h*0.55,C.orange,'Your Memory Dashboard',null,0);
+  rectN(g,panelX,panelY,w*0.85,h*0.60,C.orange,'Your Memory Dashboard',null,0);
   lbl(g,panelX,panelY-h*0.14,'User-facing memory control',C.dim,11,100);
 
   const entries=[

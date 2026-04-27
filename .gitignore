@@ -44,6 +44,7 @@ DEPLOYMENT_MANIFEST.md
 package.json
 validate.js
 COWORK_WEEKLY_UPDATE.md
+DAILY_ARCH_ROUTINE_CONFIG.md
 
 # SVG validation & fix tools (development only)
 validate-svgs.py

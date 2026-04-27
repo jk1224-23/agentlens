@@ -244,7 +244,7 @@
                 svg.selectAll('*').remove();
                 setupDefs(svg);
                 renderScene(svg, 560, 560, {
-                    nodes: [{id: 'req', type: 'rect', x: 0.5, y: 0.5, w: 100, h: 40, label: 'Requirements', color: 'orange', delay: 0}],
+                    nodes: [{id: 'req', type: 'rect', x: 0.5, y: 0.5, w: 140, h: 50, label: 'Requirements', color: 'orange', delay: 0}],
                     edges: [],
                     labels: [{text: 'Phase 1: Plan', x: 0.5, y: 0.15, size: 13}]
                 });
@@ -257,9 +257,9 @@
                 setupDefs(svg);
                 renderScene(svg, 560, 560, {
                     nodes: [
-                        {id: 'sense', type: 'rect', x: 0.25, y: 0.5, w: 70, h: 28, label: 'Sense', color: 'orange', delay: 0},
-                        {id: 'decide', type: 'rect', x: 0.5, y: 0.5, w: 70, h: 28, label: 'Decide', color: 'blue', delay: 150},
-                        {id: 'act', type: 'rect', x: 0.75, y: 0.5, w: 70, h: 28, label: 'Act', color: 'green', delay: 300}
+                        {id: 'sense', type: 'rect', x: 0.25, y: 0.5, w: 100, h: 36, label: 'Sense', color: 'orange', delay: 0},
+                        {id: 'decide', type: 'rect', x: 0.5, y: 0.5, w: 100, h: 36, label: 'Decide', color: 'blue', delay: 150},
+                        {id: 'act', type: 'rect', x: 0.75, y: 0.5, w: 100, h: 36, label: 'Act', color: 'green', delay: 300}
                     ],
                     edges: [
                         {from: 'sense', to: 'decide', color: 'blue', marker: 'arrowBlue', delay: 450},
@@ -275,9 +275,9 @@
                 setupDefs(svg);
                 renderScene(svg, 560, 560, {
                     nodes: [
-                        {id: 'shadow', type: 'rect', x: 0.15, y: 0.5, w: 65, h: 26, label: 'Shadow', color: 'blue', delay: 0},
-                        {id: 'canary', type: 'rect', x: 0.42, y: 0.5, w: 65, h: 26, label: 'Canary', color: 'orange', delay: 150},
-                        {id: 'full', type: 'rect', x: 0.69, y: 0.5, w: 65, h: 26, label: 'Full', color: 'green', delay: 300}
+                        {id: 'shadow', type: 'rect', x: 0.15, y: 0.5, w: 95, h: 34, label: 'Shadow', color: 'blue', delay: 0},
+                        {id: 'canary', type: 'rect', x: 0.42, y: 0.5, w: 95, h: 34, label: 'Canary', color: 'orange', delay: 150},
+                        {id: 'full', type: 'rect', x: 0.69, y: 0.5, w: 95, h: 34, label: 'Full', color: 'green', delay: 300}
                     ],
                     edges: [
                         {from: 'shadow', to: 'canary', color: 'orange', marker: 'arrowOrange', delay: 450},
@@ -294,9 +294,9 @@
                 setupDefs(svg);
                 renderScene(svg, 560, 560, {
                     nodes: [
-                        {id: 'healthy', type: 'circle', x: 0.25, y: 0.5, r: 35, label: 'Healthy', color: 'green', delay: 0},
-                        {id: 'degrade', type: 'circle', x: 0.5, y: 0.5, r: 35, label: 'Degraded', color: 'orange', delay: 150},
-                        {id: 'failed', type: 'circle', x: 0.75, y: 0.5, r: 35, label: 'Failed', color: 'red', delay: 300}
+                        {id: 'healthy', type: 'circle', x: 0.25, y: 0.5, r: 45, label: 'Healthy', color: 'green', delay: 0},
+                        {id: 'degrade', type: 'circle', x: 0.5, y: 0.5, r: 45, label: 'Degraded', color: 'orange', delay: 150},
+                        {id: 'failed', type: 'circle', x: 0.75, y: 0.5, r: 45, label: 'Failed', color: 'red', delay: 300}
                     ],
                     edges: [],
                     labels: [{text: 'SLO States', x: 0.5, y: 0.15, size: 12}]
@@ -310,8 +310,8 @@
                 setupDefs(svg);
                 renderScene(svg, 560, 560, {
                     nodes: [
-                        {id: 'measure', type: 'diamond', x: 0.25, y: 0.5, s: 40, label: 'Measure', color: 'blue', delay: 0},
-                        {id: 'improve', type: 'diamond', x: 0.75, y: 0.5, s: 40, label: 'Improve', color: 'green', delay: 150}
+                        {id: 'measure', type: 'diamond', x: 0.25, y: 0.5, s: 55, label: 'Measure', color: 'blue', delay: 0},
+                        {id: 'improve', type: 'diamond', x: 0.75, y: 0.5, s: 55, label: 'Improve', color: 'green', delay: 150}
                     ],
                     edges: [
                         {from: 'measure', to: 'improve', color: 'green', marker: 'arrowGreen', delay: 300},
