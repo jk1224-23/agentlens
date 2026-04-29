@@ -332,6 +332,7 @@
 
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script defer src="../shared/viz-utils.js"></script>
+<script defer src="../shared/svg-autofit.js"></script>
 <script>
 const sceneNames=[
   'Why Now','What is Agent Engineering?','The Engineering Mindset',
@@ -354,10 +355,11 @@ function s0(svg,w,h){
     .attr('fill',C.green+'20').attr('stroke',C.green).attr('stroke-width',1.5).style('opacity',0);
   rc.transition().delay(100).duration(300).style('opacity',1)
     .transition().duration(900).attr('cx',cx+r*0.55);
-  lbl(svg,cx-r*0.55,cy-10,'Product',C.blue,12,1100);
-  lbl(svg,cx-r*0.55,cy+8,'Eng',C.blue,12,1100);
-  lbl(svg,cx+r*0.55,cy-10,'Data',C.green,12,1100);
-  lbl(svg,cx+r*0.55,cy+8,'Science',C.green,12,1100);
+  // Mark Venn diagram labels as non-autofit (positioned for layout, not shape fit)
+  lbl(svg,cx-r*0.55,cy-10,'Product',C.blue,12,1100,true);
+  lbl(svg,cx-r*0.55,cy+8,'Eng',C.blue,12,1100,true);
+  lbl(svg,cx+r*0.55,cy-10,'Data',C.green,12,1100,true);
+  lbl(svg,cx+r*0.55,cy+8,'Science',C.green,12,1100,true);
   const centerLabelSize=responsiveFontSize(11,10,12);
   const ot=svg.append('text').attr('x',cx).attr('y',cy-7).attr('text-anchor','middle')
     .attr('fill',C.purple).attr('font-size',centerLabelSize).attr('font-family','Courier New').attr('font-weight','bold')

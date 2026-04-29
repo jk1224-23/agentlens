@@ -158,31 +158,32 @@ function getOptimalLabelPosition(x, y, textWidth, textHeight, shapes=[], radius=
 }
 
 /** Improved Circle node with smart label positioning */
-function hexN(p,x,y,r,color,txt,sub,delay=0){
+function hexN(p,x,y,r,color,txt,sub,delay=0,noAutofit=true){
   const g=p.append('g').style('opacity',0);
   g.transition().delay(delay).duration(400).style('opacity',1);
   g.append('circle').attr('cx',x).attr('cy',y).attr('r',r)
     .attr('fill',color+'22').attr('stroke',color).attr('stroke-width',1);
-  
+
   const mainTxt=fitNodeText(txt,r>=44?14:11);
   const subTxt=fitNodeText(sub,18);
-  
+
   // Place main label inside circle if there's sub-label, else at center
   const mainY = subTxt ? y - 3 : y + 5;
   const mainSize = subTxt ? 13 : 14;
-  
+
   if(mainTxt) {
-    g.append('text')
+    const mainTextEl=g.append('text')
       .attr('x',x).attr('y',mainY)
       .attr('text-anchor','middle')
       .attr('dominant-baseline','central')
       .attr('fill',color)
       .attr('font-size',mainSize)
       .attr('font-family','Courier New')
-      .attr('pointer-events','none')
-      .text(mainTxt);
+      .attr('pointer-events','none');
+    if(noAutofit) mainTextEl.attr('data-autofit','off');
+    mainTextEl.text(mainTxt);
   }
-  
+
   // Place sub-label outside circle if present
   if(subTxt) {
     g.append('text')
@@ -199,7 +200,7 @@ function hexN(p,x,y,r,color,txt,sub,delay=0){
 }
 
 /** Improved Rounded-rect node with smart label positioning */
-function rectN(p,x,y,w2,h2,color,txt,sub,delay=0){
+function rectN(p,x,y,w2,h2,color,txt,sub,delay=0,noAutofit=false){
   const g=p.append('g').style('opacity',0);
   g.transition().delay(delay).duration(400).style('opacity',1);
   g.append('rect')
@@ -209,7 +210,7 @@ function rectN(p,x,y,w2,h2,color,txt,sub,delay=0){
     .attr('fill',color+'18')
     .attr('stroke',color)
     .attr('stroke-width',1);
-  
+
   const mainTxt=fitNodeText(txt.split('\n')[0],Math.max(8,Math.floor(w2/8)));
   const subTxt=fitNodeText(sub,Math.max(10,Math.floor(w2/7)));
 
@@ -224,14 +225,15 @@ function rectN(p,x,y,w2,h2,color,txt,sub,delay=0){
       .attr('text-anchor','middle')
       .attr('dominant-baseline','central')
       .attr('pointer-events','none');
-    
+
+    if(noAutofit) mainTextEl.attr('data-autofit','off');
     if(txt.includes('\n')){
       createMultilineText(mainTextEl, txt, color, subTxt ? 12 : 13);
     } else {
       mainTextEl.text(mainTxt);
     }
   }
-  
+
   // Sub-label: below rect with buffer
   if(subTxt) {
     g.append('text')
@@ -309,9 +311,9 @@ function arcPath(p,x1,y1,x2,y2,color,marker,delay=0){
 }
 
 /** Improved floating text label with background for readability */
-function lbl(p,x,y,text,color,size,delay=0){
+function lbl(p,x,y,text,color,size,delay=0,noAutofit=false){
   const g = p.append('g').style('opacity',0);
-  
+
   // Create text first to measure it
   const t = g.append('text')
     .attr('x',x).attr('y',y)
@@ -320,9 +322,10 @@ function lbl(p,x,y,text,color,size,delay=0){
     .attr('fill',color||C.dim)
     .attr('font-size',size||13)
     .attr('pointer-events','none');
-  
+
+  if(noAutofit) t.attr('data-autofit','off');
   createMultilineText(t, text, color||C.dim, size||13);
-  
+
   // Add subtle background box for contrast
   const bbox = t.node().getBBox();
   const padding = 6;
@@ -335,7 +338,7 @@ function lbl(p,x,y,text,color,size,delay=0){
     .attr('fill', C.bg2)
     .attr('opacity', 0.85)
     .attr('pointer-events', 'none');
-  
+
   g.transition().delay(delay).duration(400).style('opacity',1);
   return g;
 }

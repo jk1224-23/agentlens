@@ -1,0 +1,43 @@
+name: SVG Autofit Lint
+
+on:
+  pull_request:
+    paths:
+      - '**.html'
+      - 'shared/viz-utils.js'
+      - 'shared/svg-autofit.js'
+      - 'scripts/lint-svg.js'
+      - 'package.json'
+      - '.github/workflows/lint-svg.yml'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Start HTTP server
+        run: |
+          python3 -m http.server 8000 > /tmp/server.log 2>&1 &
+          echo $! > /tmp/server.pid
+          sleep 2
+
+      - name: Lint SVG autofit
+        run: npm run lint:svg
+
+      - name: Stop HTTP server
+        if: always()
+        run: |
+          if [ -f /tmp/server.pid ]; then
+            kill $(cat /tmp/server.pid) 2>/dev/null || true
+          fi
