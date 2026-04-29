@@ -1,4 +1,4 @@
-/* ▭▭ agentlens svg-autofit ▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭
+/* ── agentlens svg-autofit ──────────────────────────────────────────────────
    Drop-in: <script defer src="../shared/svg-autofit.js"></script>
    Loaded AFTER viz-utils.js. Watches every <svg> and fits each <text> to the
    shape it sits inside via wrap + font-shrink. When a single shape contains
@@ -6,7 +6,7 @@
    they don't collide. Free-floating overlapping labels get nudged apart.
    Zero D3 changes required. New SVGs auto-fit via MutationObserver.
    Mark a text with data-autofit="off" to skip.
-   ▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭ */
+   ────────────────────────────────────────────────────────────────────────── */
 (function () {
   'use strict';
 
@@ -17,7 +17,7 @@
   const DEBOUNCE_MS = 60;
   const SVGNS = 'http://www.w3.org/2000/svg';
 
-  // ▭▭ in-context measurement (matches font/CSS resolution exactly) ▭▭▭▭▭
+  // ── in-context measurement (matches font/CSS resolution exactly) ───────
   function measureWidth(str, fs, refTextEl) {
     if (!str) return 0;
     const ts = document.createElementNS(SVGNS, 'tspan');
@@ -34,7 +34,7 @@
     try { return el.getBBox(); } catch (_) { return { x:0,y:0,width:0,height:0 }; }
   }
 
-  // ▭▭ shape-aware usable box (diamonds & ellipses are narrower at edges) ▭
+  // ── shape-aware usable box (diamonds & ellipses are narrower at edges) ─
   function getFitBox(shape) {
     const bb = safeBBox(shape);
     const tag = shape.nodeName;
@@ -51,7 +51,7 @@
     return bb;   // rect / path: use full bbox
   }
 
-  // ▭▭ greedy wrap into <tspan> lines, vertically centered ▭▭▭▭▭▭▭▭▭▭▭▭▭▭
+  // ── greedy wrap into <tspan> lines, vertically centered ────────────────
   function wrap(textEl, raw, maxW, fs) {
     const paragraphs = raw.split('\n');
     const lines = [];
@@ -83,7 +83,7 @@
     return lines.length;
   }
 
-  // ▭▭ count wrapped lines + widest single word at a candidate font size ▭▭
+  // ── count wrapped lines + widest single word at a candidate font size ──
   function countLines(raw, maxW, fs, refTextEl) {
     const paragraphs = raw.split('\n');
     let lines = 0, widest = 0;
@@ -103,7 +103,7 @@
     return { lines: Math.max(1, lines), widest };
   }
 
-  // ▭▭ fit one <text> into one box (bbox-shaped allotment) ▭▭▭▭▭▭▭▭▭▭▭▭▭▭
+  // ── fit one <text> into one box (bbox-shaped allotment) ────────────────
   function fitTextToBox(textEl, bb) {
     const maxW = Math.max(0, bb.width  - PAD * 2);
     const maxH = Math.max(0, bb.height - PAD * 2);
@@ -150,7 +150,7 @@
     textEl.dataset.autofitFitted = '1';
   }
 
-  // ▭▭ pair a <text> with the shape it sits inside ▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭
+  // ── pair a <text> with the shape it sits inside ────────────────────────
   function findShapeForText(textEl) {
     const explicit = textEl.getAttribute('data-fit-to');
     if (explicit) {
@@ -176,7 +176,7 @@
     return best;
   }
 
-  // ▭▭ push overlapping free-floating labels apart vertically ▭▭▭▭▭▭▭▭▭▭▭
+  // ── push overlapping free-floating labels apart vertically ─────────────
   function overlap(a, b) {
     return !(a.x + a.width < b.x || b.x + b.width < a.x ||
              a.y + a.height < b.y || b.y + b.height < a.y);
@@ -208,7 +208,7 @@
     }
   }
 
-  // ▭▭ process one SVG ▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭
+  // ── process one SVG ────────────────────────────────────────────────────
   function autofitSvg(svg) {
     if (!svg || svg.dataset.autofitDisabled === 'true') return;
 
@@ -219,8 +219,6 @@
       if (t.getAttribute('data-autofit') === 'off') return;
       const shape = findShapeForText(t);
       if (!shape) return;
-      // Skip texts inside circles (hexagons/nodes) — they're positioned explicitly
-      if (shape.nodeName === 'circle') return;
       if (!shapeMap.has(shape)) shapeMap.set(shape, []);
       shapeMap.get(shape).push(t);
     });
@@ -229,14 +227,44 @@
       const bb = getFitBox(shape);
       if (texts.length === 1) { fitTextToBox(texts[0], bb); continue; }
 
-      // sort by current y, partition the box into N horizontal slices
+      // sort by current y so the topmost label is treated as the title
       texts.sort((a, b) => (parseFloat(a.getAttribute('y')) || 0) -
                             (parseFloat(b.getAttribute('y')) || 0));
+
+      // not enough room for N labels at MIN_FONT? hide all but the first.
+      // each label needs at least MIN_FONT * 1.1 vertical px + padding.
+      const needed = texts.length * MIN_FONT * 1.1 + PAD * 2;
+      if (bb.height < needed || bb.width < MIN_FONT * 4) {
+        texts.forEach((t, i) => {
+          if (i === 0) {
+            t.setAttribute('y', bb.y + bb.height / 2);
+            delete t.dataset.autofitSig;
+            fitTextToBox(t, bb);
+          } else {
+            // remember original visibility once, so resize back can restore it
+            if (t.dataset.autofitOrigVis === undefined) {
+              t.dataset.autofitOrigVis = t.getAttribute('visibility') || '';
+            }
+            t.setAttribute('visibility', 'hidden');
+            t.dataset.autofitFitted = '1';   // exclude from collision pass
+          }
+        });
+        continue;
+      }
+
+      // restore any previously-hidden secondary labels (resize back up)
+      texts.forEach(t => {
+        if (t.dataset.autofitOrigVis !== undefined) {
+          if (t.dataset.autofitOrigVis) t.setAttribute('visibility', t.dataset.autofitOrigVis);
+          else t.removeAttribute('visibility');
+        }
+      });
+
+      // partition vertically among texts
       const sliceH = bb.height / texts.length;
       texts.forEach((t, i) => {
         const slice = { x: bb.x, y: bb.y + i * sliceH,
                          width: bb.width, height: sliceH };
-        // re-anchor text to slice center; clear sig so re-fit runs
         t.setAttribute('y', slice.y + sliceH / 2);
         delete t.dataset.autofitSig;
         fitTextToBox(t, slice);
@@ -246,7 +274,7 @@
     resolveCollisions(svg);
   }
 
-  // ▭▭ debounced observer ▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭
+  // ── debounced observer ─────────────────────────────────────────────────
   const pending = new WeakMap();
   function schedule(svg) {
     if (pending.has(svg)) return;
