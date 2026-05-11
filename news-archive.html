@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<title>News Archive — agentlens</title>
+<meta name="description" content="Archived updates and industry news for AI agents, orchestration, and multi-agent systems.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #0d0c0a;
+  --bg-2: #141310;
+  --ink: #ece6d8;
+  --ink-2: #a39d8e;
+  --ink-3: #6b6556;
+  --rule: #2a2721;
+  --rule-soft: rgba(236, 230, 216, 0.2);
+  --hair: rgba(236, 230, 216, 0.08);
+  --accent: oklch(0.75 0.17 145);
+  --accent-soft: oklch(0.75 0.17 145 / 0.14);
+  --mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+  --serif: 'Instrument Serif', 'Times New Roman', serif;
+  --sans: 'IBM Plex Sans', system-ui, sans-serif;
+  --gutter: clamp(16px, 2vw, 28px);
+}
+
+html[data-theme="paper"] {
+  --bg: #f3efe6;
+  --bg-2: #ebe6db;
+  --ink: #12110f;
+  --ink-2: #3a362e;
+  --ink-3: #6e6658;
+  --rule: #1a1714;
+  --rule-soft: rgba(18, 17, 15, 0.18);
+  --hair: rgba(18, 17, 15, 0.08);
+  --accent: oklch(0.62 0.18 55);
+  --accent-soft: oklch(0.62 0.18 55 / 0.12);
+}
+
+html[data-theme="terminal"] {
+  --bg: #0b100d;
+  --bg-2: #101613;
+  --ink: #d4f1dd;
+  --ink-2: #8fb79b;
+  --ink-3: #5a7a64;
+  --rule: #2a3b31;
+  --rule-soft: rgba(212, 241, 221, 0.18);
+  --hair: rgba(212, 241, 221, 0.08);
+  --accent: oklch(0.82 0.18 145);
+  --accent-soft: oklch(0.82 0.18 145 / 0.14);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+body {
+  font-family: var(--mono);
+  font-size: 13.5px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--gutter);
+}
+
+header {
+  margin-bottom: 3rem;
+  border-bottom: 1px solid var(--hair);
+  padding-bottom: 2rem;
+}
+
+header h1 {
+  font-family: var(--serif);
+  font-size: 2rem;
+  margin: 0 0 0.5rem 0;
+  font-weight: normal;
+}
+
+header .subtitle {
+  color: var(--ink-2);
+  font-size: 14px;
+  margin: 0;
+}
+
+header .back-link {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 6px 12px;
+  border: 1px solid var(--rule);
+  text-decoration: none;
+  color: var(--accent);
+  font-size: 12px;
+  transition: all 0.15s ease;
+}
+
+header .back-link:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+
+.news-item {
+  padding: 1.2rem 0;
+  border-bottom: 1px solid var(--hair);
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 1rem;
+}
+
+.news-item:last-child {
+  border-bottom: none;
+}
+
+.news-date {
+  color: var(--ink-3);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.news-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.news-tag {
+  display: inline-block;
+  background: var(--accent-soft);
+  color: var(--accent);
+  padding: 2px 6px;
+  border-radius: 2px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  width: fit-content;
+}
+
+.news-title {
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0;
+}
+
+.news-source {
+  color: var(--ink-2);
+  font-size: 12px;
+  margin: 0;
+}
+
+.news-body {
+  color: var(--ink-2);
+  font-size: 12px;
+  margin: 0.4rem 0 0 0;
+  line-height: 1.5;
+}
+
+.news-link {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 12px;
+  margin-top: 0.4rem;
+  display: inline-block;
+  transition: opacity 0.15s ease;
+}
+
+.news-link:hover {
+  opacity: 0.7;
+}
+
+footer {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--hair);
+  color: var(--ink-3);
+  font-size: 12px;
+  text-align: center;
+}
+</style>
+
+<script>
+function applyTheme() {
+  const stored = localStorage.getItem('theme-pref');
+  const theme = stored || 'ink';
+  document.documentElement.setAttribute('data-theme', theme);
+}
+applyTheme();
+</script>
+</head>
+<body>
+
+<main>
+  <header>
+    <h1>News Archive</h1>
+    <p class="subtitle">Older updates and industry news for AI agents and orchestration</p>
+    <a href="./" class="back-link">← Back to main feed</a>
+  </header>
+
+  <div id="archive-feed"></div>
+
+  <footer>
+    <p>Archived news from the agentlens feed. Browse historical updates on agent architecture, frameworks, protocols, and production systems.</p>
+  </footer>
+</main>
+
+<script>
+const ARCHIVE_FEED = [
+  { date: '2026.02.10', tag: 'FRAMEWORK', src: 'Apple', title: 'Xcode 26.3 Claude SDK', body: 'Native IDE integration for autonomous Claude coding.', url: 'https://developer.apple.com/xcode/whatsnew/' },
+  { date: '2026.01.28', tag: 'INDUSTRY', src: 'Anthropic', title: 'Enterprise AI Partnership', body: 'Anthropic & Infosys collaboration on enterprise AI solutions.', url: 'https://www.anthropic.com/press/infosys-partnership' },
+  { date: '2026.01.15', tag: 'PROTOCOL', src: 'OpenAI', title: 'SWARM v2.0 Launch', body: 'Simplified orchestration framework with native streaming support.', url: 'https://github.com/openai/swarm' },
+  { date: '2025.12.22', tag: 'FRAMEWORK', src: 'Google', title: 'Gemini 3.5 Multi-Agent Mode', body: 'Native multi-agent coordination with tool delegation.', url: 'https://deepmind.google/blog/gemini-35/' },
+  { date: '2025.12.10', tag: 'INDUSTRY', src: 'Gartner', title: '2026 AI Prediction: Agent Economy', body: 'Agents to become primary business automation vector by 2027.', url: 'https://www.gartner.com/' },
+];
+
+const archiveEl = document.getElementById('archive-feed');
+
+ARCHIVE_FEED.forEach(item => {
+  const itemEl = document.createElement('div');
+  itemEl.className = 'news-item';
+  itemEl.innerHTML = `
+    <div class="news-date">${item.date}</div>
+    <div class="news-content">
+      <span class="news-tag">${item.tag}</span>
+      <h3 class="news-title">${item.title}</h3>
+      <p class="news-source">${item.src}</p>
+      <p class="news-body">${item.body}</p>
+      <a href="${item.url}" target="_blank" class="news-link">Read more →</a>
+    </div>
+  `;
+  archiveEl.appendChild(itemEl);
+});
+</script>
+
+</body>
+</html>

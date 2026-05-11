@@ -931,6 +931,9 @@ footer.site a:hover { color: var(--accent); }
         <button class="chip" data-f="PROTOCOL">Protocol</button>
         <button class="chip" data-f="INDUSTRY">Industry</button>
       </div>
+      <div style="margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--hair);">
+        <a href="./news-archive.html" style="font-size: 12px; color: var(--accent); text-decoration: none;">View older updates → news-archive.html</a>
+      </div>
     </aside>
     <div class="feed" id="feed-list"></div>
   </div>
@@ -1078,8 +1081,6 @@ const FEED = [
   { date: '2026.03.18', tag: 'PROTOCOL', src: 'Anthropic', title: 'MCP 2026 Roadmap', body: '1,000+ community-built MCP servers; transport scalability focus.', url: 'https://blog.modelcontextprotocol.io/posts/2026-03-18-roadmap/' },
   { date: '2026.03.11', tag: 'PROTOCOL', src: 'Linux Foundation', title: 'A2A Protocol Adoption', body: 'Open agent-to-agent communication protocol adoption accelerating.', url: 'https://www.linuxfoundation.org/press/a2a-protocol/' },
   { date: '2026.02.24', tag: 'FRAMEWORK', src: 'LangChain', title: 'LangGraph MCP Integration', body: 'MCP tools as first-class graph nodes with streaming support.', url: 'https://blog.langchain.dev/langgraph-mcp-integration/' },
-  { date: '2026.02.10', tag: 'FRAMEWORK', src: 'Apple', title: 'Xcode 26.3 Claude SDK', body: 'Native IDE integration for autonomous Claude coding.', url: 'https://developer.apple.com/xcode/whatsnew/' },
-  { date: '2026.01.28', tag: 'INDUSTRY', src: 'Anthropic', title: 'Enterprise AI Partnership', body: 'Anthropic & Infosys collaboration on enterprise AI solutions.', url: 'https://www.anthropic.com/press/infosys-partnership' },
 ];
 
 const feedEl = document.getElementById('feed-list');
