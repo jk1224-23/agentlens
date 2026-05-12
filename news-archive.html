@@ -209,9 +209,9 @@ applyTheme();
 
 <script>
 const ARCHIVE_FEED = [
-  { date: '2026.02.24', tag: 'FRAMEWORK', src: 'LangChain', title: 'LangGraph MCP Integration', body: 'MCP tools as first-class graph nodes with streaming support.', url: 'https://blog.langchain.dev/langgraph-mcp-integration/' },
-  { date: '2026.03.11', tag: 'PROTOCOL', src: 'Linux Foundation', title: 'A2A Protocol Adoption', body: 'Open agent-to-agent communication protocol adoption accelerating.', url: 'https://www.linuxfoundation.org/press/a2a-protocol/' },
-  { date: '2026.03.18', tag: 'PROTOCOL', src: 'Anthropic', title: 'MCP 2026 Roadmap', body: '1,000+ community-built MCP servers; transport scalability focus.', url: 'https://blog.modelcontextprotocol.io/posts/2026-03-18-roadmap/' },
+  { date: '2026.02.24', tag: 'FRAMEWORK', src: 'LangChain', title: 'LangGraph MCP Integration', body: 'MCP tools as first-class graph nodes with streaming support.', url: null },
+  { date: '2026.03.11', tag: 'PROTOCOL', src: 'Linux Foundation', title: 'A2A Protocol Adoption', body: 'Open agent-to-agent communication protocol adoption accelerating.', url: null },
+  { date: '2026.03.18', tag: 'PROTOCOL', src: 'Anthropic', title: 'MCP 2026 Roadmap', body: '1,000+ community-built MCP servers; transport scalability focus.', url: null },
 ];
 
 const archiveEl = document.getElementById('archive-feed');
@@ -219,6 +219,7 @@ const archiveEl = document.getElementById('archive-feed');
 ARCHIVE_FEED.forEach(item => {
   const itemEl = document.createElement('div');
   itemEl.className = 'news-item';
+  const linkHTML = item.url ? `<a href="${item.url}" target="_blank" class="news-link">Read more →</a>` : '';
   itemEl.innerHTML = `
     <div class="news-date">${item.date}</div>
     <div class="news-content">
@@ -226,7 +227,7 @@ ARCHIVE_FEED.forEach(item => {
       <h3 class="news-title">${item.title}</h3>
       <p class="news-source">${item.src}</p>
       <p class="news-body">${item.body}</p>
-      <a href="${item.url}" target="_blank" class="news-link">Read more →</a>
+      ${linkHTML}
     </div>
   `;
   archiveEl.appendChild(itemEl);
